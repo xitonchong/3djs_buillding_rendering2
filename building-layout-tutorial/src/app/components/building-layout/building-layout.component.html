@@ -1,0 +1,16 @@
+<!-- T035: BuildingLayoutComponent template -->
+<div class="building-layout-container">
+  <div class="controls" *ngIf="showControls">
+    <button (click)="zoomIn()" class="control-btn">Zoom In (+)</button>
+    <button (click)="zoomOut()" class="control-btn">Zoom Out (-)</button>
+    <button (click)="resetViewport()" class="control-btn">Reset</button>
+  </div>
+
+  <svg #svgContainer class="layout-svg"></svg>
+
+  <div class="info-panel" *ngIf="hoveredRegion">
+    <h3>{{ hoveredRegion.label || hoveredRegion.id }}</h3>
+    <p>Position: ({{ hoveredRegion.x }}, {{ hoveredRegion.y }})</p>
+    <p>Size: {{ hoveredRegion.width }} x {{ hoveredRegion.height }}</p>
+  </div>
+</div>

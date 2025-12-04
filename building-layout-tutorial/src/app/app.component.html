@@ -1,0 +1,28 @@
+<!-- T056: App Component template -->
+<div class="app-container">
+  <header>
+    <h1>{{ title }}</h1>
+    <p class="subtitle">Interactive SVG Visualization with D3.js and Angular</p>
+    <p class="instructions">
+      <strong>Instructions:</strong> Hover over regions to see details | Click regions for more info |
+      Use zoom controls or scroll to zoom | Drag to pan
+    </p>
+  </header>
+
+  <main>
+    <app-building-layout
+      [config]="layoutConfig"
+      [width]="1024"
+      [height]="768"
+      [showControls]="true"
+      [enableInteraction]="true"
+      (regionHover)="onRegionHover($event)"
+      (regionClick)="onRegionClick($event)"
+      (renderComplete)="onRenderComplete()"
+    ></app-building-layout>
+  </main>
+
+  <footer>
+    <p>Building Layout: {{ layoutConfig.name }} | {{ layoutConfig.regions.length }} regions</p>
+  </footer>
+</div>

@@ -1,0 +1,60 @@
+// T057: App Component styles
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
+  background: #fafafa;
+}
+
+header {
+  margin-bottom: 20px;
+
+  h1 {
+    margin: 0;
+    color: #333;
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  .subtitle {
+    margin: 8px 0;
+    color: #666;
+    font-size: 16px;
+  }
+
+  .instructions {
+    margin: 12px 0;
+    padding: 12px;
+    background: #E3F2FD;
+    border-left: 4px solid #2196F3;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #1565C0;
+
+    strong {
+      color: #0D47A1;
+    }
+  }
+}
+
+main {
+  flex: 1;
+  display: flex;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  min-height: 800px;
+}
+
+footer {
+  margin-top: 16px;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
