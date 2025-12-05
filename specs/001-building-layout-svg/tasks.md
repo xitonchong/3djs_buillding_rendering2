@@ -109,8 +109,12 @@
 - [ ] T038 [US2] Implement ViewportControlsComponent in src/app/components/building-layout/viewport-controls.component.ts with zoom/pan/reset button handlers
 - [ ] T039 [US2] Create ViewportControlsComponent template in src/app/components/building-layout/viewport-controls.component.html
 - [ ] T040 [US2] Create ViewportControlsComponent styles in src/app/components/building-layout/viewport-controls.component.scss
+- [X] T040a [US2] Add bottom-left coordinate label rendering (x, y) for each region in SvgRendererService.render() in src/app/services/svg-renderer.service.ts
+- [X] T040b [US2] Add top-right coordinate label rendering (x+width, y+height) for each region in SvgRendererService.render() in src/app/services/svg-renderer.service.ts
+- [X] T040c [US2] Style coordinate labels with small monospace font and proper positioning in src/app/components/building-layout/building-layout.component.scss
+- [X] T040d [US2] Ensure coordinate labels scale appropriately with zoom and don't overlap region labels in SvgRendererService.render()
 
-**Checkpoint**: At this point, User Stories 1 AND 2 should both work independently - layouts can be configured and visualized with zoom/pan controls
+**Checkpoint**: At this point, User Stories 1 AND 2 should both work independently - layouts can be configured and visualized with zoom/pan controls, and regions display coordinate labels at bottom-left and top-right corners
 
 ---
 
@@ -277,11 +281,11 @@ With multiple developers:
 
 ## Task Count Summary
 
-- **Total Tasks**: 77
+- **Total Tasks**: 81
 - **Phase 1 (Setup)**: 5 tasks
 - **Phase 2 (Foundational)**: 5 tasks
 - **Phase 3 (User Story 1)**: 10 tasks (3 tests + 7 implementation)
-- **Phase 4 (User Story 2)**: 20 tasks (4 tests + 16 implementation)
+- **Phase 4 (User Story 2)**: 24 tasks (4 tests + 20 implementation, includes coordinate labeling)
 - **Phase 5 (User Story 3)**: 9 tasks (1 test + 8 implementation)
 - **Phase 6 (Demo)**: 8 tasks
 - **Phase 6b (Load from JSON)**: 9 tasks - **USER REQUESTED REQUIREMENT**
@@ -293,7 +297,9 @@ With multiple developers:
 
 **Suggested MVP Scope**: Phase 1 + Phase 2 + Phase 3 (User Story 1 only) = 20 tasks
 
-**User Requirement (JSON Loading)**: Phase 6b must be completed to meet user's requirement that app always loads from assets/sample-data/building-layout.json
+**User Requirements**:
+- **JSON Loading**: Phase 6b must be completed to meet user's requirement that app always loads from assets/sample-data/building-layout.json
+- **Coordinate Labels**: Tasks T040a-T040d in Phase 4 implement coordinate labeling at bottom-left (x,y) and top-right (x+width, y+height) corners of each region
 
 ---
 
@@ -306,3 +312,192 @@ With multiple developers:
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+
+---
+
+## Coordinate Labeling Implementation Guide
+
+### Tasks T040a-T040d: Adding Coordinate Labels to Regions
+
+**Context**: User requested that each rect.region element should display coordinate labels at two positions:
+1. **Bottom-left corner**: showing origin coordinates (x, y)
+2. **Top-right corner**: showing maximum coordinates (x+width, y+height)
+
+### T040a: Bottom-Left Coordinate Label Implementation
+
+**Location**: `SvgRendererService.render()` in `src/app/services/svg-renderer.service.ts`
+
+**Implementation Steps**:
+1. After rendering region rectangles and main labels, add a new D3 data join for bottom-left coordinate labels
+2. Create SVG text elements with class `coord-label-bl`
+3. Position at region's origin point (x, y) with slight offset for readability
+4. Format text as `(x, y)` using region's actual coordinate values
+5. Apply appropriate text-anchor and dominant-baseline for corner positioning
+
+**Example Code Pattern**:
+```typescript
+const coordLabelsBL = this.contentGroup
+  .selectAll<SVGTextElement, Region>('text.coord-label-bl')
+  .data(config.regions, d => d.id);
+
+coordLabelsBL.enter()
+  .append('text')
+  .attr('class', 'coord-label-bl')
+  .merge(coordLabelsBL)
+  .attr('x', d => xScale(d.x) + 5)  // Small offset from corner
+  .attr('y', d => yScale(d.y) - 5)  // Small offset from corner
+  .attr('text-anchor', 'start')
+  .attr('dominant-baseline', 'auto')
+  .text(d => `(${d.x}, ${d.y})`)
+  .style('font-size', '10px')
+  .style('font-family', 'monospace');
+
+coordLabelsBL.exit().remove();
+```
+
+### T040b: Top-Right Coordinate Label Implementation
+
+**Location**: `SvgRendererService.render()` in `src/app/services/svg-renderer.service.ts`
+
+**Implementation Steps**:
+1. Add another D3 data join for top-right coordinate labels
+2. Create SVG text elements with class `coord-label-tr`
+3. Position at region's top-right point (x+width, y+height) with slight offset
+4. Format text as `(x+width, y+height)` using calculated values
+5. Apply appropriate text-anchor and dominant-baseline for corner positioning
+
+**Example Code Pattern**:
+```typescript
+const coordLabelsTR = this.contentGroup
+  .selectAll<SVGTextElement, Region>('text.coord-label-tr')
+  .data(config.regions, d => d.id);
+
+coordLabelsTR.enter()
+  .append('text')
+  .attr('class', 'coord-label-tr')
+  .merge(coordLabelsTR)
+  .attr('x', d => xScale(d.x + d.width) - 5)  // Small offset from corner
+  .attr('y', d => yScale(d.y + d.height) + 15)  // Small offset from corner
+  .attr('text-anchor', 'end')
+  .attr('dominant-baseline', 'hanging')
+  .text(d => `(${d.x + d.width}, ${d.y + d.height})`)
+  .style('font-size', '10px')
+  .style('font-family', 'monospace');
+
+coordLabelsTR.exit().remove();
+```
+
+### T040c: Coordinate Label Styling
+
+**Location**: `src/app/components/building-layout/building-layout.component.scss`
+
+**Implementation Steps**:
+1. Add CSS class for `.coord-label-bl` (bottom-left labels)
+2. Add CSS class for `.coord-label-tr` (top-right labels)
+3. Ensure labels have:
+   - Small font size (10-12px) for minimal visual clutter
+   - Monospace font family for alignment
+   - Subtle color (gray) to differentiate from main labels
+   - Optional background or stroke for readability
+   - Appropriate pointer-events setting
+
+**Example Styles**:
+```scss
+::ng-deep {
+  .coord-label-bl,
+  .coord-label-tr {
+    font-size: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    fill: #666;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .coord-label-bl {
+    // Bottom-left specific styles if needed
+  }
+
+  .coord-label-tr {
+    // Top-right specific styles if needed
+  }
+}
+```
+
+### T040d: Label Scaling and Overlap Prevention
+
+**Location**: `SvgRendererService.render()` in `src/app/services/svg-renderer.service.ts`
+
+**Implementation Steps**:
+1. Consider zoom level when rendering coordinate labels
+2. Options for handling zoom:
+   - **Option A**: Scale labels with zoom (labels remain same relative size)
+   - **Option B**: Fixed screen-space size (labels stay readable at all zooms)
+   - **Option C**: Conditional visibility (hide labels when zoomed out too far)
+3. Ensure coordinate labels don't overlap with:
+   - Main region labels (centered)
+   - Adjacent regions' coordinate labels
+4. Consider adding background rectangles or text stroke for contrast
+
+**Overlap Prevention Strategy**:
+```typescript
+// Option C: Conditional visibility based on region size in pixels
+.style('display', d => {
+  const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
+  const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
+  // Hide coordinate labels if region is too small
+  return (widthPx < 50 || heightPx < 30) ? 'none' : 'block';
+})
+```
+
+### Testing Coordinate Labels
+
+**Manual Test Cases**:
+1. **Visual Verification**: Render a layout with 4-5 regions and verify:
+   - Bottom-left labels show correct (x, y) values
+   - Top-right labels show correct (x+width, y+height) values
+   - Labels are positioned at appropriate corners
+   - Labels are readable and don't overlap main labels
+
+2. **Zoom Test**:
+   - Zoom in to 200-400% and verify labels remain visible and positioned correctly
+   - Zoom out to 50% and verify labels either remain readable or are hidden appropriately
+
+3. **Multiple Regions Test**:
+   - Create configuration with 10+ regions
+   - Verify all coordinate labels render correctly
+   - Check for any overlapping labels between adjacent regions
+
+4. **Edge Cases**:
+   - Very small regions (width/height < 20)
+   - Very large regions (width/height > 500)
+   - Regions at extreme coordinates (near 0 or near maximum)
+
+### Visual Example
+
+For a region with:
+- x: 100, y: 50
+- width: 200, height: 150
+
+Expected labels:
+- Bottom-left: `(100, 50)` positioned near the top-left corner of the rectangle
+- Top-right: `(300, 200)` positioned near the bottom-right corner of the rectangle
+
+```
+(100, 50)  ← Bottom-left label
+    ┌─────────────────┐
+    │                 │
+    │   Region Label  │  ← Main label (centered)
+    │                 │
+    └─────────────────┘
+                (300, 200)  ← Top-right label
+```
+
+### Integration Notes
+
+- Coordinate labels are part of User Story 2 (Visualization) because they enhance the core rendering functionality
+- Labels should update automatically when:
+  - Configuration changes (via ngOnChanges)
+  - Viewport transforms (zoom/pan)
+  - Region coordinates are modified
+- Consider adding a toggle option in future enhancements to show/hide coordinate labels
+- Coordinate labels complement the region info tooltip (User Story 3) by providing always-visible coordinate reference

@@ -66,3 +66,32 @@
     color: #666;
   }
 }
+
+// T040c: Coordinate label styles
+::ng-deep {
+  .coord-label-bl,
+  .coord-label-tr {
+    font-size: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    fill: #666;
+    pointer-events: none;
+    user-select: none;
+    font-weight: 500;
+  }
+
+  .coord-label-bl {
+    // Bottom-left specific styles
+    // Already positioned via D3 in the service
+  }
+
+  .coord-label-tr {
+    // Top-right specific styles
+    // Already positioned via D3 in the service
+  }
+
+  // Ensure region labels are distinct from coordinate labels
+  .region-label {
+    font-weight: bold;
+    font-size: 14px;
+  }
+}

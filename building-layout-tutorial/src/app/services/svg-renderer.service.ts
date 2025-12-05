@@ -81,9 +81,65 @@ export class SvgRendererService {
       .attr('font-size', '14px')
       .text(d => d.label || '');
 
+    // T040a: Add bottom-left coordinate labels (x, y)
+    const coordLabelsBL = this.contentGroup
+      .selectAll<SVGTextElement, Region>('text.coord-label-bl')
+      .data(config.regions, d => d.id);
+
+    coordLabelsBL.enter()
+      .append('text')
+      .attr('class', 'coord-label-bl')
+      .merge(coordLabelsBL)
+      .attr('x', d => xScale(d.x) + 5)  // Small offset from corner
+      .attr('y', d => yScale(d.y) + 15)  // Small offset from corner
+      .attr('text-anchor', 'start')
+      .attr('dominant-baseline', 'hanging')
+      .text(d => `(${d.x}, ${d.y})`)
+      .style('font-size', '10px')
+      .style('font-family', 'monospace')
+      .style('fill', '#666')
+      .style('pointer-events', 'none')
+      .style('user-select', 'none')
+      // T040d: Conditional visibility based on region size to prevent overlap
+      .style('display', d => {
+        const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
+        const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
+        // Hide coordinate labels if region is too small
+        return (widthPx < 60 || heightPx < 40) ? 'none' : 'block';
+      });
+
+    // T040b: Add top-right coordinate labels (x+width, y+height)
+    const coordLabelsTR = this.contentGroup
+      .selectAll<SVGTextElement, Region>('text.coord-label-tr')
+      .data(config.regions, d => d.id);
+
+    coordLabelsTR.enter()
+      .append('text')
+      .attr('class', 'coord-label-tr')
+      .merge(coordLabelsTR)
+      .attr('x', d => xScale(d.x + d.width) - 5)  // Small offset from corner
+      .attr('y', d => yScale(d.y + d.height) - 5)  // Small offset from corner
+      .attr('text-anchor', 'end')
+      .attr('dominant-baseline', 'auto')
+      .text(d => `(${d.x + d.width}, ${d.y + d.height})`)
+      .style('font-size', '10px')
+      .style('font-family', 'monospace')
+      .style('fill', '#666')
+      .style('pointer-events', 'none')
+      .style('user-select', 'none')
+      // T040d: Conditional visibility based on region size to prevent overlap
+      .style('display', d => {
+        const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
+        const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
+        // Hide coordinate labels if region is too small
+        return (widthPx < 60 || heightPx < 40) ? 'none' : 'block';
+      });
+
     // Exit
     rects.exit().remove();
     labels.exit().remove();
+    coordLabelsBL.exit().remove();
+    coordLabelsTR.exit().remove();
   }
 
   // T028: Update viewport transform
