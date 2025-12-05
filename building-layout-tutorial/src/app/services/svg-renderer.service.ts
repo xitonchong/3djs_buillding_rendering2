@@ -2,9 +2,10 @@
 import { Injectable, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
 import { LayoutConfiguration } from '../models/layout-config.interface';
-import { Viewport } from '../models/viewport.interface';
+import { Viewport, ViewMode } from '../models/viewport.interface';
 import { Region } from '../models/region.interface';
 import { ScaleCalculator } from '../utils/scale-calculator';
+import { IsometricTransform } from '../utils/isometric-transform';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class SvgRendererService {
   private svg: d3.Selection<SVGSVGElement, unknown, null, undefined> | null = null;
   private contentGroup: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
   private zoom: d3.ZoomBehavior<SVGSVGElement, unknown> | null = null;
+  private currentViewMode: ViewMode = '2d';  // T073: Track current view mode
 
   // T028: Initialize SVG canvas
   initialize(container: ElementRef, width: number, height: number): void {
@@ -100,12 +102,14 @@ export class SvgRendererService {
       .style('fill', '#666')
       .style('pointer-events', 'none')
       .style('user-select', 'none')
-      // T040d: Conditional visibility based on region size to prevent overlap
+      // T040d & T082: Conditional visibility based on region size to prevent overlap
       .style('display', d => {
         const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
         const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
-        // Hide coordinate labels if region is too small
-        return (widthPx < 60 || heightPx < 40) ? 'none' : 'block';
+        // Adjust thresholds based on view mode - isometric needs larger regions
+        const minWidth = this.currentViewMode === 'isometric' ? 80 : 60;
+        const minHeight = this.currentViewMode === 'isometric' ? 60 : 40;
+        return (widthPx < minWidth || heightPx < minHeight) ? 'none' : 'block';
       });
 
     // T040b: Add top-right coordinate labels (x+width, y+height)
@@ -127,12 +131,14 @@ export class SvgRendererService {
       .style('fill', '#666')
       .style('pointer-events', 'none')
       .style('user-select', 'none')
-      // T040d: Conditional visibility based on region size to prevent overlap
+      // T040d & T082: Conditional visibility based on region size to prevent overlap
       .style('display', d => {
         const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
         const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
-        // Hide coordinate labels if region is too small
-        return (widthPx < 60 || heightPx < 40) ? 'none' : 'block';
+        // Adjust thresholds based on view mode - isometric needs larger regions
+        const minWidth = this.currentViewMode === 'isometric' ? 80 : 60;
+        const minHeight = this.currentViewMode === 'isometric' ? 60 : 40;
+        return (widthPx < minWidth || heightPx < minHeight) ? 'none' : 'block';
       });
 
     // Exit
@@ -224,5 +230,30 @@ export class SvgRendererService {
     }
     this.contentGroup = null;
     this.zoom = null;
+  }
+
+  // T073: Set view mode (2D or isometric)
+  setViewMode(viewMode: ViewMode): void {
+    if (!this.contentGroup) return;
+
+    this.currentViewMode = viewMode;
+
+    // T074: Apply CSS transform based on view mode
+    const transform = IsometricTransform.getTransform(viewMode);
+
+    if (viewMode === 'isometric') {
+      this.contentGroup
+        .attr('class', 'content-group isometric')
+        .style('transform', transform);
+    } else {
+      this.contentGroup
+        .attr('class', 'content-group')
+        .style('transform', 'none');
+    }
+  }
+
+  // Get current view mode
+  getViewMode(): ViewMode {
+    return this.currentViewMode;
   }
 }

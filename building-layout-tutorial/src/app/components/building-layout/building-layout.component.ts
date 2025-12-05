@@ -2,7 +2,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutConfiguration } from '../../models/layout-config.interface';
-import { Viewport } from '../../models/viewport.interface';
+import { Viewport, ViewMode } from '../../models/viewport.interface';
 import { Region } from '../../models/region.interface';
 import { SvgRendererService } from '../../services/svg-renderer.service';
 
@@ -20,12 +20,14 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
   @Input() height: number = 600;
   @Input() showControls: boolean = true;
   @Input() enableInteraction: boolean = true;
+  @Input() viewMode: ViewMode = '2d';  // T075: View mode control
 
   // T032: Component outputs
   @Output() regionHover = new EventEmitter<Region | null>();
   @Output() regionClick = new EventEmitter<Region>();
   @Output() viewportChange = new EventEmitter<Viewport>();
   @Output() renderComplete = new EventEmitter<void>();
+  @Output() viewModeChange = new EventEmitter<ViewMode>();  // T076: View mode change event
 
   @ViewChild('svgContainer', { static: false }) svgContainer!: ElementRef<SVGSVGElement>;
 
@@ -36,7 +38,8 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
     width: 800,
     height: 600,
     minScale: 0.1,
-    maxScale: 10
+    maxScale: 10,
+    viewMode: '2d'  // T075: Initialize with 2D view
   };
 
   hoveredRegion: Region | null = null;
@@ -47,6 +50,7 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
   ngAfterViewInit(): void {
     this.viewport.width = this.width;
     this.viewport.height = this.height;
+    this.viewport.viewMode = this.viewMode;  // T075: Set initial view mode
 
     this.renderer.initialize(this.svgContainer, this.width, this.height);
 
@@ -58,12 +62,19 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
     }
 
     this.renderer.render(this.config, this.viewport);
+    this.renderer.setViewMode(this.viewMode);  // T075: Apply initial view mode
     this.renderComplete.emit();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['config'] && !changes['config'].firstChange) {
       this.renderer.render(this.config, this.viewport);
+    }
+
+    // T075: Detect view mode changes
+    if (changes['viewMode'] && !changes['viewMode'].firstChange) {
+      this.viewport.viewMode = this.viewMode;
+      this.renderer.setViewMode(this.viewMode);
     }
   }
 
@@ -86,6 +97,15 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
 
   exportSVG(): string {
     return this.renderer.exportSVG();
+  }
+
+  // T077: Toggle view mode between 2D and isometric
+  toggleViewMode(): void {
+    const newMode: ViewMode = this.viewMode === '2d' ? 'isometric' : '2d';
+    this.viewMode = newMode;
+    this.viewport.viewMode = newMode;
+    this.renderer.setViewMode(newMode);
+    this.viewModeChange.emit(newMode);
   }
 
   private onRegionHover(region: Region | null, event: MouseEvent): void {

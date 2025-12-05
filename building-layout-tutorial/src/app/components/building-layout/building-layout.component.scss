@@ -3,6 +3,12 @@
   position: relative;
   width: 100%;
   height: 100%;
+
+  // T072: Add perspective for isometric mode
+  &.isometric-mode {
+    perspective: 2000px;
+    perspective-origin: 50% 50%;
+  }
 }
 
 .controls {
@@ -32,6 +38,19 @@
   &:active {
     transform: scale(0.98);
   }
+
+  // T079: View mode toggle button styling
+  &.view-toggle {
+    background: #FF9800;  // Orange to distinguish from zoom controls
+
+    &:hover {
+      background: #F57C00;
+    }
+
+    &::before {
+      content: '📐 ';  // Isometric/3D icon
+    }
+  }
 }
 
 .layout-svg {
@@ -40,6 +59,9 @@
   display: block;
   width: 100%;
   height: 100%;
+
+  // T072: Enable 3D transforms for isometric view
+  transform-style: preserve-3d;
 }
 
 .info-panel {
@@ -93,5 +115,19 @@
   .region-label {
     font-weight: bold;
     font-size: 14px;
+  }
+
+  // T072 & T080: Isometric view styles with smooth transitions
+  .content-group {
+    transform-origin: center center;
+    transform-style: preserve-3d;
+    // Smooth transition between 2D and isometric views
+    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  .content-group.isometric {
+    // Transform will be applied via D3 in TypeScript
+    // but we ensure CSS properties support it
+    transform-style: preserve-3d;
   }
 }

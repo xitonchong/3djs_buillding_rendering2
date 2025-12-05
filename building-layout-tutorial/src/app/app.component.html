@@ -2,11 +2,17 @@
 <div class="app-container">
   <header>
     <h1>{{ title }}</h1>
-    <p class="subtitle">Interactive SVG Visualization with D3.js and Angular</p>
+    <p class="subtitle">
+      Interactive SVG Visualization with D3.js and Angular
+      <!-- T081: Display current view mode -->
+      <span class="view-mode-indicator" *ngIf="!isLoading && !errorMessage">
+        ({{ currentViewMode === '2d' ? '2D View' : 'Isometric View' }})
+      </span>
+    </p>
     <p class="subtitle-note">Configuration loaded from: assets/sample-data/building-layout.json</p>
     <p class="instructions" *ngIf="layoutConfig && !isLoading && !errorMessage">
       <strong>Instructions:</strong> Hover over regions to see details | Click regions for more info |
-      Use zoom controls or scroll to zoom | Drag to pan
+      Use zoom controls or scroll to zoom | Drag to pan | Toggle 3D view
     </p>
   </header>
 
@@ -33,9 +39,11 @@
       [height]="768"
       [showControls]="true"
       [enableInteraction]="true"
+      [viewMode]="currentViewMode"
       (regionHover)="onRegionHover($event)"
       (regionClick)="onRegionClick($event)"
       (renderComplete)="onRenderComplete()"
+      (viewModeChange)="onViewModeChange($event)"
     ></app-building-layout>
   </main>
 

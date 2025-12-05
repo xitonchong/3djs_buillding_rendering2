@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BuildingLayoutComponent } from './components/building-layout/building-layout.component';
 import { LayoutConfiguration } from './models/layout-config.interface';
+import { ViewMode } from './models/viewport.interface';
 import { Region } from './models/region.interface';
 import { LayoutLoaderService } from './services/layout-loader.service';
 
@@ -20,6 +21,9 @@ export class AppComponent implements OnInit {
   layoutConfig: LayoutConfiguration | null = null;
   isLoading = true;
   errorMessage: string | null = null;
+
+  // T081: Track current view mode (2D or isometric)
+  currentViewMode: ViewMode = '2d';
 
   constructor(private layoutLoader: LayoutLoaderService) {}
 
@@ -52,5 +56,11 @@ export class AppComponent implements OnInit {
 
   onRenderComplete(): void {
     console.log('Visualization rendered successfully!');
+  }
+
+  // T081: Handle view mode changes
+  onViewModeChange(newMode: ViewMode): void {
+    this.currentViewMode = newMode;
+    console.log('View mode changed to:', newMode);
   }
 }

@@ -143,54 +143,85 @@
 
 ---
 
-## Phase 6: Demo & Integration
+## Phase 6: User Story 4 - Isometric/3D View Toggle (Priority: P4)
 
-**Purpose**: Create complete working example demonstrating all features
+**Goal**: Enable users to view the building layout from an angled isometric perspective to better demonstrate depth and spatial relationships
 
-- [ ] T050 [P] Create sample configurations in src/app/examples/basic/building-layout-demo/sample-configs.ts
-- [ ] T051 Generate demo component using Angular CLI (ng generate component examples/basic/building-layout-demo --standalone)
-- [ ] T052 Implement demo component in src/app/examples/basic/building-layout-demo/demo.component.ts integrating BuildingLayoutComponent
-- [ ] T053 Create demo component template in src/app/examples/basic/building-layout-demo/demo.component.html
-- [ ] T054 Create demo component styles in src/app/examples/basic/building-layout-demo/demo.component.scss
-- [X] T055 Update app component in src/app/app.component.ts to use demo component
-- [X] T056 Update app component template in src/app/app.component.html with header and demo integration
-- [X] T057 Update app component styles in src/app/app.component.scss
+**Independent Test**: Render a layout from Story 2, toggle to isometric view, and verify that the layout appears at an angle with proper perspective. Test that users can switch between 2D and isometric views seamlessly.
+
+**User Requirement**: Ability to view the renders at an angle to better demonstrate 3D effect using CSS 3D transforms on the existing SVG rendering (no new dependencies).
+
+### Implementation for User Story 4
+
+- [X] T069 [P] [US4] Create ViewMode type definition ('2d' | 'isometric') in src/app/models/viewport.interface.ts
+- [X] T070 [US4] Add viewMode property to Viewport interface in src/app/models/viewport.interface.ts
+- [X] T071 [US4] Create isometric transformation utility in src/app/utils/isometric-transform.ts with calculateIsometricTransform() method
+- [X] T072 [US4] Add CSS 3D transform styles for isometric view in src/app/components/building-layout/building-layout.component.scss
+- [X] T073 [US4] Implement setViewMode() method in SvgRendererService in src/app/services/svg-renderer.service.ts
+- [X] T074 [US4] Apply CSS transform to SVG content group for isometric projection in SvgRendererService.setViewMode()
+- [X] T075 [US4] Add @Input viewMode to BuildingLayoutComponent in src/app/components/building-layout/building-layout.component.ts
+- [X] T076 [US4] Add @Output viewModeChange EventEmitter in BuildingLayoutComponent in src/app/components/building-layout/building-layout.component.ts
+- [X] T077 [US4] Implement toggleViewMode() public method in BuildingLayoutComponent in src/app/components/building-layout/building-layout.component.ts
+- [X] T078 [US4] Add view mode toggle button to controls in building-layout.component.html
+- [X] T079 [US4] Style view mode toggle button with icon/label in building-layout.component.scss
+- [X] T080 [US4] Add smooth transition animation between 2D and isometric views in building-layout.component.scss
+- [X] T081 [US4] Update AppComponent to handle view mode changes and display current mode
+- [X] T082 [US4] Adjust coordinate label visibility for isometric view (may need different thresholds)
+- [ ] T083 [US4] Test zoom/pan interactions work correctly in isometric view
+- [ ] T084 [US4] Ensure region hover/click interactions work in isometric perspective
+
+**Checkpoint**: At this point, users can toggle between standard 2D view and angled isometric view, with all interactions (zoom, pan, hover, click) working in both modes
 
 ---
 
-## Phase 6b: Load Configuration from JSON File
+## Phase 7: Demo & Integration
+
+**Purpose**: Create complete working example demonstrating all features
+
+- [ ] T085 [P] Create sample configurations in src/app/examples/basic/building-layout-demo/sample-configs.ts
+- [ ] T086 Generate demo component using Angular CLI (ng generate component examples/basic/building-layout-demo --standalone)
+- [ ] T087 Implement demo component in src/app/examples/basic/building-layout-demo/demo.component.ts integrating BuildingLayoutComponent
+- [ ] T088 Create demo component template in src/app/examples/basic/building-layout-demo/demo.component.html
+- [ ] T089 Create demo component styles in src/app/examples/basic/building-layout-demo/demo.component.scss
+- [X] T090 Update app component in src/app/app.component.ts to use demo component
+- [X] T091 Update app component template in src/app/app.component.html with header and demo integration
+- [X] T092 Update app component styles in src/app/app.component.scss
+
+---
+
+## Phase 8: Load Configuration from JSON File
 
 **Purpose**: Ensure app component always loads from assets/sample-data/building-layout.json instead of hardcoded data
 
 **Context**: User requirement - app should load configuration from JSON file on startup
 
-- [X] T057a Verify HttpClient is available in app configuration in src/main.ts (added provideHttpClient)
-- [X] T057b Rename building-layouts.json to building-layout.json in src/assets/sample-data/
-- [X] T057c Update JSON file structure to be a single LayoutConfiguration object (remove "office-floor-1" wrapper) in src/assets/sample-data/building-layout.json
-- [X] T057d [P] Create LayoutLoaderService using Angular CLI (ng generate service services/layout-loader)
-- [X] T057e Implement LayoutLoaderService.loadFromFile method in src/app/services/layout-loader.service.ts to load from assets/sample-data/building-layout.json
-- [X] T057f Update AppComponent to inject LayoutLoaderService and load configuration in ngOnInit in src/app/app.component.ts
-- [X] T057g Add error handling for file loading failures in AppComponent in src/app/app.component.ts
-- [X] T057h Add loading state display in AppComponent template in src/app/app.component.html
-- [X] T057i Remove hardcoded layoutConfig initialization from AppComponent in src/app/app.component.ts (replaced with null and loaded from file)
+- [X] T093 Verify HttpClient is available in app configuration in src/main.ts (added provideHttpClient)
+- [X] T094 Rename building-layouts.json to building-layout.json in src/assets/sample-data/
+- [X] T095 Update JSON file structure to be a single LayoutConfiguration object (remove "office-floor-1" wrapper) in src/assets/sample-data/building-layout.json
+- [X] T096 [P] Create LayoutLoaderService using Angular CLI (ng generate service services/layout-loader)
+- [X] T097 Implement LayoutLoaderService.loadFromFile method in src/app/services/layout-loader.service.ts to load from assets/sample-data/building-layout.json
+- [X] T098 Update AppComponent to inject LayoutLoaderService and load configuration in ngOnInit in src/app/app.component.ts
+- [X] T099 Add error handling for file loading failures in AppComponent in src/app/app.component.ts
+- [X] T100 Add loading state display in AppComponent template in src/app/app.component.html
+- [X] T101 Remove hardcoded layoutConfig initialization from AppComponent in src/app/app.component.ts (replaced with null and loaded from file)
 
 ---
 
-## Phase 7: Polish & Cross-Cutting Concerns
+## Phase 9: Polish & Cross-Cutting Concerns
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T058 [P] Add comprehensive inline comments to all TypeScript files explaining D3.js and Angular integration patterns
-- [ ] T059 [P] Add JSDoc documentation to all public methods and interfaces
-- [ ] T060 [P] Create README.md in project root with quickstart instructions and learning objectives
-- [ ] T061 [P] Verify all tests pass by running ng test
-- [ ] T062 [P] Run Angular production build (ng build --configuration production) and verify no errors
-- [ ] T063 [P] Test in Chrome, Firefox, and Safari browsers for compatibility
-- [ ] T064 [P] Performance test with 500 region configuration and verify <1s render time
-- [ ] T065 [P] Verify zoom/pan performance at 60fps using browser dev tools
-- [ ] T066 Take screenshots of working example for visual validation
-- [ ] T067 [P] Update environment.ts with any configuration needed
-- [ ] T068 [P] Add error handling for edge cases (empty configs, extreme coordinate ranges)
+- [ ] T102 [P] Add comprehensive inline comments to all TypeScript files explaining D3.js and Angular integration patterns
+- [ ] T103 [P] Add JSDoc documentation to all public methods and interfaces
+- [ ] T104 [P] Create README.md in project root with quickstart instructions and learning objectives
+- [ ] T105 [P] Verify all tests pass by running ng test
+- [ ] T106 [P] Run Angular production build (ng build --configuration production) and verify no errors
+- [ ] T107 [P] Test in Chrome, Firefox, and Safari browsers for compatibility
+- [ ] T108 [P] Performance test with 500 region configuration and verify <1s render time
+- [ ] T109 [P] Verify zoom/pan performance at 60fps using browser dev tools
+- [ ] T110 Take screenshots of working example for visual validation (both 2D and isometric views)
+- [ ] T111 [P] Update environment.ts with any configuration needed
+- [ ] T112 [P] Add error handling for edge cases (empty configs, extreme coordinate ranges)
 
 ---
 
@@ -200,17 +231,20 @@
 
 - **Setup (Phase 1)**: No dependencies - can start immediately
 - **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
-- **User Stories (Phase 3-5)**: All depend on Foundational phase completion
+- **User Stories (Phase 3-6)**: All depend on Foundational phase completion
   - User stories can then proceed in parallel (if staffed)
-  - Or sequentially in priority order (P1 → P2 → P3)
-- **Demo & Integration (Phase 6)**: Depends on User Story 1 and 2 minimum (can proceed with P1+P2 while P3 is in progress)
-- **Polish (Phase 7)**: Depends on all desired user stories being complete
+  - Or sequentially in priority order (P1 → P2 → P3 → P4)
+  - **Note**: User Story 4 (Isometric View) depends on User Story 2 (Visualization) being complete
+- **Demo & Integration (Phase 7)**: Depends on User Story 1 and 2 minimum (can proceed with P1+P2 while P3 and P4 are in progress)
+- **Load from JSON (Phase 8)**: Can run independently, depends only on foundational phase
+- **Polish (Phase 9)**: Depends on all desired user stories being complete
 
 ### User Story Dependencies
 
 - **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
 - **User Story 2 (P2)**: Can start after Foundational (Phase 2) - Integrates with US1 configuration service
 - **User Story 3 (P3)**: Can start after Foundational (Phase 2) - Integrates with US2 rendering service
+- **User Story 4 (P4)**: Depends on User Story 2 (Visualization) being complete - Adds isometric view mode to existing rendering
 
 ### Within Each User Story
 
@@ -281,25 +315,27 @@ With multiple developers:
 
 ## Task Count Summary
 
-- **Total Tasks**: 81
+- **Total Tasks**: 112
 - **Phase 1 (Setup)**: 5 tasks
 - **Phase 2 (Foundational)**: 5 tasks
-- **Phase 3 (User Story 1)**: 10 tasks (3 tests + 7 implementation)
-- **Phase 4 (User Story 2)**: 24 tasks (4 tests + 20 implementation, includes coordinate labeling)
-- **Phase 5 (User Story 3)**: 9 tasks (1 test + 8 implementation)
-- **Phase 6 (Demo)**: 8 tasks
-- **Phase 6b (Load from JSON)**: 9 tasks - **USER REQUESTED REQUIREMENT**
-- **Phase 7 (Polish)**: 11 tasks
+- **Phase 3 (User Story 1 - Configuration)**: 10 tasks (3 tests + 7 implementation)
+- **Phase 4 (User Story 2 - Visualization)**: 24 tasks (4 tests + 20 implementation, includes coordinate labeling)
+- **Phase 5 (User Story 3 - Interaction)**: 9 tasks (1 test + 8 implementation)
+- **Phase 6 (User Story 4 - Isometric View)**: 16 tasks (0 tests + 16 implementation) - **NEW USER STORY**
+- **Phase 7 (Demo)**: 8 tasks
+- **Phase 8 (Load from JSON)**: 9 tasks - **USER REQUESTED REQUIREMENT**
+- **Phase 9 (Polish)**: 11 tasks
 
-**Parallel Opportunities**: 36 tasks marked [P] can run concurrently
+**Parallel Opportunities**: 37 tasks marked [P] can run concurrently
 
-**Independent Test Criteria Defined**: Yes, for all 3 user stories
+**Independent Test Criteria Defined**: Yes, for all 4 user stories
 
 **Suggested MVP Scope**: Phase 1 + Phase 2 + Phase 3 (User Story 1 only) = 20 tasks
 
 **User Requirements**:
-- **JSON Loading**: Phase 6b must be completed to meet user's requirement that app always loads from assets/sample-data/building-layout.json
-- **Coordinate Labels**: Tasks T040a-T040d in Phase 4 implement coordinate labeling at bottom-left (x,y) and top-right (x+width, y+height) corners of each region
+- **JSON Loading**: Phase 8 must be completed to meet user's requirement that app always loads from assets/sample-data/building-layout.json
+- **Coordinate Labels**: Tasks T040a-T040d in Phase 4 implement coordinate labeling at bottom-left (x,y) and top-right (x+width, y+height) corners of each region - ✅ COMPLETED
+- **Isometric/3D View**: Phase 6 (User Story 4) implements ability to view renders at an angle using CSS 3D transforms to demonstrate depth and spatial relationships
 
 ---
 
@@ -501,3 +537,435 @@ Expected labels:
   - Region coordinates are modified
 - Consider adding a toggle option in future enhancements to show/hide coordinate labels
 - Coordinate labels complement the region info tooltip (User Story 3) by providing always-visible coordinate reference
+
+---
+
+## Isometric/3D View Implementation Guide
+
+### Tasks T069-T084: Adding Isometric Projection View Mode
+
+**Context**: User requested ability to view the renders at an angle to better demonstrate 3D effect. Implementation uses CSS 3D transforms on existing SVG rendering - no new dependencies required.
+
+#### **Approach**: Isometric/Axonometric Projection (2.5D)
+
+The isometric view transforms the 2D SVG layout using CSS 3D transforms to create an angled perspective. This gives a "strategy game" or "blueprint" style view that shows depth without requiring actual 3D geometry.
+
+### T069-T070: View Mode Type Definitions
+
+**Location**: `src/app/models/viewport.interface.ts`
+
+**Implementation Steps**:
+1. Create ViewMode type as union type
+2. Add viewMode property to Viewport interface
+3. Set default viewMode to '2d'
+
+**Example Code**:
+```typescript
+// T069: ViewMode type definition
+export type ViewMode = '2d' | 'isometric';
+
+// T070: Add to Viewport interface
+export interface Viewport {
+  scale: number;
+  translateX: number;
+  translateY: number;
+  width: number;
+  height: number;
+  minScale: number;
+  maxScale: number;
+  viewMode: ViewMode;  // NEW PROPERTY
+}
+```
+
+### T071: Isometric Transformation Utility
+
+**Location**: `src/app/utils/isometric-transform.ts`
+
+**Purpose**: Calculate CSS transform string for isometric projection
+
+**Implementation Steps**:
+1. Create utility function to generate transform string
+2. Use standard isometric angles (typically rotateX(60deg) rotateZ(45deg))
+3. Include scale factor to compensate for foreshortening
+
+**Example Code**:
+```typescript
+export class IsometricTransform {
+  /**
+   * Calculate CSS 3D transform for isometric projection
+   * Standard isometric view uses 60° X-rotation and 45° Z-rotation
+   */
+  static calculateIsometricTransform(): string {
+    // Isometric projection angles
+    const rotateX = 60;  // degrees
+    const rotateZ = 45;  // degrees
+    const scale = 1.2;   // Compensate for foreshortening
+
+    return `
+      perspective(2000px)
+      rotateX(${rotateX}deg)
+      rotateZ(${rotateZ}deg)
+      scale(${scale})
+    `;
+  }
+
+  /**
+   * Get 2D (standard) transform - identity transform
+   */
+  static calculate2DTransform(): string {
+    return 'none';
+  }
+
+  /**
+   * Get transform based on view mode
+   */
+  static getTransform(viewMode: ViewMode): string {
+    return viewMode === 'isometric'
+      ? this.calculateIsometricTransform()
+      : this.calculate2DTransform();
+  }
+}
+```
+
+### T072: CSS 3D Transform Styles
+
+**Location**: `src/app/components/building-layout/building-layout.component.scss`
+
+**Implementation Steps**:
+1. Add CSS class for isometric view state
+2. Enable 3D transforms on SVG container
+3. Set transform-style to preserve-3d
+4. Add perspective for depth effect
+
+**Example Styles**:
+```scss
+.layout-svg {
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  // Enable 3D transforms
+  transform-style: preserve-3d;
+
+  // Smooth transitions between view modes
+  transition: transform 0.6s ease-in-out;
+}
+
+// Isometric view state
+::ng-deep {
+  .content-group {
+    transform-origin: center center;
+    transform-style: preserve-3d;
+  }
+
+  .content-group.isometric {
+    // Transform will be applied via D3 in TypeScript
+    // but we ensure CSS properties support it
+    transform-style: preserve-3d;
+  }
+}
+
+// Adjust container for better isometric viewing
+.building-layout-container.isometric-mode {
+  perspective: 2000px;
+  perspective-origin: 50% 50%;
+}
+```
+
+### T073-T074: SvgRendererService View Mode Methods
+
+**Location**: `src/app/services/svg-renderer.service.ts`
+
+**Implementation Steps**:
+1. Add private currentViewMode property
+2. Implement setViewMode() method
+3. Apply CSS transform to content group based on mode
+4. Store current view mode for persistence
+
+**Example Code**:
+```typescript
+export class SvgRendererService {
+  private svg: d3.Selection<SVGSVGElement, unknown, null, undefined> | null = null;
+  private contentGroup: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
+  private zoom: d3.ZoomBehavior<SVGSVGElement, unknown> | null = null;
+  private currentViewMode: ViewMode = '2d';  // NEW PROPERTY
+
+  // T073: Set view mode
+  setViewMode(viewMode: ViewMode): void {
+    if (!this.contentGroup) return;
+
+    this.currentViewMode = viewMode;
+
+    // T074: Apply CSS transform based on view mode
+    const transform = IsometricTransform.getTransform(viewMode);
+
+    if (viewMode === 'isometric') {
+      this.contentGroup
+        .attr('class', 'content-group isometric')
+        .style('transform', transform);
+    } else {
+      this.contentGroup
+        .attr('class', 'content-group')
+        .style('transform', 'none');
+    }
+  }
+
+  // Get current view mode
+  getViewMode(): ViewMode {
+    return this.currentViewMode;
+  }
+}
+```
+
+### T075-T077: BuildingLayoutComponent View Mode Integration
+
+**Location**: `src/app/components/building-layout/building-layout.component.ts`
+
+**Implementation Steps**:
+1. Add @Input viewMode property
+2. Add @Output viewModeChange EventEmitter
+3. Implement toggleViewMode() method
+4. Call renderer.setViewMode() when mode changes
+
+**Example Code**:
+```typescript
+export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDestroy {
+  @Input() config: LayoutConfiguration = { regions: [] };
+  @Input() width: number = 800;
+  @Input() height: number = 600;
+  @Input() viewMode: ViewMode = '2d';  // T075: NEW INPUT
+
+  @Output() regionHover = new EventEmitter<Region | null>();
+  @Output() regionClick = new EventEmitter<Region>();
+  @Output() viewModeChange = new EventEmitter<ViewMode>();  // T076: NEW OUTPUT
+
+  // ... existing code ...
+
+  ngAfterViewInit(): void {
+    // ... existing initialization ...
+
+    // Apply initial view mode
+    this.renderer.setViewMode(this.viewMode);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // ... existing change detection ...
+
+    // Detect view mode changes
+    if (changes['viewMode'] && !changes['viewMode'].firstChange) {
+      this.renderer.setViewMode(this.viewMode);
+    }
+  }
+
+  // T077: Toggle view mode
+  toggleViewMode(): void {
+    const newMode: ViewMode = this.viewMode === '2d' ? 'isometric' : '2d';
+    this.viewMode = newMode;
+    this.renderer.setViewMode(newMode);
+    this.viewModeChange.emit(newMode);
+  }
+}
+```
+
+### T078-T079: View Mode Toggle Button UI
+
+**Location**: `src/app/components/building-layout/building-layout.component.html`
+
+**Implementation Steps**:
+1. Add toggle button to controls section
+2. Bind click event to toggleViewMode()
+3. Show current view mode label
+4. Add icon or visual indicator
+
+**Example Template**:
+```html
+<div class="building-layout-container" [class.isometric-mode]="viewMode === 'isometric'">
+  <div class="controls">
+    <button class="control-btn" (click)="zoomIn()">Zoom In (+)</button>
+    <button class="control-btn" (click)="zoomOut()">Zoom Out (-)</button>
+    <button class="control-btn" (click)="resetViewport()">Reset</button>
+
+    <!-- T078: View mode toggle button -->
+    <button class="control-btn view-toggle" (click)="toggleViewMode()">
+      {{ viewMode === '2d' ? '3D View' : '2D View' }}
+    </button>
+  </div>
+
+  <svg #svgContainer class="layout-svg"></svg>
+</div>
+```
+
+**Styles** (`building-layout.component.scss`):
+```scss
+// T079: View toggle button styling
+.control-btn.view-toggle {
+  background: #FF9800;  // Different color to distinguish from zoom controls
+
+  &:hover {
+    background: #F57C00;
+  }
+}
+
+// Optional: Add icon
+.control-btn.view-toggle::before {
+  content: '📐 ';  // Isometric icon (or use font-awesome/material icons)
+}
+```
+
+### T080: Smooth Transition Animation
+
+**Location**: `src/app/components/building-layout/building-layout.component.scss`
+
+**Implementation Steps**:
+1. Add CSS transition to content-group
+2. Use ease-in-out timing for smooth effect
+3. Duration should be 0.5-0.8 seconds for comfortable viewing
+
+**Example Styles**:
+```scss
+::ng-deep {
+  .content-group {
+    // T080: Smooth transition between 2D and isometric views
+    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-origin: center center;
+    transform-style: preserve-3d;
+  }
+}
+```
+
+### T081: AppComponent Integration
+
+**Location**: `src/app/app.component.ts` and `src/app/app.component.html`
+
+**Implementation Steps**:
+1. Add viewMode property to AppComponent
+2. Bind to BuildingLayoutComponent
+3. Listen to viewModeChange events
+4. Display current mode in UI
+
+**Example Code**:
+```typescript
+// app.component.ts
+export class AppComponent {
+  layoutConfig: LayoutConfiguration | null = null;
+  hoveredRegion: Region | null = null;
+  currentViewMode: ViewMode = '2d';  // T081: Track view mode
+
+  onViewModeChange(newMode: ViewMode): void {
+    this.currentViewMode = newMode;
+    console.log('View mode changed to:', newMode);
+  }
+}
+```
+
+```html
+<!-- app.component.html -->
+<div class="app-container">
+  <header>
+    <h1>Building Layout Visualization</h1>
+    <p class="subtitle">
+      Interactive SVG Visualization with D3.js and Angular
+      <span class="view-mode-indicator">
+        ({{ currentViewMode === '2d' ? '2D View' : 'Isometric View' }})
+      </span>
+    </p>
+  </header>
+
+  <main>
+    <app-building-layout
+      *ngIf="layoutConfig"
+      [config]="layoutConfig"
+      [width]="1024"
+      [height]="768"
+      [viewMode]="currentViewMode"
+      (regionHover)="onRegionHover($event)"
+      (regionClick)="onRegionClick($event)"
+      (viewModeChange)="onViewModeChange($event)"
+    ></app-building-layout>
+  </main>
+</div>
+```
+
+### T082: Adjust Coordinate Label Visibility for Isometric
+
+**Location**: `src/app/services/svg-renderer.service.ts`
+
+**Implementation Steps**:
+1. Modify coordinate label visibility logic
+2. Use different thresholds for isometric view (regions appear smaller)
+3. Consider hiding labels entirely in isometric view as an option
+
+**Example Code**:
+```typescript
+// In render() method, update coordinate label visibility
+.style('display', d => {
+  const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
+  const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
+
+  // T082: Adjust thresholds based on view mode
+  const minWidth = this.currentViewMode === 'isometric' ? 80 : 60;
+  const minHeight = this.currentViewMode === 'isometric' ? 60 : 40;
+
+  return (widthPx < minWidth || heightPx < minHeight) ? 'none' : 'block';
+})
+```
+
+### T083-T084: Test Interactions in Isometric View
+
+**Manual Testing Tasks**:
+
+**T083: Zoom/Pan in Isometric**:
+1. Switch to isometric view
+2. Test zoom in/out - verify transform stacks correctly with isometric projection
+3. Test pan - verify pan works smoothly
+4. Test reset viewport - verify returns to isometric view (not 2D)
+
+**T084: Hover/Click in Isometric**:
+1. Switch to isometric view
+2. Hover over regions - verify hover detection works (mouse coordinates still map correctly)
+3. Click regions - verify click events fire
+4. Check tooltip positioning - may need adjustment for isometric projection
+5. Verify all interactive features from User Story 3 work in both view modes
+
+### Visual Example
+
+**2D View** (standard):
+```
+┌─────────────┐
+│   Room 1    │
+│             │
+└─────────────┘
+```
+
+**Isometric View** (transformed):
+```
+    ┌─────────────┐
+   /             /│
+  /   Room 1    / │
+ /             /  │
+└─────────────┘  /
+ │             │/
+ └─────────────┘
+```
+
+### Integration Notes
+
+- Isometric view is a visual transformation only - data model remains 2D
+- All existing features (zoom, pan, hover, click, coordinate labels) should work in both modes
+- CSS 3D transforms are well-supported in modern browsers (Chrome, Firefox, Safari)
+- No new dependencies required - uses existing D3.js + Angular + CSS
+- Toggle should be intuitive and clearly labeled
+- Consider adding keyboard shortcut (e.g., 'i' key) for quick toggle
+- Performance should remain the same - CSS transforms are GPU-accelerated
+
+### Browser Compatibility
+
+CSS 3D transforms are supported in:
+- Chrome 12+
+- Firefox 10+
+- Safari 4+
+- Edge (all versions)
+
+This matches the project's browser support requirements from plan.md.

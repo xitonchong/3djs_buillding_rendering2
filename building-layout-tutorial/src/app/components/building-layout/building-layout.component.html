@@ -1,9 +1,13 @@
 <!-- T035: BuildingLayoutComponent template -->
-<div class="building-layout-container">
+<div class="building-layout-container" [class.isometric-mode]="viewMode === 'isometric'">
   <div class="controls" *ngIf="showControls">
     <button (click)="zoomIn()" class="control-btn">Zoom In (+)</button>
     <button (click)="zoomOut()" class="control-btn">Zoom Out (-)</button>
     <button (click)="resetViewport()" class="control-btn">Reset</button>
+    <!-- T078: View mode toggle button -->
+    <button (click)="toggleViewMode()" class="control-btn view-toggle">
+      {{ viewMode === '2d' ? '3D View' : '2D View' }}
+    </button>
   </div>
 
   <svg #svgContainer class="layout-svg"></svg>
