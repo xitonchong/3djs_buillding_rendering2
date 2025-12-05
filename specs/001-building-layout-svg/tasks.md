@@ -3,6 +3,8 @@
 **Input**: Design documents from `/specs/001-building-layout-svg/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), data-model.md, contracts/, research.md, quickstart.md
 
+**User Requirement**: Ensure app component always loads from `assets/sample-data/building-layout.json` (See Phase 6b)
+
 **Tests**: Tests are included based on constitution requirements for math utilities and core functionality.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
@@ -152,6 +154,24 @@
 
 ---
 
+## Phase 6b: Load Configuration from JSON File
+
+**Purpose**: Ensure app component always loads from assets/sample-data/building-layout.json instead of hardcoded data
+
+**Context**: User requirement - app should load configuration from JSON file on startup
+
+- [X] T057a Verify HttpClient is available in app configuration in src/main.ts (added provideHttpClient)
+- [X] T057b Rename building-layouts.json to building-layout.json in src/assets/sample-data/
+- [X] T057c Update JSON file structure to be a single LayoutConfiguration object (remove "office-floor-1" wrapper) in src/assets/sample-data/building-layout.json
+- [X] T057d [P] Create LayoutLoaderService using Angular CLI (ng generate service services/layout-loader)
+- [X] T057e Implement LayoutLoaderService.loadFromFile method in src/app/services/layout-loader.service.ts to load from assets/sample-data/building-layout.json
+- [X] T057f Update AppComponent to inject LayoutLoaderService and load configuration in ngOnInit in src/app/app.component.ts
+- [X] T057g Add error handling for file loading failures in AppComponent in src/app/app.component.ts
+- [X] T057h Add loading state display in AppComponent template in src/app/app.component.html
+- [X] T057i Remove hardcoded layoutConfig initialization from AppComponent in src/app/app.component.ts (replaced with null and loaded from file)
+
+---
+
 ## Phase 7: Polish & Cross-Cutting Concerns
 
 **Purpose**: Improvements that affect multiple user stories
@@ -257,20 +277,23 @@ With multiple developers:
 
 ## Task Count Summary
 
-- **Total Tasks**: 68
+- **Total Tasks**: 77
 - **Phase 1 (Setup)**: 5 tasks
 - **Phase 2 (Foundational)**: 5 tasks
 - **Phase 3 (User Story 1)**: 10 tasks (3 tests + 7 implementation)
 - **Phase 4 (User Story 2)**: 20 tasks (4 tests + 16 implementation)
 - **Phase 5 (User Story 3)**: 9 tasks (1 test + 8 implementation)
 - **Phase 6 (Demo)**: 8 tasks
+- **Phase 6b (Load from JSON)**: 9 tasks - **USER REQUESTED REQUIREMENT**
 - **Phase 7 (Polish)**: 11 tasks
 
-**Parallel Opportunities**: 35 tasks marked [P] can run concurrently
+**Parallel Opportunities**: 36 tasks marked [P] can run concurrently
 
 **Independent Test Criteria Defined**: Yes, for all 3 user stories
 
 **Suggested MVP Scope**: Phase 1 + Phase 2 + Phase 3 (User Story 1 only) = 20 tasks
+
+**User Requirement (JSON Loading)**: Phase 6b must be completed to meet user's requirement that app always loads from assets/sample-data/building-layout.json
 
 ---
 

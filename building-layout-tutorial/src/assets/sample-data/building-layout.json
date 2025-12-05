@@ -1,0 +1,61 @@
+{
+  "name": "Office Building - Floor 1",
+  "description": "First floor layout with conference rooms and offices",
+  "regions": [
+    {
+      "id": "reception",
+      "x": 0,
+      "y": 0,
+      "width": 400,
+      "height": 200,
+      "label": "Reception",
+      "color": "#E8F5E9",
+      "strokeColor": "#4CAF50"
+    },
+    {
+      "id": "conf-room-1",
+      "x": 0,
+      "y": 200,
+      "width": 300,
+      "height": 250,
+      "label": "Conference Room 1",
+      "color": "#E3F2FD",
+      "strokeColor": "#2196F3"
+    },
+    {
+      "id": "office-1",
+      "x": 300,
+      "y": 200,
+      "width": 200,
+      "height": 150,
+      "label": "Office 101",
+      "color": "#FFF3E0",
+      "strokeColor": "#FF9800"
+    },
+    {
+      "id": "office-2",
+      "x": 300,
+      "y": 350,
+      "width": 200,
+      "height": 100,
+      "label": "Office 102",
+      "color": "#FFF3E0",
+      "strokeColor": "#FF9800"
+    },
+    {
+      "id": "hallway",
+      "x": 0,
+      "y": 450,
+      "width": 500,
+      "height": 100,
+      "label": "Main Hallway",
+      "color": "#F5F5F5",
+      "strokeColor": "#9E9E9E"
+    }
+  ],
+  "metadata": {
+    "buildingName": "Tech Office",
+    "floorNumber": 1,
+    "units": "feet"
+  }
+}

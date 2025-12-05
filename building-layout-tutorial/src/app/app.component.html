@@ -1,16 +1,33 @@
-<!-- T056: App Component template -->
+<!-- T056: App Component template - Updated with loading and error states -->
 <div class="app-container">
   <header>
     <h1>{{ title }}</h1>
     <p class="subtitle">Interactive SVG Visualization with D3.js and Angular</p>
-    <p class="instructions">
+    <p class="subtitle-note">Configuration loaded from: assets/sample-data/building-layout.json</p>
+    <p class="instructions" *ngIf="layoutConfig && !isLoading && !errorMessage">
       <strong>Instructions:</strong> Hover over regions to see details | Click regions for more info |
       Use zoom controls or scroll to zoom | Drag to pan
     </p>
   </header>
 
   <main>
+    <!-- Loading State -->
+    <div class="loading-container" *ngIf="isLoading">
+      <div class="spinner"></div>
+      <p>Loading building layout configuration...</p>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-container" *ngIf="errorMessage && !isLoading">
+      <div class="error-icon">⚠️</div>
+      <h2>Failed to Load Configuration</h2>
+      <p class="error-message">{{ errorMessage }}</p>
+      <button class="retry-button" (click)="ngOnInit()">Retry</button>
+    </div>
+
+    <!-- Visualization -->
     <app-building-layout
+      *ngIf="layoutConfig && !isLoading && !errorMessage"
       [config]="layoutConfig"
       [width]="1024"
       [height]="768"
@@ -22,7 +39,7 @@
     ></app-building-layout>
   </main>
 
-  <footer>
+  <footer *ngIf="layoutConfig && !isLoading && !errorMessage">
     <p>Building Layout: {{ layoutConfig.name }} | {{ layoutConfig.regions.length }} regions</p>
   </footer>
 </div>
