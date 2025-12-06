@@ -10,11 +10,20 @@
     </button>
   </div>
 
+  <!-- T128: Floor selector (only in 2D mode with multiple floors) -->
+  <app-floor-selector
+    *ngIf="viewMode === '2d' && availableFloors.length > 1"
+    [floors]="availableFloors"
+    [selectedFloor]="selectedFloor ?? 0"
+    (floorChange)="onFloorChange($event)">
+  </app-floor-selector>
+
   <svg #svgContainer class="layout-svg"></svg>
 
   <div class="info-panel" *ngIf="hoveredRegion">
     <h3>{{ hoveredRegion.label || hoveredRegion.id }}</h3>
     <p>Position: ({{ hoveredRegion.x }}, {{ hoveredRegion.y }})</p>
     <p>Size: {{ hoveredRegion.width }} x {{ hoveredRegion.height }}</p>
+    <p>Floor: {{ hoveredRegion.floor ?? 0 }}</p>
   </div>
 </div>

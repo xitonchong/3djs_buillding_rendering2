@@ -1,5 +1,6 @@
-// T071: Isometric transformation utility for CSS 3D transforms
+// T071 & T122: Isometric transformation utility for CSS 3D transforms
 import { ViewMode } from '../models/viewport.interface';
+import { Region } from '../models/region.interface';
 
 /**
  * Utility class for calculating CSS 3D transform strings
@@ -22,7 +23,7 @@ export class IsometricTransform {
     const scale = 1.3;   // Compensate for foreshortening
 
     return `
-      perspective(1500px)
+      perspective(2000px)
       rotateX(${rotateX}deg)
       rotateZ(${rotateZ}deg)
       scale(${scale})
@@ -48,5 +49,31 @@ export class IsometricTransform {
     return viewMode === 'isometric'
       ? this.calculateIsometricTransform()
       : this.calculate2DTransform();
+  }
+
+  /**
+   * T122: Calculate Y offset for a given floor level in isometric view
+   * Each floor level adds a fixed offset to create vertical stacking effect
+   *
+   * @param floor - Floor level (0 = ground floor)
+   * @returns Y offset in pixels (negative values move up in SVG coordinates)
+   */
+  static getFloorYOffset(floor: number): number {
+    const FLOOR_HEIGHT = 50;  // Pixels offset per floor level
+    return -(floor * FLOOR_HEIGHT);  // Negative Y moves up in SVG coordinates
+  }
+
+  /**
+   * T122: Apply floor offset to region Y coordinate for isometric rendering
+   * This creates a visual stacking effect where higher floors appear above lower floors
+   *
+   * @param region - Region to apply offset to
+   * @returns Object with adjusted x and y coordinates
+   */
+  static applyFloorOffset(region: Region): { x: number; y: number } {
+    return {
+      x: region.x,
+      y: region.y + this.getFloorYOffset(region.floor ?? 0)
+    };
   }
 }

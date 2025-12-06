@@ -1,61 +1,199 @@
 {
-  "name": "Office Building - Floor 1",
-  "description": "First floor layout with conference rooms and offices",
+  "name": "Multi-Floor Office Building",
+  "description": "Three-floor building with offices, conference rooms, and common areas",
   "regions": [
     {
-      "id": "reception",
+      "id": "lobby",
       "x": 0,
       "y": 0,
       "width": 400,
       "height": 200,
-      "label": "Reception",
+      "floor": 0,
+      "label": "Main Lobby",
       "color": "#E8F5E9",
       "strokeColor": "#4CAF50"
     },
     {
-      "id": "conf-room-1",
+      "id": "reception",
+      "x": 400,
+      "y": 0,
+      "width": 200,
+      "height": 200,
+      "floor": 0,
+      "label": "Reception",
+      "color": "#C8E6C9",
+      "strokeColor": "#4CAF50"
+    },
+    {
+      "id": "elevator-0",
+      "x": 600,
+      "y": 0,
+      "width": 100,
+      "height": 200,
+      "floor": 0,
+      "label": "Elevator",
+      "color": "#CFD8DC",
+      "strokeColor": "#607D8B"
+    },
+    {
+      "id": "mailroom",
       "x": 0,
       "y": 200,
       "width": 300,
-      "height": 250,
-      "label": "Conference Room 1",
-      "color": "#E3F2FD",
-      "strokeColor": "#2196F3"
+      "height": 150,
+      "floor": 0,
+      "label": "Mail Room",
+      "color": "#FFF3E0",
+      "strokeColor": "#FF9800"
     },
     {
-      "id": "office-1",
+      "id": "storage-0",
       "x": 300,
       "y": 200,
       "width": 200,
       "height": 150,
+      "floor": 0,
+      "label": "Storage",
+      "color": "#F5F5F5",
+      "strokeColor": "#9E9E9E"
+    },
+    {
+      "id": "conf-1-1",
+      "x": 0,
+      "y": 0,
+      "width": 300,
+      "height": 200,
+      "floor": 1,
+      "label": "Conference Room A",
+      "color": "#E3F2FD",
+      "strokeColor": "#2196F3"
+    },
+    {
+      "id": "conf-1-2",
+      "x": 300,
+      "y": 0,
+      "width": 300,
+      "height": 200,
+      "floor": 1,
+      "label": "Conference Room B",
+      "color": "#E3F2FD",
+      "strokeColor": "#2196F3"
+    },
+    {
+      "id": "elevator-1",
+      "x": 600,
+      "y": 0,
+      "width": 100,
+      "height": 200,
+      "floor": 1,
+      "label": "Elevator",
+      "color": "#CFD8DC",
+      "strokeColor": "#607D8B"
+    },
+    {
+      "id": "office-1-1",
+      "x": 0,
+      "y": 200,
+      "width": 200,
+      "height": 150,
+      "floor": 1,
       "label": "Office 101",
       "color": "#FFF3E0",
       "strokeColor": "#FF9800"
     },
     {
-      "id": "office-2",
-      "x": 300,
-      "y": 350,
+      "id": "office-1-2",
+      "x": 200,
+      "y": 200,
       "width": 200,
-      "height": 100,
+      "height": 150,
+      "floor": 1,
       "label": "Office 102",
       "color": "#FFF3E0",
       "strokeColor": "#FF9800"
     },
     {
-      "id": "hallway",
+      "id": "office-1-3",
+      "x": 400,
+      "y": 200,
+      "width": 200,
+      "height": 150,
+      "floor": 1,
+      "label": "Office 103",
+      "color": "#FFF3E0",
+      "strokeColor": "#FF9800"
+    },
+    {
+      "id": "office-2-1",
       "x": 0,
-      "y": 450,
-      "width": 500,
-      "height": 100,
-      "label": "Main Hallway",
-      "color": "#F5F5F5",
-      "strokeColor": "#9E9E9E"
+      "y": 0,
+      "width": 250,
+      "height": 180,
+      "floor": 2,
+      "label": "Office 201",
+      "color": "#FCE4EC",
+      "strokeColor": "#E91E63"
+    },
+    {
+      "id": "office-2-2",
+      "x": 250,
+      "y": 0,
+      "width": 250,
+      "height": 180,
+      "floor": 2,
+      "label": "Office 202",
+      "color": "#FCE4EC",
+      "strokeColor": "#E91E63"
+    },
+    {
+      "id": "office-2-3",
+      "x": 500,
+      "y": 0,
+      "width": 200,
+      "height": 180,
+      "floor": 2,
+      "label": "Office 203",
+      "color": "#FCE4EC",
+      "strokeColor": "#E91E63"
+    },
+    {
+      "id": "breakroom-2",
+      "x": 0,
+      "y": 180,
+      "width": 300,
+      "height": 120,
+      "floor": 2,
+      "label": "Break Room",
+      "color": "#F3E5F5",
+      "strokeColor": "#9C27B0"
+    },
+    {
+      "id": "server-room",
+      "x": 300,
+      "y": 180,
+      "width": 200,
+      "height": 120,
+      "floor": 2,
+      "label": "Server Room",
+      "color": "#FFEBEE",
+      "strokeColor": "#F44336"
+    },
+    {
+      "id": "elevator-2",
+      "x": 600,
+      "y": 0,
+      "width": 100,
+      "height": 300,
+      "floor": 2,
+      "label": "Elevator",
+      "color": "#CFD8DC",
+      "strokeColor": "#607D8B"
     }
   ],
   "metadata": {
-    "buildingName": "Tech Office",
-    "floorNumber": 1,
-    "units": "feet"
+    "buildingName": "Tech Office Tower",
+    "floors": 3,
+    "units": "feet",
+    "totalArea": 15000
   }
 }

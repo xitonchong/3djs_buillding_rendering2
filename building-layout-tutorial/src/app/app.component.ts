@@ -25,6 +25,9 @@ export class AppComponent implements OnInit {
   // T081: Track current view mode (2D or isometric)
   currentViewMode: ViewMode = '2d';
 
+  // T131: Track current floor (defaults to 0 = ground floor)
+  currentFloor: number = 0;
+
   constructor(private layoutLoader: LayoutLoaderService) {}
 
   ngOnInit(): void {
@@ -62,5 +65,11 @@ export class AppComponent implements OnInit {
   onViewModeChange(newMode: ViewMode): void {
     this.currentViewMode = newMode;
     console.log('View mode changed to:', newMode);
+  }
+
+  // T131: Handle floor selection changes
+  onFloorChange(floor: number): void {
+    this.currentFloor = floor;
+    console.log('Floor changed to:', floor);
   }
 }

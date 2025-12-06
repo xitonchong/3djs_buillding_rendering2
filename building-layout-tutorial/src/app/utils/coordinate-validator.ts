@@ -42,6 +42,17 @@ export class CoordinateValidator {
       errors.push(`Region height must be positive (got: ${region.height})`);
     }
 
+    // T114: Floor validation (optional, must be non-negative integer if provided)
+    if (region.floor !== undefined) {
+      if (typeof region.floor !== 'number') {
+        errors.push('Region floor must be a number');
+      } else if (region.floor < 0) {
+        errors.push(`Region floor must be non-negative (got: ${region.floor})`);
+      } else if (!Number.isInteger(region.floor)) {
+        errors.push(`Region floor must be an integer (got: ${region.floor})`);
+      }
+    }
+
     return {
       valid: errors.length === 0,
       errors

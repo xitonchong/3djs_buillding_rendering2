@@ -9,6 +9,9 @@ export interface Region {
   width: number;
   height: number;
 
+  // T113: Floor/Z-dimension (optional, defaults to 0 = ground floor)
+  floor?: number;
+
   // Optional Metadata
   label?: string;
   color?: string;

@@ -3,7 +3,9 @@
 **Input**: Design documents from `/specs/001-building-layout-svg/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), data-model.md, contracts/, research.md, quickstart.md
 
-**User Requirement**: Ensure app component always loads from `assets/sample-data/building-layout.json` (See Phase 6b)
+**User Requirement**:
+- Ensure app component always loads from `assets/sample-data/building-layout.json` (See Phase 6b)
+- **NEW**: Implement 3rd dimension along Z to add second floor support. In 3D mode, show isometric view. In 2D mode, enable floor selection with lowest floor as default.
 
 **Tests**: Tests are included based on constitution requirements for math utilities and core functionality.
 
@@ -174,6 +176,46 @@
 
 ---
 
+## Phase 6b: User Story 5 - Multi-Floor Support with Z-Dimension (Priority: P5)
+
+**Goal**: Extend the visualization to support multiple building floors by adding Z-dimension (floor level) to regions. In 3D/isometric mode, show all floors simultaneously with proper depth layering. In 2D mode, provide floor selector to view one floor at a time with lowest floor as default.
+
+**Independent Test**: Load a configuration with regions on multiple floors (z=0, z=1, z=2). In 3D mode, verify all floors render with proper layering and isometric depth. In 2D mode, verify floor selector appears, defaults to lowest floor, and switching floors updates the visible regions correctly.
+
+**User Requirement**: Implement 3rd dimension along Z because we want to add second floor to this building. During rendering in 3D, we should show the isometric view. During rendering in 2D, we should enable the option to view which floor is rendered with the default set to the lowest floor.
+
+### Implementation for User Story 5
+
+- [X] T113 [P] [US5] Add `z` or `floor` property to Region interface in src/app/models/region.interface.ts (non-negative number, defaults to 0)
+- [X] T114 [P] [US5] Update CoordinateValidator to validate z/floor property (non-negative) in src/app/utils/coordinate-validator.ts
+- [X] T115 [P] [US5] Create FloorInfo interface in src/app/models/floor.interface.ts with floor number, label, and region count
+- [X] T116 [P] [US5] Implement getAvailableFloors() utility in src/app/utils/floor-utils.ts to extract unique floor levels from configuration
+- [X] T117 [P] [US5] Implement filterRegionsByFloor() utility in src/app/utils/floor-utils.ts to filter regions by selected floor
+- [X] T118 [US5] Add currentFloor property to Viewport interface in src/app/models/viewport.interface.ts (nullable number for 2D mode)
+- [X] T119 [US5] Update SvgRendererService to accept optional selectedFloor parameter in render() method in src/app/services/svg-renderer.service.ts
+- [X] T120 [US5] Implement floor filtering logic in SvgRendererService.render() when in 2D mode (filter regions by floor before rendering)
+- [X] T121 [US5] Implement Z-axis layering in SvgRendererService.render() when in isometric mode (render floors from bottom to top with proper SVG z-index ordering)
+- [X] T122 [US5] Add vertical offset calculation for isometric mode in IsometricTransform utility (each floor level gets Y-offset to show stacking)
+- [X] T123 [US5] Generate FloorSelectorComponent using Angular CLI (ng generate component components/building-layout/floor-selector --standalone)
+- [X] T124 [US5] Implement FloorSelectorComponent with @Input floors array and @Output floorChange in src/app/components/building-layout/floor-selector.component.ts
+- [X] T125 [US5] Create FloorSelectorComponent template with dropdown/button group for floor selection in src/app/components/building-layout/floor-selector.component.html
+- [X] T126 [US5] Style FloorSelectorComponent with clear floor labels and active state in src/app/components/building-layout/floor-selector.component.scss
+- [X] T127 [US5] Add @Input selectedFloor and @Output floorChange to BuildingLayoutComponent in src/app/components/building-layout/building-layout.component.ts
+- [X] T128 [US5] Integrate FloorSelectorComponent into BuildingLayoutComponent template (show only in 2D mode) in building-layout.component.html
+- [X] T129 [US5] Implement onFloorChange() handler in BuildingLayoutComponent to update selected floor and trigger re-render
+- [X] T130 [US5] Update BuildingLayoutComponent ngOnInit to calculate available floors and set default to lowest floor
+- [X] T131 [US5] Update AppComponent to track currentFloor state and pass to BuildingLayoutComponent
+- [X] T132 [US5] Display current floor indicator in AppComponent header (e.g., "Floor 2" or "All Floors (3D)")
+- [X] T133 [US5] Update sample-data/building-layout.json with multi-floor example data (regions on floors 0, 1, 2)
+- [X] T134 [US5] Update coordinate label rendering to include floor number in isometric mode (e.g., "(x, y, z)")
+- [X] T135 [US5] Test floor switching in 2D mode - verify only selected floor regions are visible
+- [X] T136 [US5] Test isometric mode with multi-floor data - verify proper stacking and depth ordering
+- [X] T137 [US5] Test default floor selection - verify lowest floor is selected on load in 2D mode
+
+**Checkpoint**: At this point, users can define and visualize multi-floor building layouts. In 2D mode, they can select which floor to view. In 3D/isometric mode, all floors are visible with proper depth layering.
+
+---
+
 ## Phase 7: Demo & Integration
 
 **Purpose**: Create complete working example demonstrating all features
@@ -219,9 +261,9 @@
 - [ ] T107 [P] Test in Chrome, Firefox, and Safari browsers for compatibility
 - [ ] T108 [P] Performance test with 500 region configuration and verify <1s render time
 - [ ] T109 [P] Verify zoom/pan performance at 60fps using browser dev tools
-- [ ] T110 Take screenshots of working example for visual validation (both 2D and isometric views)
+- [ ] T110 Take screenshots of working example for visual validation (both 2D and isometric views, with multi-floor examples)
 - [ ] T111 [P] Update environment.ts with any configuration needed
-- [ ] T112 [P] Add error handling for edge cases (empty configs, extreme coordinate ranges)
+- [ ] T112 [P] Add error handling for edge cases (empty configs, extreme coordinate ranges, missing floor data)
 
 ---
 
@@ -231,11 +273,12 @@
 
 - **Setup (Phase 1)**: No dependencies - can start immediately
 - **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
-- **User Stories (Phase 3-6)**: All depend on Foundational phase completion
+- **User Stories (Phase 3-6b)**: All depend on Foundational phase completion
   - User stories can then proceed in parallel (if staffed)
-  - Or sequentially in priority order (P1 → P2 → P3 → P4)
+  - Or sequentially in priority order (P1 → P2 → P3 → P4 → P5)
   - **Note**: User Story 4 (Isometric View) depends on User Story 2 (Visualization) being complete
-- **Demo & Integration (Phase 7)**: Depends on User Story 1 and 2 minimum (can proceed with P1+P2 while P3 and P4 are in progress)
+  - **Note**: User Story 5 (Multi-Floor) depends on User Story 2 (Visualization) and User Story 4 (Isometric) being complete
+- **Demo & Integration (Phase 7)**: Depends on User Story 1 and 2 minimum (can proceed with P1+P2 while P3, P4, P5 are in progress)
 - **Load from JSON (Phase 8)**: Can run independently, depends only on foundational phase
 - **Polish (Phase 9)**: Depends on all desired user stories being complete
 
@@ -245,6 +288,7 @@
 - **User Story 2 (P2)**: Can start after Foundational (Phase 2) - Integrates with US1 configuration service
 - **User Story 3 (P3)**: Can start after Foundational (Phase 2) - Integrates with US2 rendering service
 - **User Story 4 (P4)**: Depends on User Story 2 (Visualization) being complete - Adds isometric view mode to existing rendering
+- **User Story 5 (P5)**: Depends on User Story 2 (Visualization) and User Story 4 (Isometric) being complete - Extends with Z-dimension and floor selection
 
 ### Within Each User Story
 
@@ -265,17 +309,15 @@
 
 ---
 
-## Parallel Example: User Story 1
+## Parallel Example: User Story 5 (Multi-Floor)
 
 ```bash
-# Launch all tests for User Story 1 together:
-Task: "Unit test for CoordinateValidator.validateRegion in src/app/utils/coordinate-validator.spec.ts"
-Task: "Unit test for CoordinateValidator.validateLayout in src/app/utils/coordinate-validator.spec.ts"
-Task: "Unit test for LayoutConfigService.validateConfig in src/app/services/layout-config.service.spec.ts"
-
-# Launch all parallel implementation tasks for User Story 1 together:
-Task: "Implement CoordinateValidator utility class in src/app/utils/coordinate-validator.ts"
-Task: "Create sample configuration data in src/assets/sample-data/building-layouts.json"
+# Launch all parallel model/interface tasks for User Story 5 together:
+Task: "Add z/floor property to Region interface in src/app/models/region.interface.ts"
+Task: "Update CoordinateValidator to validate z/floor property in src/app/utils/coordinate-validator.ts"
+Task: "Create FloorInfo interface in src/app/models/floor.interface.ts"
+Task: "Implement getAvailableFloors() utility in src/app/utils/floor-utils.ts"
+Task: "Implement filterRegionsByFloor() utility in src/app/utils/floor-utils.ts"
 ```
 
 ---
@@ -296,7 +338,9 @@ Task: "Create sample configuration data in src/assets/sample-data/building-layou
 2. Add User Story 1 → Test independently → **MVP READY** (configuration management)
 3. Add User Story 2 → Test independently → **Core Value Delivered** (visualization)
 4. Add User Story 3 → Test independently → **Enhanced UX** (interaction)
-5. Complete Demo & Polish → **Production Ready**
+5. Add User Story 4 → Test independently → **3D Capability** (isometric view)
+6. Add User Story 5 → Test independently → **Multi-Floor Support** (Z-dimension)
+7. Complete Demo & Polish → **Production Ready**
 
 Each story adds value without breaking previous stories
 
@@ -310,32 +354,35 @@ With multiple developers:
    - Developer B: User Story 2 (visualization) - can mock config service initially
    - Developer C: User Story 3 (interaction) - can mock renderer initially
 3. Stories complete and integrate independently
+4. User Story 4 and 5 proceed sequentially after US2 completes (dependency on rendering infrastructure)
 
 ---
 
 ## Task Count Summary
 
-- **Total Tasks**: 112
+- **Total Tasks**: 137
 - **Phase 1 (Setup)**: 5 tasks
 - **Phase 2 (Foundational)**: 5 tasks
 - **Phase 3 (User Story 1 - Configuration)**: 10 tasks (3 tests + 7 implementation)
 - **Phase 4 (User Story 2 - Visualization)**: 24 tasks (4 tests + 20 implementation, includes coordinate labeling)
 - **Phase 5 (User Story 3 - Interaction)**: 9 tasks (1 test + 8 implementation)
-- **Phase 6 (User Story 4 - Isometric View)**: 16 tasks (0 tests + 16 implementation) - **NEW USER STORY**
+- **Phase 6 (User Story 4 - Isometric View)**: 16 tasks (0 tests + 16 implementation)
+- **Phase 6b (User Story 5 - Multi-Floor/Z-Dimension)**: 25 tasks (0 tests + 25 implementation) - **NEW USER STORY**
 - **Phase 7 (Demo)**: 8 tasks
 - **Phase 8 (Load from JSON)**: 9 tasks - **USER REQUESTED REQUIREMENT**
 - **Phase 9 (Polish)**: 11 tasks
 
-**Parallel Opportunities**: 37 tasks marked [P] can run concurrently
+**Parallel Opportunities**: 42 tasks marked [P] can run concurrently
 
-**Independent Test Criteria Defined**: Yes, for all 4 user stories
+**Independent Test Criteria Defined**: Yes, for all 5 user stories
 
 **Suggested MVP Scope**: Phase 1 + Phase 2 + Phase 3 (User Story 1 only) = 20 tasks
 
 **User Requirements**:
-- **JSON Loading**: Phase 8 must be completed to meet user's requirement that app always loads from assets/sample-data/building-layout.json
+- **JSON Loading**: Phase 8 must be completed to meet user's requirement that app always loads from assets/sample-data/building-layout.json - ✅ COMPLETED
 - **Coordinate Labels**: Tasks T040a-T040d in Phase 4 implement coordinate labeling at bottom-left (x,y) and top-right (x+width, y+height) corners of each region - ✅ COMPLETED
-- **Isometric/3D View**: Phase 6 (User Story 4) implements ability to view renders at an angle using CSS 3D transforms to demonstrate depth and spatial relationships
+- **Isometric/3D View**: Phase 6 (User Story 4) implements ability to view renders at an angle using CSS 3D transforms to demonstrate depth and spatial relationships - ✅ COMPLETED
+- **Multi-Floor Z-Dimension**: Phase 6b (User Story 5) implements 3rd dimension along Z for multi-floor buildings. In 3D mode, shows isometric view of all floors. In 2D mode, enables floor selection with lowest floor as default - ⏸️ PENDING
 
 ---
 
@@ -351,220 +398,106 @@ With multiple developers:
 
 ---
 
-## Coordinate Labeling Implementation Guide
+## Multi-Floor Implementation Guide
 
-### Tasks T040a-T040d: Adding Coordinate Labels to Regions
+### Tasks T113-T137: Adding Z-Dimension and Floor Selection
 
-**Context**: User requested that each rect.region element should display coordinate labels at two positions:
-1. **Bottom-left corner**: showing origin coordinates (x, y)
-2. **Top-right corner**: showing maximum coordinates (x+width, y+height)
+**Context**: User requested ability to add multiple floors to buildings by extending regions with a Z coordinate (floor level). In 3D/isometric mode, all floors should render with proper depth stacking. In 2D mode, users should be able to select which floor to view, defaulting to the lowest floor.
 
-### T040a: Bottom-Left Coordinate Label Implementation
+### T113: Add Floor Property to Region Interface
 
-**Location**: `SvgRendererService.render()` in `src/app/services/svg-renderer.service.ts`
+**Location**: `src/app/models/region.interface.ts`
 
 **Implementation Steps**:
-1. After rendering region rectangles and main labels, add a new D3 data join for bottom-left coordinate labels
-2. Create SVG text elements with class `coord-label-bl`
-3. Position at region's origin point (x, y) with slight offset for readability
-4. Format text as `(x, y)` using region's actual coordinate values
-5. Apply appropriate text-anchor and dominant-baseline for corner positioning
+1. Add `floor` or `z` property to Region interface (choose `floor` for semantic clarity)
+2. Make it optional with default value of 0 (ground floor)
+3. Update JSDoc comments to explain floor numbering
 
-**Example Code Pattern**:
+**Example Code**:
 ```typescript
-const coordLabelsBL = this.contentGroup
-  .selectAll<SVGTextElement, Region>('text.coord-label-bl')
-  .data(config.regions, d => d.id);
-
-coordLabelsBL.enter()
-  .append('text')
-  .attr('class', 'coord-label-bl')
-  .merge(coordLabelsBL)
-  .attr('x', d => xScale(d.x) + 5)  // Small offset from corner
-  .attr('y', d => yScale(d.y) - 5)  // Small offset from corner
-  .attr('text-anchor', 'start')
-  .attr('dominant-baseline', 'auto')
-  .text(d => `(${d.x}, ${d.y})`)
-  .style('font-size', '10px')
-  .style('font-family', 'monospace');
-
-coordLabelsBL.exit().remove();
+export interface Region {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  floor: number;  // NEW: Floor level (0 = ground floor, 1 = first floor, etc.)
+  label?: string;
+  color?: string;
+  strokeColor?: string;
+  metadata?: Record<string, any>;
+}
 ```
 
-### T040b: Top-Right Coordinate Label Implementation
+### T114: Update Validation for Floor Property
 
-**Location**: `SvgRendererService.render()` in `src/app/services/svg-renderer.service.ts`
+**Location**: `src/app/utils/coordinate-validator.ts`
 
 **Implementation Steps**:
-1. Add another D3 data join for top-right coordinate labels
-2. Create SVG text elements with class `coord-label-tr`
-3. Position at region's top-right point (x+width, y+height) with slight offset
-4. Format text as `(x+width, y+height)` using calculated values
-5. Apply appropriate text-anchor and dominant-baseline for corner positioning
+1. Add validation rule for `floor` property (must be non-negative integer)
+2. Default to 0 if not provided
+3. Update error messages
 
-**Example Code Pattern**:
+**Example Code**:
 ```typescript
-const coordLabelsTR = this.contentGroup
-  .selectAll<SVGTextElement, Region>('text.coord-label-tr')
-  .data(config.regions, d => d.id);
-
-coordLabelsTR.enter()
-  .append('text')
-  .attr('class', 'coord-label-tr')
-  .merge(coordLabelsTR)
-  .attr('x', d => xScale(d.x + d.width) - 5)  // Small offset from corner
-  .attr('y', d => yScale(d.y + d.height) + 15)  // Small offset from corner
-  .attr('text-anchor', 'end')
-  .attr('dominant-baseline', 'hanging')
-  .text(d => `(${d.x + d.width}, ${d.y + d.height})`)
-  .style('font-size', '10px')
-  .style('font-family', 'monospace');
-
-coordLabelsTR.exit().remove();
+if (region.floor !== undefined && (typeof region.floor !== 'number' || region.floor < 0 || !Number.isInteger(region.floor))) {
+  errors.push('Region floor must be a non-negative integer');
+}
 ```
 
-### T040c: Coordinate Label Styling
+### T115-T117: Floor Utilities
 
-**Location**: `src/app/components/building-layout/building-layout.component.scss`
+**Location**: `src/app/utils/floor-utils.ts`
 
-**Implementation Steps**:
-1. Add CSS class for `.coord-label-bl` (bottom-left labels)
-2. Add CSS class for `.coord-label-tr` (top-right labels)
-3. Ensure labels have:
-   - Small font size (10-12px) for minimal visual clutter
-   - Monospace font family for alignment
-   - Subtle color (gray) to differentiate from main labels
-   - Optional background or stroke for readability
-   - Appropriate pointer-events setting
+**Purpose**: Utility functions for working with floor data
 
-**Example Styles**:
-```scss
-::ng-deep {
-  .coord-label-bl,
-  .coord-label-tr {
-    font-size: 10px;
-    font-family: 'Courier New', Courier, monospace;
-    fill: #666;
-    pointer-events: none;
-    user-select: none;
+**Example Code**:
+```typescript
+export interface FloorInfo {
+  floor: number;
+  label: string;
+  regionCount: number;
+}
+
+export class FloorUtils {
+  static getAvailableFloors(regions: Region[]): FloorInfo[] {
+    const floorMap = new Map<number, number>();
+
+    regions.forEach(region => {
+      const floor = region.floor ?? 0;
+      floorMap.set(floor, (floorMap.get(floor) || 0) + 1);
+    });
+
+    return Array.from(floorMap.entries())
+      .map(([floor, count]) => ({
+        floor,
+        label: `Floor ${floor}`,
+        regionCount: count
+      }))
+      .sort((a, b) => a.floor - b.floor);
   }
 
-  .coord-label-bl {
-    // Bottom-left specific styles if needed
+  static filterRegionsByFloor(regions: Region[], floor: number): Region[] {
+    return regions.filter(region => (region.floor ?? 0) === floor);
   }
 
-  .coord-label-tr {
-    // Top-right specific styles if needed
+  static getLowestFloor(regions: Region[]): number {
+    if (regions.length === 0) return 0;
+    return Math.min(...regions.map(r => r.floor ?? 0));
   }
 }
 ```
 
-### T040d: Label Scaling and Overlap Prevention
-
-**Location**: `SvgRendererService.render()` in `src/app/services/svg-renderer.service.ts`
-
-**Implementation Steps**:
-1. Consider zoom level when rendering coordinate labels
-2. Options for handling zoom:
-   - **Option A**: Scale labels with zoom (labels remain same relative size)
-   - **Option B**: Fixed screen-space size (labels stay readable at all zooms)
-   - **Option C**: Conditional visibility (hide labels when zoomed out too far)
-3. Ensure coordinate labels don't overlap with:
-   - Main region labels (centered)
-   - Adjacent regions' coordinate labels
-4. Consider adding background rectangles or text stroke for contrast
-
-**Overlap Prevention Strategy**:
-```typescript
-// Option C: Conditional visibility based on region size in pixels
-.style('display', d => {
-  const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
-  const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
-  // Hide coordinate labels if region is too small
-  return (widthPx < 50 || heightPx < 30) ? 'none' : 'block';
-})
-```
-
-### Testing Coordinate Labels
-
-**Manual Test Cases**:
-1. **Visual Verification**: Render a layout with 4-5 regions and verify:
-   - Bottom-left labels show correct (x, y) values
-   - Top-right labels show correct (x+width, y+height) values
-   - Labels are positioned at appropriate corners
-   - Labels are readable and don't overlap main labels
-
-2. **Zoom Test**:
-   - Zoom in to 200-400% and verify labels remain visible and positioned correctly
-   - Zoom out to 50% and verify labels either remain readable or are hidden appropriately
-
-3. **Multiple Regions Test**:
-   - Create configuration with 10+ regions
-   - Verify all coordinate labels render correctly
-   - Check for any overlapping labels between adjacent regions
-
-4. **Edge Cases**:
-   - Very small regions (width/height < 20)
-   - Very large regions (width/height > 500)
-   - Regions at extreme coordinates (near 0 or near maximum)
-
-### Visual Example
-
-For a region with:
-- x: 100, y: 50
-- width: 200, height: 150
-
-Expected labels:
-- Bottom-left: `(100, 50)` positioned near the top-left corner of the rectangle
-- Top-right: `(300, 200)` positioned near the bottom-right corner of the rectangle
-
-```
-(100, 50)  ← Bottom-left label
-    ┌─────────────────┐
-    │                 │
-    │   Region Label  │  ← Main label (centered)
-    │                 │
-    └─────────────────┘
-                (300, 200)  ← Top-right label
-```
-
-### Integration Notes
-
-- Coordinate labels are part of User Story 2 (Visualization) because they enhance the core rendering functionality
-- Labels should update automatically when:
-  - Configuration changes (via ngOnChanges)
-  - Viewport transforms (zoom/pan)
-  - Region coordinates are modified
-- Consider adding a toggle option in future enhancements to show/hide coordinate labels
-- Coordinate labels complement the region info tooltip (User Story 3) by providing always-visible coordinate reference
-
----
-
-## Isometric/3D View Implementation Guide
-
-### Tasks T069-T084: Adding Isometric Projection View Mode
-
-**Context**: User requested ability to view the renders at an angle to better demonstrate 3D effect. Implementation uses CSS 3D transforms on existing SVG rendering - no new dependencies required.
-
-#### **Approach**: Isometric/Axonometric Projection (2.5D)
-
-The isometric view transforms the 2D SVG layout using CSS 3D transforms to create an angled perspective. This gives a "strategy game" or "blueprint" style view that shows depth without requiring actual 3D geometry.
-
-### T069-T070: View Mode Type Definitions
+### T118: Update Viewport Interface
 
 **Location**: `src/app/models/viewport.interface.ts`
 
 **Implementation Steps**:
-1. Create ViewMode type as union type
-2. Add viewMode property to Viewport interface
-3. Set default viewMode to '2d'
+1. Add `currentFloor` property (nullable, only used in 2D mode)
+2. Update comments to explain floor selection behavior
 
 **Example Code**:
 ```typescript
-// T069: ViewMode type definition
-export type ViewMode = '2d' | 'isometric';
-
-// T070: Add to Viewport interface
 export interface Viewport {
   scale: number;
   translateX: number;
@@ -573,399 +506,370 @@ export interface Viewport {
   height: number;
   minScale: number;
   maxScale: number;
-  viewMode: ViewMode;  // NEW PROPERTY
+  viewMode: ViewMode;
+  currentFloor: number | null;  // NEW: Selected floor for 2D mode, null = show all floors (3D mode)
 }
 ```
 
-### T071: Isometric Transformation Utility
-
-**Location**: `src/app/utils/isometric-transform.ts`
-
-**Purpose**: Calculate CSS transform string for isometric projection
-
-**Implementation Steps**:
-1. Create utility function to generate transform string
-2. Use standard isometric angles (typically rotateX(60deg) rotateZ(45deg))
-3. Include scale factor to compensate for foreshortening
-
-**Example Code**:
-```typescript
-export class IsometricTransform {
-  /**
-   * Calculate CSS 3D transform for isometric projection
-   * Standard isometric view uses 60° X-rotation and 45° Z-rotation
-   */
-  static calculateIsometricTransform(): string {
-    // Isometric projection angles
-    const rotateX = 60;  // degrees
-    const rotateZ = 45;  // degrees
-    const scale = 1.2;   // Compensate for foreshortening
-
-    return `
-      perspective(2000px)
-      rotateX(${rotateX}deg)
-      rotateZ(${rotateZ}deg)
-      scale(${scale})
-    `;
-  }
-
-  /**
-   * Get 2D (standard) transform - identity transform
-   */
-  static calculate2DTransform(): string {
-    return 'none';
-  }
-
-  /**
-   * Get transform based on view mode
-   */
-  static getTransform(viewMode: ViewMode): string {
-    return viewMode === 'isometric'
-      ? this.calculateIsometricTransform()
-      : this.calculate2DTransform();
-  }
-}
-```
-
-### T072: CSS 3D Transform Styles
-
-**Location**: `src/app/components/building-layout/building-layout.component.scss`
-
-**Implementation Steps**:
-1. Add CSS class for isometric view state
-2. Enable 3D transforms on SVG container
-3. Set transform-style to preserve-3d
-4. Add perspective for depth effect
-
-**Example Styles**:
-```scss
-.layout-svg {
-  border: 1px solid #ccc;
-  background: #f9f9f9;
-  display: block;
-  width: 100%;
-  height: 100%;
-
-  // Enable 3D transforms
-  transform-style: preserve-3d;
-
-  // Smooth transitions between view modes
-  transition: transform 0.6s ease-in-out;
-}
-
-// Isometric view state
-::ng-deep {
-  .content-group {
-    transform-origin: center center;
-    transform-style: preserve-3d;
-  }
-
-  .content-group.isometric {
-    // Transform will be applied via D3 in TypeScript
-    // but we ensure CSS properties support it
-    transform-style: preserve-3d;
-  }
-}
-
-// Adjust container for better isometric viewing
-.building-layout-container.isometric-mode {
-  perspective: 2000px;
-  perspective-origin: 50% 50%;
-}
-```
-
-### T073-T074: SvgRendererService View Mode Methods
+### T119-T121: Update SvgRendererService for Floor Filtering
 
 **Location**: `src/app/services/svg-renderer.service.ts`
 
 **Implementation Steps**:
-1. Add private currentViewMode property
-2. Implement setViewMode() method
-3. Apply CSS transform to content group based on mode
-4. Store current view mode for persistence
+1. Add `selectedFloor` parameter to `render()` method
+2. Filter regions by floor when in 2D mode
+3. In isometric mode, render all floors with proper z-ordering
 
 **Example Code**:
 ```typescript
-export class SvgRendererService {
-  private svg: d3.Selection<SVGSVGElement, unknown, null, undefined> | null = null;
-  private contentGroup: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
-  private zoom: d3.ZoomBehavior<SVGSVGElement, unknown> | null = null;
-  private currentViewMode: ViewMode = '2d';  // NEW PROPERTY
+render(config: LayoutConfiguration, viewport: Viewport, selectedFloor?: number | null): void {
+  // Determine which regions to render
+  let regionsToRender = config.regions;
 
-  // T073: Set view mode
-  setViewMode(viewMode: ViewMode): void {
-    if (!this.contentGroup) return;
-
-    this.currentViewMode = viewMode;
-
-    // T074: Apply CSS transform based on view mode
-    const transform = IsometricTransform.getTransform(viewMode);
-
-    if (viewMode === 'isometric') {
-      this.contentGroup
-        .attr('class', 'content-group isometric')
-        .style('transform', transform);
-    } else {
-      this.contentGroup
-        .attr('class', 'content-group')
-        .style('transform', 'none');
-    }
+  if (viewport.viewMode === '2d' && selectedFloor !== null && selectedFloor !== undefined) {
+    // 2D mode: filter by selected floor
+    regionsToRender = FloorUtils.filterRegionsByFloor(config.regions, selectedFloor);
+  } else if (viewport.viewMode === 'isometric') {
+    // Isometric mode: render all floors, sorted bottom to top for proper z-ordering
+    regionsToRender = [...config.regions].sort((a, b) => (a.floor ?? 0) - (b.floor ?? 0));
   }
 
-  // Get current view mode
-  getViewMode(): ViewMode {
-    return this.currentViewMode;
+  // Continue with existing rendering logic using regionsToRender
+  // ...
+}
+```
+
+### T122: Add Vertical Offset for Isometric Mode
+
+**Location**: `src/app/utils/isometric-transform.ts`
+
+**Implementation Steps**:
+1. Add method to calculate Y-offset based on floor level
+2. Apply offset when rendering regions in isometric mode
+
+**Example Code**:
+```typescript
+export class IsometricTransform {
+  // Existing methods...
+
+  /**
+   * Calculate Y offset for a given floor level in isometric view
+   * Each floor level adds a fixed offset to create stacking effect
+   */
+  static getFloorYOffset(floor: number): number {
+    const FLOOR_HEIGHT = 50;  // Pixels offset per floor level
+    return -(floor * FLOOR_HEIGHT);  // Negative Y moves up in SVG coordinates
+  }
+
+  /**
+   * Apply floor offset to region Y coordinate for isometric rendering
+   */
+  static applyFloorOffset(region: Region): { x: number; y: number } {
+    return {
+      x: region.x,
+      y: region.y + this.getFloorYOffset(region.floor ?? 0)
+    };
   }
 }
 ```
 
-### T075-T077: BuildingLayoutComponent View Mode Integration
+### T123-T126: FloorSelectorComponent
+
+**Location**: `src/app/components/building-layout/floor-selector/`
+
+**Purpose**: UI component for selecting which floor to view in 2D mode
+
+**Component TypeScript**:
+```typescript
+@Component({
+  selector: 'app-floor-selector',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './floor-selector.component.html',
+  styleUrls: ['./floor-selector.component.scss']
+})
+export class FloorSelectorComponent {
+  @Input() floors: FloorInfo[] = [];
+  @Input() selectedFloor: number = 0;
+  @Output() floorChange = new EventEmitter<number>();
+
+  selectFloor(floor: number): void {
+    this.floorChange.emit(floor);
+  }
+}
+```
+
+**Template**:
+```html
+<div class="floor-selector">
+  <label>Floor:</label>
+  <div class="floor-buttons">
+    <button
+      *ngFor="let floorInfo of floors"
+      (click)="selectFloor(floorInfo.floor)"
+      [class.active]="floorInfo.floor === selectedFloor"
+      class="floor-btn">
+      {{ floorInfo.label }} ({{ floorInfo.regionCount }})
+    </button>
+  </div>
+</div>
+```
+
+**Styles**:
+```scss
+.floor-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  background: white;
+  border-radius: 4px;
+
+  label {
+    font-weight: 500;
+    color: #666;
+  }
+
+  .floor-buttons {
+    display: flex;
+    gap: 4px;
+  }
+
+  .floor-btn {
+    padding: 6px 12px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+
+    &:hover {
+      background: #e0e0e0;
+    }
+
+    &.active {
+      background: #2196F3;
+      color: white;
+      border-color: #2196F3;
+    }
+  }
+}
+```
+
+### T127-T130: Integrate Floor Selection into BuildingLayoutComponent
 
 **Location**: `src/app/components/building-layout/building-layout.component.ts`
 
 **Implementation Steps**:
-1. Add @Input viewMode property
-2. Add @Output viewModeChange EventEmitter
-3. Implement toggleViewMode() method
-4. Call renderer.setViewMode() when mode changes
+1. Add `@Input() selectedFloor` and `@Output() floorChange`
+2. Calculate available floors from config in `ngOnInit` or `ngOnChanges`
+3. Pass selected floor to renderer
+4. Show FloorSelectorComponent only in 2D mode
 
 **Example Code**:
 ```typescript
 export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDestroy {
-  @Input() config: LayoutConfiguration = { regions: [] };
-  @Input() width: number = 800;
-  @Input() height: number = 600;
-  @Input() viewMode: ViewMode = '2d';  // T075: NEW INPUT
+  // Existing inputs/outputs...
+  @Input() selectedFloor: number | null = null;
+  @Output() floorChange = new EventEmitter<number>();
 
-  @Output() regionHover = new EventEmitter<Region | null>();
-  @Output() regionClick = new EventEmitter<Region>();
-  @Output() viewModeChange = new EventEmitter<ViewMode>();  // T076: NEW OUTPUT
-
-  // ... existing code ...
-
-  ngAfterViewInit(): void {
-    // ... existing initialization ...
-
-    // Apply initial view mode
-    this.renderer.setViewMode(this.viewMode);
-  }
+  availableFloors: FloorInfo[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
-    // ... existing change detection ...
+    if (changes['config'] && this.config) {
+      this.availableFloors = FloorUtils.getAvailableFloors(this.config.regions);
 
-    // Detect view mode changes
-    if (changes['viewMode'] && !changes['viewMode'].firstChange) {
-      this.renderer.setViewMode(this.viewMode);
+      // Set default to lowest floor if not set
+      if (this.selectedFloor === null && this.availableFloors.length > 0) {
+        this.selectedFloor = FloorUtils.getLowestFloor(this.config.regions);
+      }
+
+      this.renderer.render(this.config, this.viewport, this.selectedFloor);
     }
+
+    // Existing view mode change detection...
   }
 
-  // T077: Toggle view mode
-  toggleViewMode(): void {
-    const newMode: ViewMode = this.viewMode === '2d' ? 'isometric' : '2d';
-    this.viewMode = newMode;
-    this.renderer.setViewMode(newMode);
-    this.viewModeChange.emit(newMode);
+  onFloorChange(floor: number): void {
+    this.selectedFloor = floor;
+    this.floorChange.emit(floor);
+    this.renderer.render(this.config, this.viewport, this.selectedFloor);
   }
 }
 ```
 
-### T078-T079: View Mode Toggle Button UI
-
-**Location**: `src/app/components/building-layout/building-layout.component.html`
-
-**Implementation Steps**:
-1. Add toggle button to controls section
-2. Bind click event to toggleViewMode()
-3. Show current view mode label
-4. Add icon or visual indicator
-
-**Example Template**:
+**Template Update**:
 ```html
 <div class="building-layout-container" [class.isometric-mode]="viewMode === 'isometric'">
   <div class="controls">
-    <button class="control-btn" (click)="zoomIn()">Zoom In (+)</button>
-    <button class="control-btn" (click)="zoomOut()">Zoom Out (-)</button>
-    <button class="control-btn" (click)="resetViewport()">Reset</button>
-
-    <!-- T078: View mode toggle button -->
-    <button class="control-btn view-toggle" (click)="toggleViewMode()">
+    <button (click)="zoomIn()" class="control-btn">Zoom In (+)</button>
+    <button (click)="zoomOut()" class="control-btn">Zoom Out (-)</button>
+    <button (click)="resetViewport()" class="control-btn">Reset</button>
+    <button (click)="toggleViewMode()" class="control-btn view-toggle">
       {{ viewMode === '2d' ? '3D View' : '2D View' }}
     </button>
   </div>
 
+  <!-- NEW: Floor selector (only in 2D mode) -->
+  <app-floor-selector
+    *ngIf="viewMode === '2d' && availableFloors.length > 1"
+    [floors]="availableFloors"
+    [selectedFloor]="selectedFloor ?? 0"
+    (floorChange)="onFloorChange($event)"
+  ></app-floor-selector>
+
   <svg #svgContainer class="layout-svg"></svg>
+
+  <div class="info-panel" *ngIf="hoveredRegion">
+    <h3>{{ hoveredRegion.label || hoveredRegion.id }}</h3>
+    <p>Position: ({{ hoveredRegion.x }}, {{ hoveredRegion.y }})</p>
+    <p>Size: {{ hoveredRegion.width }} x {{ hoveredRegion.height }}</p>
+    <p>Floor: {{ hoveredRegion.floor ?? 0 }}</p>  <!-- NEW: Show floor -->
+  </div>
 </div>
 ```
 
-**Styles** (`building-layout.component.scss`):
-```scss
-// T079: View toggle button styling
-.control-btn.view-toggle {
-  background: #FF9800;  // Different color to distinguish from zoom controls
-
-  &:hover {
-    background: #F57C00;
-  }
-}
-
-// Optional: Add icon
-.control-btn.view-toggle::before {
-  content: '📐 ';  // Isometric icon (or use font-awesome/material icons)
-}
-```
-
-### T080: Smooth Transition Animation
-
-**Location**: `src/app/components/building-layout/building-layout.component.scss`
-
-**Implementation Steps**:
-1. Add CSS transition to content-group
-2. Use ease-in-out timing for smooth effect
-3. Duration should be 0.5-0.8 seconds for comfortable viewing
-
-**Example Styles**:
-```scss
-::ng-deep {
-  .content-group {
-    // T080: Smooth transition between 2D and isometric views
-    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-    transform-origin: center center;
-    transform-style: preserve-3d;
-  }
-}
-```
-
-### T081: AppComponent Integration
+### T131-T132: Update AppComponent
 
 **Location**: `src/app/app.component.ts` and `src/app/app.component.html`
 
 **Implementation Steps**:
-1. Add viewMode property to AppComponent
-2. Bind to BuildingLayoutComponent
-3. Listen to viewModeChange events
-4. Display current mode in UI
+1. Add `currentFloor` property to track selected floor
+2. Pass to BuildingLayoutComponent
+3. Display in header
 
 **Example Code**:
 ```typescript
 // app.component.ts
-export class AppComponent {
-  layoutConfig: LayoutConfiguration | null = null;
-  hoveredRegion: Region | null = null;
-  currentViewMode: ViewMode = '2d';  // T081: Track view mode
+export class AppComponent implements OnInit {
+  // Existing properties...
+  currentFloor: number = 0;
 
-  onViewModeChange(newMode: ViewMode): void {
-    this.currentViewMode = newMode;
-    console.log('View mode changed to:', newMode);
+  onFloorChange(floor: number): void {
+    this.currentFloor = floor;
+    console.log('Floor changed to:', floor);
   }
 }
 ```
 
 ```html
 <!-- app.component.html -->
-<div class="app-container">
-  <header>
-    <h1>Building Layout Visualization</h1>
-    <p class="subtitle">
-      Interactive SVG Visualization with D3.js and Angular
-      <span class="view-mode-indicator">
-        ({{ currentViewMode === '2d' ? '2D View' : 'Isometric View' }})
-      </span>
-    </p>
-  </header>
+<header>
+  <h1>{{ title }}</h1>
+  <p class="subtitle">
+    Interactive SVG Visualization with D3.js and Angular
+    <span class="view-mode-indicator" *ngIf="!isLoading && !errorMessage">
+      ({{ currentViewMode === '2d' ? '2D View - Floor ' + currentFloor : 'Isometric View (All Floors)' }})
+    </span>
+  </p>
+</header>
 
-  <main>
-    <app-building-layout
-      *ngIf="layoutConfig"
-      [config]="layoutConfig"
-      [width]="1024"
-      [height]="768"
-      [viewMode]="currentViewMode"
-      (regionHover)="onRegionHover($event)"
-      (regionClick)="onRegionClick($event)"
-      (viewModeChange)="onViewModeChange($event)"
-    ></app-building-layout>
-  </main>
-</div>
+<main>
+  <app-building-layout
+    *ngIf="layoutConfig && !isLoading && !errorMessage"
+    [config]="layoutConfig"
+    [viewMode]="currentViewMode"
+    [selectedFloor]="currentFloor"
+    (viewModeChange)="onViewModeChange($event)"
+    (floorChange)="onFloorChange($event)"
+  ></app-building-layout>
+</main>
 ```
 
-### T082: Adjust Coordinate Label Visibility for Isometric
+### T133: Update Sample Data with Multi-Floor Example
+
+**Location**: `src/assets/sample-data/building-layout.json`
+
+**Example Data**:
+```json
+{
+  "name": "Multi-Floor Office Building",
+  "description": "Three-floor building with offices, conference rooms, and common areas",
+  "regions": [
+    // Ground Floor (floor: 0)
+    { "id": "lobby", "x": 0, "y": 0, "width": 400, "height": 200, "floor": 0, "label": "Main Lobby", "color": "#E8F5E9" },
+    { "id": "reception", "x": 400, "y": 0, "width": 200, "height": 200, "floor": 0, "label": "Reception", "color": "#C8E6C9" },
+
+    // First Floor (floor: 1)
+    { "id": "conf-1-1", "x": 0, "y": 0, "width": 300, "height": 200, "floor": 1, "label": "Conference Room 1", "color": "#E3F2FD" },
+    { "id": "office-1-1", "x": 300, "y": 0, "width": 200, "height": 200, "floor": 1, "label": "Office 101", "color": "#BBDEFB" },
+
+    // Second Floor (floor: 2)
+    { "id": "office-2-1", "x": 0, "y": 0, "width": 250, "height": 180, "floor": 2, "label": "Office 201", "color": "#FFF3E0" },
+    { "id": "office-2-2", "x": 250, "y": 0, "width": 250, "height": 180, "floor": 2, "label": "Office 202", "color": "#FFE0B2" }
+  ],
+  "metadata": {
+    "buildingName": "Tech Office Tower",
+    "floors": 3,
+    "units": "feet"
+  }
+}
+```
+
+### T134: Update Coordinate Labels for Multi-Floor
 
 **Location**: `src/app/services/svg-renderer.service.ts`
 
 **Implementation Steps**:
-1. Modify coordinate label visibility logic
-2. Use different thresholds for isometric view (regions appear smaller)
-3. Consider hiding labels entirely in isometric view as an option
+1. In isometric mode, show floor number in coordinate labels
+2. Format as `(x, y, floor: z)` or `(x, y) [F2]`
 
 **Example Code**:
 ```typescript
-// In render() method, update coordinate label visibility
-.style('display', d => {
-  const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
-  const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
-
-  // T082: Adjust thresholds based on view mode
-  const minWidth = this.currentViewMode === 'isometric' ? 80 : 60;
-  const minHeight = this.currentViewMode === 'isometric' ? 60 : 40;
-
-  return (widthPx < minWidth || heightPx < minHeight) ? 'none' : 'block';
+// In render() method, update coordinate label text
+.text(d => {
+  if (this.currentViewMode === 'isometric') {
+    return `(${d.x}, ${d.y}) F${d.floor ?? 0}`;
+  } else {
+    return `(${d.x}, ${d.y})`;
+  }
 })
 ```
 
-### T083-T084: Test Interactions in Isometric View
+### Testing Multi-Floor Feature
 
-**Manual Testing Tasks**:
+**Manual Test Cases**:
 
-**T083: Zoom/Pan in Isometric**:
-1. Switch to isometric view
-2. Test zoom in/out - verify transform stacks correctly with isometric projection
-3. Test pan - verify pan works smoothly
-4. Test reset viewport - verify returns to isometric view (not 2D)
+1. **Floor Filtering (2D Mode)**:
+   - Load multi-floor configuration
+   - Verify floor selector appears in 2D mode
+   - Switch between floors, verify only selected floor regions visible
+   - Verify default floor is lowest floor
 
-**T084: Hover/Click in Isometric**:
-1. Switch to isometric view
-2. Hover over regions - verify hover detection works (mouse coordinates still map correctly)
-3. Click regions - verify click events fire
-4. Check tooltip positioning - may need adjustment for isometric projection
-5. Verify all interactive features from User Story 3 work in both view modes
+2. **Isometric Stacking (3D Mode)**:
+   - Toggle to isometric view
+   - Verify all floors render
+   - Verify floors stack properly (higher floors appear "above" lower floors)
+   - Verify no floor selector in isometric mode
 
-### Visual Example
+3. **Floor Transitions**:
+   - Switch from 2D to 3D mode, verify all floors become visible
+   - Switch from 3D to 2D mode, verify returns to previously selected floor (or lowest if first time)
 
-**2D View** (standard):
-```
-┌─────────────┐
-│   Room 1    │
-│             │
-└─────────────┘
-```
-
-**Isometric View** (transformed):
-```
-    ┌─────────────┐
-   /             /│
-  /   Room 1    / │
- /             /  │
-└─────────────┘  /
- │             │/
- └─────────────┘
-```
+4. **Edge Cases**:
+   - Single-floor configuration: floor selector should not appear
+   - Configuration with non-sequential floors (0, 2, 5): should all be selectable
+   - Empty floor (no regions): should still be selectable
 
 ### Integration Notes
 
-- Isometric view is a visual transformation only - data model remains 2D
-- All existing features (zoom, pan, hover, click, coordinate labels) should work in both modes
-- CSS 3D transforms are well-supported in modern browsers (Chrome, Firefox, Safari)
-- No new dependencies required - uses existing D3.js + Angular + CSS
-- Toggle should be intuitive and clearly labeled
-- Consider adding keyboard shortcut (e.g., 'i' key) for quick toggle
-- Performance should remain the same - CSS transforms are GPU-accelerated
+- Floor property is optional and defaults to 0 for backward compatibility
+- Existing single-floor configurations continue to work without changes
+- Floor selector only appears when there are multiple floors AND in 2D mode
+- Isometric mode always shows all floors for comprehensive 3D view
+- Floor numbering starts at 0 (ground floor) and increases upward (1, 2, 3, etc.)
+- No support for negative floors (basements) in v1 - can be added later if needed
 
-### Browser Compatibility
+---
 
-CSS 3D transforms are supported in:
-- Chrome 12+
-- Firefox 10+
-- Safari 4+
-- Edge (all versions)
-
-This matches the project's browser support requirements from plan.md.
+**Current Implementation Status** (as of 2025-12-05):
+- ✅ Phase 1-2 (Setup & Foundation): Complete
+- ✅ Phase 3 (User Story 1 - Configuration): Complete
+- ✅ Phase 4 (User Story 2 - Visualization): Complete (includes coordinate labeling)
+- ⏸️ Phase 5 (User Story 3 - Interaction): Partial (basic hover/click, missing tooltip component)
+- ✅ Phase 6 (User Story 4 - Isometric View): Complete (T069-T082)
+- ⏸️ Phase 6b (User Story 5 - Multi-Floor Z-Dimension): **PENDING** (T113-T137)
+- ✅ Phase 7 (Demo Integration): Complete
+- ✅ Phase 8 (Load from JSON): Complete
+- ⏸️ Phase 9 (Polish & Testing): Pending

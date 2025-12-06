@@ -6,6 +6,7 @@ import { Viewport, ViewMode } from '../models/viewport.interface';
 import { Region } from '../models/region.interface';
 import { ScaleCalculator } from '../utils/scale-calculator';
 import { IsometricTransform } from '../utils/isometric-transform';
+import { FloorUtils } from '../utils/floor-utils';  // T119: Import floor utilities
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +38,20 @@ export class SvgRendererService {
     this.svg.call(this.zoom);
   }
 
-  // T028 & T030: Render layout configuration with D3 data join pattern
-  render(config: LayoutConfiguration, viewport: Viewport): void {
+  // T028 & T030 & T119: Render layout configuration with D3 data join pattern
+  render(config: LayoutConfiguration, viewport: Viewport, selectedFloor?: number | null): void {
     if (!this.svg || !this.contentGroup) return;
+
+    // T119-T121: Determine which regions to render based on view mode and selected floor
+    let regionsToRender: Region[] = config.regions;
+
+    if (viewport.viewMode === '2d' && selectedFloor !== null && selectedFloor !== undefined) {
+      // T120: 2D mode - filter by selected floor
+      regionsToRender = FloorUtils.filterRegionsByFloor(config.regions, selectedFloor);
+    } else if (viewport.viewMode === 'isometric') {
+      // T121: Isometric mode - render all floors, sorted bottom to top for proper z-ordering
+      regionsToRender = [...config.regions].sort((a, b) => (a.floor ?? 0) - (b.floor ?? 0));
+    }
 
     const { xScale, yScale } = ScaleCalculator.calculateFitScales(
       config,
@@ -50,7 +62,7 @@ export class SvgRendererService {
     // T030: D3 data join pattern for regions
     const rects = this.contentGroup
       .selectAll<SVGRectElement, Region>('rect.region')
-      .data(config.regions, d => d.id);
+      .data(regionsToRender, d => d.id);
 
     // Enter + Update
     rects.enter()
@@ -69,7 +81,7 @@ export class SvgRendererService {
     // Add labels
     const labels = this.contentGroup
       .selectAll<SVGTextElement, Region>('text.region-label')
-      .data(config.regions.filter(r => r.label), d => d.id);
+      .data(regionsToRender.filter(r => r.label), d => d.id);
 
     labels.enter()
       .append('text')
@@ -86,7 +98,7 @@ export class SvgRendererService {
     // T040a: Add bottom-left coordinate labels (x, y)
     const coordLabelsBL = this.contentGroup
       .selectAll<SVGTextElement, Region>('text.coord-label-bl')
-      .data(config.regions, d => d.id);
+      .data(regionsToRender, d => d.id);
 
     coordLabelsBL.enter()
       .append('text')
@@ -96,7 +108,14 @@ export class SvgRendererService {
       .attr('y', d => yScale(d.y) + 15)  // Small offset from corner
       .attr('text-anchor', 'start')
       .attr('dominant-baseline', 'hanging')
-      .text(d => `(${d.x}, ${d.y})`)
+      // T134: Show floor in isometric mode
+      .text(d => {
+        if (this.currentViewMode === 'isometric') {
+          return `(${d.x}, ${d.y}) F${d.floor ?? 0}`;
+        } else {
+          return `(${d.x}, ${d.y})`;
+        }
+      })
       .style('font-size', '10px')
       .style('font-family', 'monospace')
       .style('fill', '#666')
@@ -115,7 +134,7 @@ export class SvgRendererService {
     // T040b: Add top-right coordinate labels (x+width, y+height)
     const coordLabelsTR = this.contentGroup
       .selectAll<SVGTextElement, Region>('text.coord-label-tr')
-      .data(config.regions, d => d.id);
+      .data(regionsToRender, d => d.id);
 
     coordLabelsTR.enter()
       .append('text')
@@ -125,7 +144,14 @@ export class SvgRendererService {
       .attr('y', d => yScale(d.y + d.height) - 5)  // Small offset from corner
       .attr('text-anchor', 'end')
       .attr('dominant-baseline', 'auto')
-      .text(d => `(${d.x + d.width}, ${d.y + d.height})`)
+      // T134: Show floor in isometric mode
+      .text(d => {
+        if (this.currentViewMode === 'isometric') {
+          return `(${d.x + d.width}, ${d.y + d.height}) F${d.floor ?? 0}`;
+        } else {
+          return `(${d.x + d.width}, ${d.y + d.height})`;
+        }
+      })
       .style('font-size', '10px')
       .style('font-family', 'monospace')
       .style('fill', '#666')

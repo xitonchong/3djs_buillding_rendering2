@@ -4,9 +4,9 @@
     <h1>{{ title }}</h1>
     <p class="subtitle">
       Interactive SVG Visualization with D3.js and Angular
-      <!-- T081: Display current view mode -->
+      <!-- T081 & T132: Display current view mode and floor -->
       <span class="view-mode-indicator" *ngIf="!isLoading && !errorMessage">
-        ({{ currentViewMode === '2d' ? '2D View' : 'Isometric View' }})
+        ({{ currentViewMode === '2d' ? '2D View - Floor ' + currentFloor : 'Isometric View (All Floors)' }})
       </span>
     </p>
     <p class="subtitle-note">Configuration loaded from: assets/sample-data/building-layout.json</p>
@@ -40,10 +40,12 @@
       [showControls]="true"
       [enableInteraction]="true"
       [viewMode]="currentViewMode"
+      [selectedFloor]="currentFloor"
       (regionHover)="onRegionHover($event)"
       (regionClick)="onRegionClick($event)"
       (renderComplete)="onRenderComplete()"
       (viewModeChange)="onViewModeChange($event)"
+      (floorChange)="onFloorChange($event)"
     ></app-building-layout>
   </main>
 

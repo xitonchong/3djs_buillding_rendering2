@@ -1,0 +1,14 @@
+<!-- T125: FloorSelectorComponent template with floor selection buttons -->
+<div class="floor-selector">
+  <label class="floor-label">Floor:</label>
+  <div class="floor-buttons">
+    <button
+      *ngFor="let floorInfo of floors"
+      (click)="selectFloor(floorInfo.floor)"
+      [class.active]="floorInfo.floor === selectedFloor"
+      class="floor-btn"
+      type="button">
+      {{ floorInfo.label }} ({{ floorInfo.regionCount }})
+    </button>
+  </div>
+</div>

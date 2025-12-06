@@ -18,4 +18,7 @@ export interface Viewport {
 
   // T070: View mode - controls 2D vs isometric projection
   viewMode: ViewMode;
+
+  // T118: Selected floor for 2D mode (null = show all floors in isometric mode)
+  currentFloor?: number | null;
 }
