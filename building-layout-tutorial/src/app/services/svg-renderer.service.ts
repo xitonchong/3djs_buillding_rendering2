@@ -9,7 +9,7 @@ import { IsometricProjection } from '../utils/isometric-projection'; // Using th
 import { FloorUtils } from '../utils/floor-utils';
 
 const FLOOR_HEIGHT = 300; // Vertical distance between floors
-const WALL_HEIGHT = 300; // Height of the walls
+
 
 @Injectable({
   providedIn: 'root'
@@ -77,7 +77,85 @@ export class SvgRendererService {
       .attr('stroke', d => d.strokeColor || '#2196F3')
       .attr('stroke-width', 2);
 
+    const coordLabelsBL = this.contentGroup!
+      .selectAll<SVGTextElement,Region>('text.coord-label-bl')
+      .data(regionsToRender, d => d.id); 
+
+    coordLabelsBL.enter() 
+      .append('text')
+      .attr('class', 'coord-label-bl') 
+      .merge(coordLabelsBL) 
+      .attr('x', d => xScale(d.x) + 5) 
+      .attr('y', d => yScale(d.y) + 15)
+      // small offset fro corner
+      .attr('text-anchor', 'start') 
+      .attr('dominant-baseline', 'hanging') 
+      .text(d => `(${d.x}, ${d.y})`)
+      .style('font-size', '10px')
+      .style('font-family', 'monospace')
+      .style('fill', '#666')
+      .style('pointer-events', 'none')
+      .style('user-select', 'none')
+      // T040d: Conditional visibility based on region size to prevent overlap
+      .style('display', d => {
+        const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
+        const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
+        // Hide coordinate labels if region is too small
+        return (widthPx < 60 || heightPx < 40) ? 'none' : 'block';
+      });
+
+
+
+    // Add labels
+    const labels = this.contentGroup!
+      .selectAll<SVGTextElement, Region>('text.region-label')
+      .data(regionsToRender
+      .filter(r => r.label), d => d.id);
+
+    labels.enter()
+      .append('text')
+      .attr('class', 'region-label')
+      .merge(labels)
+      .attr('x', d => xScale(d.x + d.width / 2))
+      .attr('y', d => yScale(d.y + d.height / 2))
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'middle')
+      .attr('fill', '#333')
+      .attr('font-size', '14px')
+      .text(d => d.label || '');
+
+    const coordLabelsTR = this.contentGroup! 
+      .selectAll<SVGTextElement,Region>('text.coord-label-tr')
+      .data(regionsToRender, d => d.id); 
+
+    coordLabelsTR.enter() 
+      .append('text')
+      .attr('class', 'coord-label-tr')
+      .merge(coordLabelsTR) 
+      .attr('x', d => xScale(d.x + d.width) -5) // small offset from corner 
+      .attr('y', d=> yScale(d.y + d.height) -5) // small offset from corner
+      .attr('text-anchor', 'end')
+      .attr('dominant-baseline', 'auto')
+      .text(d => `${d.x + d.width}, ${d.y + d.height}`)
+      .style('font-size', '10px')
+      .style('font-family', 'monospace')
+      .style('fill', '#666')
+      .style('user-select', 'none')
+      .style('pointer-events', 'none')
+      // T040d & T082: Conditional visibility based on region size to prevent overlap
+      .style('display', d => {
+        const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
+        const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
+        // Adjust thresholds based on view mode - isometric needs larger regions
+        const minWidth = this.currentViewMode === 'isometric' ? 80 : 60;
+        const minHeight = this.currentViewMode === 'isometric' ? 60 : 40;
+        return (widthPx < minWidth || heightPx < minHeight) ? 'none' : 'block';
+      });
+
     rects.exit().remove();
+    labels.exit().remove(); 
+    coordLabelsBL.exit().remove(); 
+    coordLabelsTR.exit().remove(); 
   }
 
   private renderIsometric(config: LayoutConfiguration, viewport: Viewport): void {
@@ -112,30 +190,6 @@ export class SvgRendererService {
       const group = d3.select(nodes[i]);
       const z = (d.floor ?? 0) * FLOOR_HEIGHT;
 
-      // Wall 1 (back-left)
-      // const wall1Points: [number, number, number][] = [
-      //   [d.x, d.y, z],
-      //   [d.x + d.width, d.y, z],
-      //   [d.x + d.width, d.y, z - WALL_HEIGHT],
-      //   [d.x, d.y, z - WALL_HEIGHT]
-      // ];
-      // group.select('.wall-face-1')
-      //   .attr('points', this.isometricProj.projectPolygon(wall1Points))
-      //   .attr('fill', d3.color(d.color || '#ccc')?.darker(0.5).toString() ?? '#999')
-      //   .attr('fill-opacity', 0.1);
-
-      // Wall 2 (back-right)
-      // const wall2Points: [number, number, number][] = [
-      //   [d.x + d.width, d.y, z],
-      //   [d.x + d.width, d.y + d.height, z],
-      //   [d.x + d.width, d.y + d.height, z - WALL_HEIGHT],
-      //   [d.x + d.width, d.y, z - WALL_HEIGHT]
-      // ];
-      // group.select('.wall-face-2')
-      //   .attr('points', this.isometricProj.projectPolygon(wall2Points))
-      //   .attr('fill', d3.color(d.color || '#ccc')?.darker(0.7).toString() ?? '#888')
-      //   .attr('fill-opacity', 0.1);
-
       // Floor surface
       const floorPoints: [number, number, number][] = [
         [d.x, d.y, z],
@@ -161,8 +215,58 @@ export class SvgRendererService {
         .text(d.label || '');
     });
 
+    // T083: Add 3D coordinate labels
+    const coordLabels = this.contentGroup!
+      .selectAll<SVGGElement, Region>('g.coord-labels')
+      .data(regionsToRender, d => d.id);
+
+    const enterLabels = coordLabels.enter()
+      .append('g')
+      .attr('class', 'coord-labels');
+
+    enterLabels.append('text').attr('class', 'coord-label-bl');
+    enterLabels.append('text').attr('class', 'coord-label-tr');
+
+    const allLabels = enterLabels.merge(coordLabels);
+
+    allLabels.each((d, i, nodes) => {
+      const group = d3.select(nodes[i]);
+      const z = (d.floor ?? 0) * FLOOR_HEIGHT;
+
+      const [blX, blY] = this.isometricProj.project(d.x, d.y, z);
+      const [trX, trY] = this.isometricProj.project(d.x + d.width, d.y + d.height, z);
+
+      group.select('.coord-label-bl')
+        .attr('x', blX + 5)
+        .attr('y', blY + 5)
+        .attr('text-anchor', 'start')
+        .attr('dominant-baseline', 'hanging')
+        .text(`(${d.x}, ${d.y})`);
+
+      group.select('.coord-label-tr')
+        .attr('x', trX - 5)
+        .attr('y', trY - 5)
+        .attr('text-anchor', 'end')
+        .attr('dominant-baseline', 'auto')
+        .text(`(${d.x + d.width}, ${d.y + d.height})`);
+
+      group.selectAll('text')
+        .style('font-size', '10px')
+        .style('font-family', 'monospace')
+        .style('fill', '#666')
+        .style('pointer-events', 'none')
+        .style('user-select', 'none')
+        // .style('display', () => {
+        //   const [w, h] = this.isometricProj.project(d.width, d.height, 0);
+        //   const minWidth = 80;
+        //   const minHeight = 60;
+        //   return (Math.abs(w) < minWidth || Math.abs(h) < minHeight) ? 'none' : 'block';
+        // });
+    });
+
+    coordLabels.exit().remove();
+
     regionGroups.exit().remove();
-    
     // Auto-zoom to fit content
     this.resetViewport(true);
   }

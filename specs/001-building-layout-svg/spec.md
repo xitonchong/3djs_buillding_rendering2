@@ -83,6 +83,7 @@ A user wants to interact with the visualized building layout by hovering over or
 - **Region**: Represents a rectangular area in the building layout
   - Position: X-Y coordinates (top-left corner)
   - Dimensions: width and height
+  - Floor: Floor level (0 = ground floor, 1 = first floor, etc.) - defaults to 0
   - Optional: label/identifier, color, metadata
 
 - **Layout Configuration**: Collection of regions defining the complete building layout
@@ -94,6 +95,8 @@ A user wants to interact with the visualized building layout by hovering over or
   - Current zoom level
   - Pan offset (X, Y)
   - Visible region bounds
+  - View mode: 2D or isometric perspective
+  - Current floor: Selected floor level for 2D view (null in isometric mode shows all floors)
 
 ## Success Criteria *(mandatory)*
 
@@ -110,15 +113,21 @@ A user wants to interact with the visualized building layout by hovering over or
 
 - Regions are always rectangular (no support for polygons or irregular shapes in this version)
 - Coordinate system uses standard Cartesian coordinates (X increases right, Y increases down - typical for screen coordinates)
-- All regions exist on a single 2D plane (no Z-axis or multi-floor support in this version)
+- Regions can exist on multiple floor levels (Z-dimension supported via floor property)
 - Initial viewport shows the entire layout (auto-fit to bounds)
 - Configuration is provided as structured data (JSON or similar) rather than drawn interactively
-- SVG rendering is sufficient (no requirement for WebGL or canvas-based rendering)
+- SVG rendering with CSS 3D transforms for isometric view (no requirement for WebGL or canvas-based rendering)
+
+## Implemented Features
+
+- Multi-floor building layouts with Z-dimension support
+- Isometric (3D perspective) view mode with standard 30° technical drawing projection
+- Floor selection in 2D mode with automatic filtering
+- CSS 3D transforms for isometric rendering
 
 ## Out of Scope
 
 - Interactive drawing or editing of regions directly on the visualization
-- 3D visualization or multi-floor building layouts
 - Pathfinding or routing between regions
 - Real-time collaboration or multi-user editing
 - Export to other formats (PDF, PNG, etc.)
