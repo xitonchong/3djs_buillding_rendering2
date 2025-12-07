@@ -542,3 +542,432 @@ export class LayoutConfigValidator {
 2. Define component input/output contracts
 3. Define service method contracts
 4. Generate API documentation (TypeDoc)
+
+---
+
+# Extension: Student Movement Tracking Data Model
+
+**Extension Date**: 2025-12-07
+**Purpose**: Data models for student movement tracking and synthetic data generation
+
+## Movement Tracking Entities
+
+### 7. MovementData
+
+Represents a single movement record showing students moving from one region to another during a specific time period.
+
+**TypeScript Interface**:
+```typescript
+export interface MovementData {
+  // Identity
+  id: string;                    // Unique identifier (required)
+
+  // Movement Details
+  fromRegion: string;            // Source region ID (required)
+  toRegion: string;              // Destination region ID (required)
+  moves: number;                 // Number of students (required, positive integer)
+
+  // Temporal Information
+  workweek: string;              // Format: YYYYWW (e.g., "202525" = 2025, week 25)
+  timestamp?: Date;              // Optional: parsed date for sorting/filtering
+
+  // Optional Metadata
+  metadata?: {
+    peakHour?: number;           // Hour of day (0-23) when movement occurred
+    dayOfWeek?: number;          // 1=Monday, 7=Sunday
+    category?: string;           // e.g., "class-change", "lunch-break", "arrival", "dismissal"
+    duration?: number;           // Average duration in minutes
+    [key: string]: any;          // Additional custom properties
+  };
+}
+```
+
+**Validation Rules**:
+- `id` must be unique within dataset
+- `fromRegion` must exist in LayoutConfiguration.regions
+- `toRegion` must exist in LayoutConfiguration.regions
+- `fromRegion` ≠ `toRegion` (no self-loops)
+- `moves` must be positive integer (`moves > 0`)
+- `workweek` must match `/^\d{4}(0[1-9]|[1-4][0-9]|5[0-3])$/`
+  - 4-digit year (YYYY)
+  - 2-digit week number (01-53)
+  - Week 01 = week containing first Thursday of year
+- `metadata.peakHour` must be 0-23 if provided
+- `metadata.dayOfWeek` must be 1-7 if provided
+
+**Example**:
+```json
+{
+  "id": "mov-001",
+  "fromRegion": "classroom-201",
+  "toRegion": "cafeteria",
+  "moves": 28,
+  "workweek": "202525",
+  "timestamp": "2025-06-16T00:00:00Z",
+  "metadata": {
+    "peakHour": 12,
+    "dayOfWeek": 1,
+    "category": "lunch-break",
+    "duration": 5
+  }
+}
+```
+
+---
+
+### 8. MovementGeneratorConfig
+
+Configuration for generating synthetic movement data.
+
+**TypeScript Interface**:
+```typescript
+export interface MovementGeneratorConfig {
+  // Region Context
+  regions: string[];             // Array of valid region IDs (required)
+
+  // Time Range
+  startWeek: string;             // Start workweek YYYYWW (required)
+  endWeek: string;               // End workweek YYYYWW (required)
+
+  // Generation Parameters
+  recordsPerWeek: number;        // How many movement records per week (required)
+  minMoves: number;              // Minimum students per movement (required, >= 1)
+  maxMoves: number;              // Maximum students per movement (required, > minMoves)
+
+  // Optional: Reproducibility
+  seed?: number | string;        // Seed for random number generator (for reproducible data)
+
+  // Optional: Realistic Patterns
+  useRealisticPatterns?: boolean; // Apply time-of-day and destination weighting (default: false)
+  dailyPattern?: TimeSlot[];      // Custom time-based movement patterns
+}
+```
+
+**Validation Rules**:
+- `regions` must not be empty array
+- `startWeek` and `endWeek` must be valid YYYYWW format
+- `startWeek` ≤ `endWeek`
+- `recordsPerWeek` must be positive integer
+- `minMoves >= 1`
+- `maxMoves > minMoves`
+
+**Example**:
+```json
+{
+  "regions": ["room-101", "room-102", "cafeteria", "library", "gym"],
+  "startWeek": "202501",
+  "endWeek": "202510",
+  "recordsPerWeek": 50,
+  "minMoves": 5,
+  "maxMoves": 30,
+  "seed": "building-A-2025",
+  "useRealisticPatterns": true
+}
+```
+
+---
+
+### 9. TimeSlot
+
+Defines movement patterns for specific time periods (used for realistic data generation).
+
+**TypeScript Interface**:
+```typescript
+export interface TimeSlot {
+  // Time Period
+  startHour: number;             // Start hour (0-23)
+  endHour: number;               // End hour (0-23)
+
+  // Movement Intensity
+  lambda: number;                // Average movements per minute (Poisson parameter)
+
+  // Destination Preferences
+  destinations: Array<{
+    id: string;                  // Region ID
+    weight: number;              // Relative probability weight (positive)
+  }>;
+}
+```
+
+**Validation Rules**:
+- `startHour` must be 0-23
+- `endHour` must be 0-23
+- `endHour` > `startHour`
+- `lambda` must be positive
+- `destinations` must not be empty
+- All `destination.id` must exist in regions list
+- All `destination.weight` must be positive
+
+**Example (Lunch Period)**:
+```json
+{
+  "startHour": 12,
+  "endHour": 13,
+  "lambda": 12,
+  "destinations": [
+    { "id": "cafeteria", "weight": 8 },
+    { "id": "outdoor-area", "weight": 2 },
+    { "id": "library", "weight": 1 }
+  ]
+}
+```
+
+---
+
+### 10. MovementSummary
+
+Aggregated movement statistics for visualization and analysis.
+
+**TypeScript Interface**:
+```typescript
+export interface MovementSummary {
+  // Aggregation Period
+  workweek: string;              // YYYYWW or "all" for overall summary
+
+  // Region-Level Statistics
+  regionStats: Array<{
+    regionId: string;
+    totalIncoming: number;       // Total students entering
+    totalOutgoing: number;       // Total students leaving
+    netFlow: number;             // Incoming - Outgoing
+    topSources: Array<{ regionId: string, count: number }>;  // Top 5 origins
+    topDestinations: Array<{ regionId: string, count: number }>; // Top 5 destinations
+  }>;
+
+  // Overall Statistics
+  totalMovements: number;        // Total movement records
+  totalStudents: number;         // Sum of all moves
+  averageMovesPerRecord: number;
+  peakHour?: number;             // Hour with most movement
+  peakDay?: number;              // Day of week with most movement
+}
+```
+
+**Usage**: Dashboard displays, analytics, performance monitoring
+
+---
+
+## Movement Validation Logic
+
+### MovementData Validator
+
+**TypeScript Implementation**:
+```typescript
+export class MovementDataValidator {
+  static validate(
+    movement: MovementData,
+    availableRegions: string[]
+  ): ValidationResult {
+    const errors: string[] = [];
+
+    // Required fields
+    if (!movement.id || movement.id.trim() === '') {
+      errors.push('Movement ID is required');
+    }
+    if (!movement.fromRegion || movement.fromRegion.trim() === '') {
+      errors.push('fromRegion is required');
+    }
+    if (!movement.toRegion || movement.toRegion.trim() === '') {
+      errors.push('toRegion is required');
+    }
+    if (typeof movement.moves !== 'number' || movement.moves <= 0) {
+      errors.push('moves must be a positive number');
+    }
+    if (!movement.workweek) {
+      errors.push('workweek is required');
+    }
+
+    // Workweek format validation
+    const workweekRegex = /^\d{4}(0[1-9]|[1-4][0-9]|5[0-3])$/;
+    if (movement.workweek && !workweekRegex.test(movement.workweek)) {
+      errors.push(`Invalid workweek format: ${movement.workweek}. Expected YYYYWW`);
+    }
+
+    // Region existence validation
+    if (movement.fromRegion && !availableRegions.includes(movement.fromRegion)) {
+      errors.push(`fromRegion "${movement.fromRegion}" not found in available regions`);
+    }
+    if (movement.toRegion && !availableRegions.includes(movement.toRegion)) {
+      errors.push(`toRegion "${movement.toRegion}" not found in available regions`);
+    }
+
+    // No self-loops
+    if (movement.fromRegion === movement.toRegion) {
+      errors.push('fromRegion and toRegion cannot be the same');
+    }
+
+    // Metadata validation (if present)
+    if (movement.metadata) {
+      if (movement.metadata.peakHour !== undefined) {
+        if (movement.metadata.peakHour < 0 || movement.metadata.peakHour > 23) {
+          errors.push('metadata.peakHour must be between 0 and 23');
+        }
+      }
+      if (movement.metadata.dayOfWeek !== undefined) {
+        if (movement.metadata.dayOfWeek < 1 || movement.metadata.dayOfWeek > 7) {
+          errors.push('metadata.dayOfWeek must be between 1 and 7');
+        }
+      }
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+}
+```
+
+---
+
+### MovementGeneratorConfig Validator
+
+**TypeScript Implementation**:
+```typescript
+export class MovementGeneratorConfigValidator {
+  static validate(config: MovementGeneratorConfig): ValidationResult {
+    const errors: string[] = [];
+
+    // Regions validation
+    if (!Array.isArray(config.regions) || config.regions.length === 0) {
+      errors.push('regions must be a non-empty array');
+    }
+
+    // Workweek format validation
+    const workweekRegex = /^\d{4}(0[1-9]|[1-4][0-9]|5[0-3])$/;
+    if (!workweekRegex.test(config.startWeek)) {
+      errors.push(`Invalid startWeek format: ${config.startWeek}`);
+    }
+    if (!workweekRegex.test(config.endWeek)) {
+      errors.push(`Invalid endWeek format: ${config.endWeek}`);
+    }
+
+    // Week range validation
+    if (config.startWeek > config.endWeek) {
+      errors.push('startWeek must be <= endWeek');
+    }
+
+    // Generation parameters
+    if (config.recordsPerWeek <= 0) {
+      errors.push('recordsPerWeek must be positive');
+    }
+    if (config.minMoves < 1) {
+      errors.push('minMoves must be >= 1');
+    }
+    if (config.maxMoves <= config.minMoves) {
+      errors.push('maxMoves must be > minMoves');
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+}
+```
+
+---
+
+## Movement Data Relationships
+
+### Entity Relationship Diagram (Extended)
+
+```
+┌─────────────────────┐
+│ LayoutConfiguration │
+│                     │
+│ - regions[]         │
+└──────────┬──────────┘
+           │ references
+           │
+           ▼
+    ┌──────────┐         ┌─────────────────┐
+    │  Region  │◄────────│  MovementData   │
+    │          │ from/to │                 │
+    │ - id     │         │ - fromRegion    │
+    │ - label  │         │ - toRegion      │
+    └──────────┘         │ - moves         │
+                         │ - workweek      │
+                         └─────────────────┘
+                                  ▲
+                                  │ generates
+                                  │
+                     ┌────────────┴──────────────┐
+                     │ MovementGeneratorConfig   │
+                     │                           │
+                     │ - regions[]               │
+                     │ - startWeek / endWeek     │
+                     │ - minMoves / maxMoves     │
+                     │ - seed                    │
+                     └───────────────────────────┘
+```
+
+**Notes**:
+- MovementData references Region via `fromRegion` and `toRegion` (foreign keys)
+- MovementGeneratorConfig produces MovementData records
+- MovementSummary aggregates MovementData for analytics
+
+---
+
+## Sample Movement Data
+
+### Single Movement Record
+```json
+{
+  "id": "mov-20250625-001",
+  "fromRegion": "classroom-101",
+  "toRegion": "cafeteria",
+  "moves": 25,
+  "workweek": "202525",
+  "timestamp": "2025-06-16T12:05:00Z",
+  "metadata": {
+    "peakHour": 12,
+    "dayOfWeek": 1,
+    "category": "lunch-break"
+  }
+}
+```
+
+### Movement Dataset (Multiple Records)
+```json
+[
+  {
+    "id": "mov-001",
+    "fromRegion": "main-entrance",
+    "toRegion": "classroom-101",
+    "moves": 30,
+    "workweek": "202525",
+    "metadata": { "category": "arrival", "peakHour": 8 }
+  },
+  {
+    "id": "mov-002",
+    "fromRegion": "classroom-101",
+    "toRegion": "classroom-102",
+    "moves": 15,
+    "workweek": "202525",
+    "metadata": { "category": "class-change", "peakHour": 9 }
+  },
+  {
+    "id": "mov-003",
+    "fromRegion": "classroom-102",
+    "toRegion": "cafeteria",
+    "moves": 28,
+    "workweek": "202525",
+    "metadata": { "category": "lunch-break", "peakHour": 12 }
+  }
+]
+```
+
+---
+
+## Extension Next Steps
+
+1. ✅ Movement data model defined
+2. ⏭️ Generate TypeScript interface contracts (contracts/)
+3. ⏭️ Define MovementGeneratorService method signatures
+4. ⏭️ Define MovementVisualizerService method signatures
+5. ⏭️ Update quickstart.md with movement tracking usage
+
+---
+
+**Data Model Last Updated**: 2025-12-07

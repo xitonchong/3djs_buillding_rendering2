@@ -1216,3 +1216,241 @@ If the 30° tilt causes issues (e.g., interactions broken, too cramped):
 - ⏸️ Phase 9 (Polish & Testing): Pending
 
 **Latest Update**: Phase 6c completed - Isometric view now uses standard 30° tilt on XY plane following ISO 5456-3 technical drawing standards
+
+---
+
+# EXTENSION: Student Movement Tracking
+
+**Added**: 2025-12-07
+**Purpose**: Extend building layout with student movement tracking and synthetic data generation
+
+---
+
+## Phase 10: Movement Tracking Setup (Dependencies & Configuration)
+
+**Purpose**: Install new libraries for movement tracking extension
+
+- [ ] T149 Install date-fns library (npm install date-fns) for ISO week date handling
+- [ ] T150 Install seedrandom library (npm install seedrandom @types/seedrandom) for reproducible RNG
+- [ ] T151 [P] Install d3-sankey library (npm install d3-sankey @types/d3-sankey) for flow visualization
+
+**Checkpoint**: All movement tracking dependencies installed
+
+---
+
+## Phase 11: Movement Tracking Foundation (Core Data Models & Utilities)
+
+**Purpose**: Core interfaces and utilities for movement tracking
+
+**⚠️ CRITICAL**: No movement tracking work can begin until this phase is complete
+
+- [ ] T152 [P] Create MovementData interface in building-layout-tutorial/src/app/models/movement-data.interface.ts
+- [ ] T153 [P] Create MovementGeneratorConfig interface in building-layout-tutorial/src/app/models/movement-data.interface.ts
+- [ ] T154 [P] Create TimeSlot interface in building-layout-tutorial/src/app/models/movement-data.interface.ts
+- [ ] T155 Implement parseWorkweek function in building-layout-tutorial/src/app/utils/workweek-parser.ts
+- [ ] T156 Implement formatWorkweek function in building-layout-tutorial/src/app/utils/workweek-parser.ts
+- [ ] T157 Implement validateWorkweek function in building-layout-tutorial/src/app/utils/workweek-parser.ts
+- [ ] T158 Add workweek regex validation constant in building-layout-tutorial/src/app/utils/workweek-parser.ts
+
+**Checkpoint**: Movement tracking foundation ready
+
+---
+
+## Phase 12: User Story 7 - Generate Student Movement Data (Priority: P1) 🎯 MVP
+
+**Goal**: Implement random data generator that produces synthetic student movement records with configurable parameters (fromRegion, toRegion, moves, workweek)
+
+**Independent Test**: Create a MovementGeneratorConfig with regions, call generateMovements(), and verify returned data matches schema (correct fromRegion/toRegion from list, moves in range, valid YYYYWW workweek format)
+
+**Why this is MVP**: Without the ability to generate movement data, no visualization or analysis can be performed. This is the foundational capability for the movement tracking extension.
+
+### Tests for User Story 7
+
+> **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+
+- [ ] T159 [P] [US7] Unit test for workweek parser in building-layout-tutorial/src/app/utils/workweek-parser.spec.ts
+- [ ] T160 [P] [US7] Unit test for MovementGeneratorService.generateMovements in building-layout-tutorial/src/app/services/movement-generator.service.spec.ts
+- [ ] T161 [P] [US7] Unit test for MovementGeneratorService.parseWorkweek in building-layout-tutorial/src/app/services/movement-generator.service.spec.ts
+- [ ] T162 [P] [US7] Unit test for MovementGeneratorService.formatWorkweek in building-layout-tutorial/src/app/services/movement-generator.service.spec.ts
+- [ ] T163 [P] [US7] Unit test for seeded RNG reproducibility in building-layout-tutorial/src/app/services/movement-generator.service.spec.ts
+
+### Implementation for User Story 7
+
+- [ ] T164 [US7] Generate MovementGeneratorService using Angular CLI (ng generate service services/movement-generator)
+- [ ] T165 [US7] Implement seeded RNG initialization using seedrandom in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T166 [US7] Implement randomInt utility method in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T167 [US7] Implement selectRandom utility method in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T168 [US7] Implement getWeekRange method in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T169 [US7] Implement generateSingleMovement method in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T170 [US7] Implement generateMovements core logic with loop over week range in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T171 [US7] Add validation to ensure no self-loops (fromRegion ≠ toRegion) in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T172 [US7] Add metadata generation (peakHour, dayOfWeek, category) in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T173 [US7] Implement validateMovement method in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T174 [P] [US7] Create sample movement data JSON file in building-layout-tutorial/src/assets/data/sample-movements.json
+- [ ] T175 [US7] Integrate MovementGeneratorService into AppComponent for demo in building-layout-tutorial/src/app/app.component.ts
+- [ ] T176 [US7] Add console logging to verify generated movement count in building-layout-tutorial/src/app/app.component.ts
+
+**Checkpoint**: Movement data can be generated programmatically with reproducible results. Running the app should show "Generated N movement records" in console.
+
+---
+
+## Phase 13: User Story 8 - Visualize Movement Flows (Priority: P2)
+
+**Goal**: Display student movements as visual flow paths overlaid on the existing building layout using D3.js Sankey diagrams
+
+**Independent Test**: Provide movement data from US7, call renderFlows(), and verify SVG paths are drawn between correct regions with stroke width proportional to move count
+
+**Dependencies**: Requires US7 (movement data generation) to be complete
+
+### Tests for User Story 8
+
+- [ ] T177 [P] [US8] Integration test for flow rendering in building-layout-tutorial/src/app/services/movement-visualizer.service.spec.ts
+- [ ] T178 [P] [US8] Integration test for flow updates/transitions in building-layout-tutorial/src/app/services/movement-visualizer.service.spec.ts
+
+### Implementation for User Story 8
+
+- [ ] T179 [P] [US8] Create MovementVisualizationOptions interface in building-layout-tutorial/src/app/models/movement-visualization.interface.ts
+- [ ] T180 [P] [US8] Create MovementFilter interface in building-layout-tutorial/src/app/models/movement-visualization.interface.ts
+- [ ] T181 [US8] Generate MovementVisualizerService using Angular CLI (ng generate service services/movement-visualizer)
+- [ ] T182 [US8] Import d3-sankey and setup Sankey layout configuration in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T183 [US8] Implement aggregateMovementsByRoute helper method in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T184 [US8] Implement createSankeyNodes helper method in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T185 [US8] Implement createSankeyLinks helper method in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T186 [US8] Implement renderFlows method with SVG path drawing in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T187 [US8] Implement updateFlows method with D3 transitions in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T188 [US8] Implement clearFlows method in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T189 [US8] Add hover interaction handlers for flow paths in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T190 [US8] Generate movement-flow component (ng generate component components/movement-flow --standalone)
+- [ ] T191 [US8] Create SVG layer for movement flows in building-layout-tutorial/src/app/components/movement-flow/movement-flow.component.html
+- [ ] T192 [US8] Wire MovementVisualizerService to component template in building-layout-tutorial/src/app/components/movement-flow/movement-flow.component.ts
+- [ ] T193 [US8] Add @Input for movements array in building-layout-tutorial/src/app/components/movement-flow/movement-flow.component.ts
+- [ ] T194 [US8] Implement ngOnChanges to trigger re-render on data changes in building-layout-tutorial/src/app/components/movement-flow/movement-flow.component.ts
+- [ ] T195 [US8] Add styling for flow paths (colors, opacity) in building-layout-tutorial/src/app/components/movement-flow/movement-flow.component.scss
+- [ ] T196 [US8] Integrate movement-flow component into building-layout component in building-layout-tutorial/src/app/components/building-layout/building-layout.component.html
+- [ ] T197 [US8] Pass movement data from AppComponent to building-layout to movement-flow in building-layout-tutorial/src/app/app.component.html
+
+**Checkpoint**: Movement flows render as visual paths on the building layout. Flows update when movement data changes.
+
+---
+
+## Phase 14: User Story 9 - Movement Controls & Filtering (Priority: P3)
+
+**Goal**: Add UI controls for filtering movements by time period (workweek), volume, and category with smooth transitions
+
+**Independent Test**: Interact with time slider/filter controls and verify only matching movements are displayed
+
+**Dependencies**: Requires US8 (visualization) to be complete
+
+### Tests for User Story 9
+
+- [ ] T198 [P] [US9] Integration test for workweek filtering in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.spec.ts
+- [ ] T199 [P] [US9] Integration test for volume range filtering in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.spec.ts
+
+### Implementation for User Story 9
+
+- [ ] T200 [US9] Generate movement-controls component (ng generate component components/movement-controls --standalone)
+- [ ] T201 [P] [US9] Create workweek selector dropdown in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.html
+- [ ] T202 [P] [US9] Create volume range slider in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.html
+- [ ] T203 [P] [US9] Create category filter checkboxes in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.html
+- [ ] T204 [US9] Add @Output EventEmitter for filter changes in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.ts
+- [ ] T205 [US9] Implement onWorkweekChange handler in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.ts
+- [ ] T206 [US9] Implement onVolumeRangeChange handler in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.ts
+- [ ] T207 [US9] Implement onCategoryToggle handler in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.ts
+- [ ] T208 [US9] Build MovementFilter object from UI state in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.ts
+- [ ] T209 [US9] Add styling for controls panel in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.scss
+- [ ] T210 [US9] Implement filterFlows method in MovementVisualizerService in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T211 [US9] Add filtered movements state management in building-layout-tutorial/src/app/app.component.ts
+- [ ] T212 [US9] Wire filter change events to update visualization in building-layout-tutorial/src/app/app.component.ts
+- [ ] T213 [US9] Integrate movement-controls into app layout in building-layout-tutorial/src/app/app.component.html
+- [ ] T214 [P] [US9] Add time navigation buttons (previous/next week) in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.html
+- [ ] T215 [US9] Implement time navigation logic in building-layout-tutorial/src/app/components/movement-controls/movement-controls.component.ts
+
+**Checkpoint**: Users can filter movements by week, volume, and category. Visualization updates smoothly with transitions.
+
+---
+
+## Phase 15: Movement Tracking Polish & Documentation
+
+**Purpose**: Improvements and documentation for movement tracking extension
+
+- [ ] T216 [P] Add JSDoc comments to MovementGeneratorService public methods in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T217 [P] Add JSDoc comments to MovementVisualizerService public methods in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T218 [P] Update quickstart.md with complete movement generator usage examples in specs/001-building-layout-svg/quickstart.md
+- [ ] T219 Create sample demo configuration with 3+ regions and 100+ movements in building-layout-tutorial/src/app/app.component.ts
+- [ ] T220 Add error handling for invalid movement data in building-layout-tutorial/src/app/services/movement-visualizer.service.ts
+- [ ] T221 Add error handling for invalid generator config in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [ ] T222 [P] Add loading indicator while generating large datasets in building-layout-tutorial/src/app/app.component.html
+- [ ] T223 Test performance with 10,000+ movement records (per plan.md performance goals)
+- [ ] T224 [P] Optimize Sankey rendering for 500+ regions (per plan.md performance goals)
+- [ ] T225 Add README section for movement tracking feature in building-layout-tutorial/README.md
+- [ ] T226 Verify workweek validation regex matches spec requirements in building-layout-tutorial/src/app/utils/workweek-parser.ts
+- [ ] T227 Run all movement tracking tests and verify passing
+
+---
+
+## Movement Tracking Dependencies & Execution Order
+
+### Phase Dependencies
+
+- **Movement Setup (Phase 10)**: Depends on Phase 1-2 being complete
+- **Movement Foundation (Phase 11)**: Depends on Movement Setup - BLOCKS all movement user stories
+- **User Story 7 (Phase 12)**: Depends on Movement Foundation - No dependencies on other movement stories
+- **User Story 8 (Phase 13)**: Depends on User Story 7 (needs movement data to visualize)
+- **User Story 9 (Phase 14)**: Depends on User Story 8 (needs visualization to filter)
+- **Movement Polish (Phase 15)**: Depends on all movement user stories being complete
+
+### Movement User Story Dependencies
+
+- **User Story 7 (P1)** 🎯 MVP: Can start after Movement Foundation (Phase 11) - No dependencies on other stories
+- **User Story 8 (P2)**: Requires User Story 7 (needs movement data to visualize)
+- **User Story 9 (P3)**: Requires User Story 8 (needs visualization to filter)
+
+### Parallel Opportunities (Movement Tracking)
+
+- **Phase 10**: All 3 dependency install tasks can run in parallel
+- **Phase 11**: Tasks T152-T154 (interfaces) can run in parallel
+- **Phase 12 Tests**: Tasks T159-T163 can run in parallel
+- **Phase 12 Implementation**: T174 (sample JSON) can run in parallel with service implementation
+- **Phase 13**: T177-T178 (tests) can run in parallel, T179-T180 (interfaces) can run in parallel
+- **Phase 14**: T198-T199 (tests) can run in parallel, T201-T203 (HTML controls) can run in parallel
+- **Phase 15**: T216-T218 (documentation) can run in parallel, T222-T224 (performance) can run in parallel
+
+---
+
+## Movement Tracking Implementation Strategy
+
+### MVP First (User Story 7 Only)
+
+1. Complete Phase 10: Movement Setup (install dependencies)
+2. Complete Phase 11: Movement Foundation (interfaces + workweek utils)
+3. Complete Phase 12: User Story 7 (data generation)
+4. **STOP and VALIDATE**: Run the app, verify console shows "Generated N movement records", inspect data structure
+5. Demo if ready - you now have working movement data generation!
+
+### Incremental Delivery
+
+1. Complete Movement Setup + Foundation → Foundation ready
+2. Add User Story 7 → Test independently → **Deliver MVP** (data generation works)
+3. Add User Story 8 → Test independently → **Deliver visualization** (flows render on layout)
+4. Add User Story 9 → Test independently → **Deliver full feature** (interactive filtering)
+
+---
+
+## Updated Task Count Summary
+
+**Original Building Layout**: 148 tasks (T001-T148)
+**Movement Tracking Extension**: 79 tasks (T149-T227)
+
+**Total with Extension**: 227 tasks
+
+**Movement Tracking Breakdown**:
+- **Phase 10 (Movement Setup)**: 3 tasks
+- **Phase 11 (Movement Foundation)**: 7 tasks
+- **Phase 12 (User Story 7 - Data Generation)**: 18 tasks (5 tests + 13 implementation)
+- **Phase 13 (User Story 8 - Visualization)**: 21 tasks (2 tests + 19 implementation)
+- **Phase 14 (User Story 9 - Controls)**: 18 tasks (2 tests + 16 implementation)
+- **Phase 15 (Movement Polish)**: 12 tasks
+
+**Parallel Opportunities (Movement)**: 20+ tasks marked [P] can run concurrently
+
+**Suggested Movement MVP Scope**: Phase 10 + Phase 11 + Phase 12 (User Story 7 only) = 28 tasks

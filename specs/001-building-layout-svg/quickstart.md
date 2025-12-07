@@ -821,3 +821,289 @@ npm install d3 @types/d3
 ✅ D3's data join pattern efficiently updates visualizations
 ✅ d3.zoom() behavior handles pan/zoom with minimal code
 ✅ Component architecture separates concerns (rendering vs. interaction)
+
+---
+
+# Extension: Student Movement Tracking
+
+**Extension Date**: 2025-12-07
+**Estimated Time**: 45-60 minutes
+**Difficulty**: Intermediate
+
+## What You'll Build
+
+Extend the building layout visualization to track and visualize student movements between regions with:
+- Random movement data generator
+- Time-based movement patterns (workweek format)
+- Flow visualization using D3.js Sankey diagrams
+- Movement filtering and analytics
+
+---
+
+## Step 1: Install Additional Dependencies
+
+```bash
+# Install date-fns for workweek date handling
+npm install date-fns
+
+# Install seedrandom for reproducible random data
+npm install seedrandom
+npm install --save-dev @types/seedrandom
+
+# Install D3 Sankey plugin for flow visualization
+npm install d3-sankey
+npm install --save-dev @types/d3-sankey
+```
+
+---
+
+## Step 2: Create Movement Data Models
+
+### Create Movement Data Interface
+
+**File**: `src/app/models/movement-data.interface.ts`
+
+```typescript
+export interface MovementData {
+  id: string;
+  fromRegion: string;
+  toRegion: string;
+  moves: number;
+  workweek: string;  // Format: YYYYWW
+  timestamp?: Date;
+  metadata?: {
+    peakHour?: number;
+    dayOfWeek?: number;
+    category?: string;
+    [key: string]: any;
+  };
+}
+
+export interface MovementGeneratorConfig {
+  regions: string[];
+  startWeek: string;
+  endWeek: string;
+  recordsPerWeek: number;
+  minMoves: number;
+  maxMoves: number;
+  seed?: number | string;
+  useRealisticPatterns?: boolean;
+}
+```
+
+---
+
+## Step 3: Create Movement Generator Service
+
+### Generate Service
+
+```bash
+ng generate service services/movement-generator
+```
+
+### Implement Service
+
+**File**: `src/app/services/movement-generator.service.ts`
+
+```typescript
+import { Injectable } from '@angular/core';
+import { getISOWeek, getISOWeekYear, setISOWeek, startOfISOWeekYear } from 'date-fns';
+import seedrandom from 'seedrandom';
+import { MovementData, MovementGeneratorConfig } from '../models/movement-data.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MovementGeneratorService {
+  private rng: seedrandom.PRNG | null = null;
+
+  /**
+   * Generate synthetic movement data
+   */
+  generateMovements(config: MovementGeneratorConfig): MovementData[] {
+    // Initialize seeded RNG
+    this.rng = seedrandom(config.seed?.toString() || 'default-seed');
+
+    const movements: MovementData[] = [];
+    const weeks = this.getWeekRange(config.startWeek, config.endWeek);
+
+    weeks.forEach(workweek => {
+      for (let i = 0; i < config.recordsPerWeek; i++) {
+        // Select random from/to regions
+        const fromRegion = this.selectRandom(config.regions);
+        let toRegion = this.selectRandom(config.regions);
+
+        // Ensure no self-loops
+        while (toRegion === fromRegion && config.regions.length > 1) {
+          toRegion = this.selectRandom(config.regions);
+        }
+
+        // Generate movement count
+        const moves = this.randomInt(config.minMoves, config.maxMoves + 1);
+
+        movements.push({
+          id: `mov-${workweek}-${i}`,
+          fromRegion,
+          toRegion,
+          moves,
+          workweek,
+          timestamp: this.parseWorkweek(workweek),
+          metadata: {
+            peakHour: this.randomInt(7, 18), // Business hours 7am-6pm
+            dayOfWeek: this.randomInt(1, 6),  // Monday-Friday
+            category: this.selectRandom([
+              'class-change',
+              'lunch-break',
+              'arrival',
+              'dismissal'
+            ])
+          }
+        });
+      }
+    });
+
+    return movements;
+  }
+
+  /**
+   * Parse YYYYWW to Date
+   */
+  parseWorkweek(weekString: string): Date {
+    const year = parseInt(weekString.substring(0, 4));
+    const week = parseInt(weekString.substring(4, 6));
+    const startOfYear = startOfISOWeekYear(new Date(year, 0, 4));
+    return setISOWeek(startOfYear, week);
+  }
+
+  /**
+   * Format Date to YYYYWW
+   */
+  formatWorkweek(date: Date): string {
+    const year = getISOWeekYear(date);
+    const week = getISOWeek(date);
+    return `${year}${week.toString().padStart(2, '0')}`;
+  }
+
+  /**
+   * Get array of workweeks between start and end
+   */
+  getWeekRange(startWeek: string, endWeek: string): string[] {
+    const weeks: string[] = [];
+    let current = this.parseWorkweek(startWeek);
+    const end = this.parseWorkweek(endWeek);
+
+    while (current <= end) {
+      weeks.push(this.formatWorkweek(current));
+      current.setDate(current.getDate() + 7); // Add 1 week
+    }
+
+    return weeks;
+  }
+
+  // Utility methods
+  private randomInt(min: number, max: number): number {
+    if (!this.rng) throw new Error('RNG not initialized');
+    return Math.floor(this.rng() * (max - min)) + min;
+  }
+
+  private selectRandom<T>(array: T[]): T {
+    if (!this.rng) throw new Error('RNG not initialized');
+    return array[Math.floor(this.rng() * array.length)];
+  }
+}
+```
+
+---
+
+## Step 4: Use Movement Generator in App
+
+### Update App Component
+
+**File**: `src/app/app.component.ts` (add to existing)
+
+```typescript
+import { MovementGeneratorService } from './services/movement-generator.service';
+import { MovementData, MovementGeneratorConfig } from './models/movement-data.interface';
+
+export class AppComponent {
+  // ... existing code ...
+
+  movements: MovementData[] = [];
+
+  constructor(private movementGen: MovementGeneratorService) {}
+
+  ngOnInit(): void {
+    // Generate sample movement data
+    const config: MovementGeneratorConfig = {
+      regions: this.layoutConfig.regions.map(r => r.id),
+      startWeek: '202501',
+      endWeek: '202510',
+      recordsPerWeek: 20,
+      minMoves: 5,
+      maxMoves: 30,
+      seed: 'demo-seed-2025'
+    };
+
+    this.movements = this.movementGen.generateMovements(config);
+    console.log(`Generated ${this.movements.length} movement records`);
+  }
+}
+```
+
+---
+
+## Step 5: Test Movement Generator
+
+### Run the Application
+
+```bash
+ng serve
+```
+
+### Check Console
+
+Open browser console (F12) and verify you see:
+```
+Generated 200 movement records
+```
+
+### Inspect Data
+
+Add this to `ngOnInit()` to inspect generated data:
+
+```typescript
+console.table(this.movements.slice(0, 5));
+```
+
+You should see movement records with:
+- fromRegion / toRegion matching your regions
+- moves between minMoves and maxMoves
+- workweek in YYYYWW format
+- metadata with category, peakHour, etc.
+
+---
+
+## Next Steps
+
+### Phase 2: Visualization (Advanced)
+
+1. Create MovementVisualizerService using d3-sankey
+2. Overlay flow paths on building layout
+3. Add time slider to filter by workweek
+4. Display movement statistics dashboard
+
+**See**: `/specs/001-building-layout-svg/contracts/movement-generator.interface.ts` for complete API reference
+
+---
+
+## Key Takeaways (Movement Extension)
+
+✅ date-fns handles ISO 8601 week dates correctly
+✅ seedrandom enables reproducible synthetic data
+✅ Workweek format (YYYYWW) simplifies time-based aggregation
+✅ Generator pattern separates data creation from visualization
+✅ Metadata enables flexible filtering and analytics
+
+---
+
+**Quickstart Last Updated**: 2025-12-07

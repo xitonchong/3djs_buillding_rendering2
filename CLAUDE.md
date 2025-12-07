@@ -3,6 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2025-12-04
 
 ## Active Technologies
+- TypeScript (strict mode) with Angular (latest stable version) (001-building-layout-svg)
+- In-memory data structures + JSON file loading (existing pattern) (001-building-layout-svg)
 
 - TypeScript (strict mode enabled) with Angular (latest stable version) + D3.js v7+ (SVG/DOM manipulation), Angular CLI, RxJS (reactive state management) (001-building-layout-svg)
 
@@ -22,6 +24,7 @@ npm test && npm run lint
 TypeScript (strict mode enabled) with Angular (latest stable version): Follow standard conventions
 
 ## Recent Changes
+- 001-building-layout-svg: Added TypeScript (strict mode) with Angular (latest stable version)
 
 - 001-building-layout-svg: Added TypeScript (strict mode enabled) with Angular (latest stable version) + D3.js v7+ (SVG/DOM manipulation), Angular CLI, RxJS (reactive state management)
 
