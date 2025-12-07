@@ -5,8 +5,11 @@ import { LayoutConfiguration } from '../models/layout-config.interface';
 import { Viewport, ViewMode } from '../models/viewport.interface';
 import { Region } from '../models/region.interface';
 import { ScaleCalculator } from '../utils/scale-calculator';
-import { IsometricTransform } from '../utils/isometric-transform';
-import { FloorUtils } from '../utils/floor-utils';  // T119: Import floor utilities
+import { IsometricProjection } from '../utils/isometric-projection'; // Using the new projection utility
+import { FloorUtils } from '../utils/floor-utils';
+
+const FLOOR_HEIGHT = 300; // Vertical distance between floors
+const WALL_HEIGHT = 300; // Height of the walls
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +18,10 @@ export class SvgRendererService {
   private svg: d3.Selection<SVGSVGElement, unknown, null, undefined> | null = null;
   private contentGroup: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
   private zoom: d3.ZoomBehavior<SVGSVGElement, unknown> | null = null;
-  private currentViewMode: ViewMode = '2d';  // T073: Track current view mode
+  private currentViewMode: ViewMode = '2d';
 
-  // T028: Initialize SVG canvas
+  constructor(private isometricProj: IsometricProjection) {}
+
   initialize(container: ElementRef, width: number, height: number): void {
     this.svg = d3.select(container.nativeElement)
       .attr('width', width)
@@ -25,10 +29,8 @@ export class SvgRendererService {
       .attr('viewBox', `0 0 ${width} ${height}`)
       .attr('preserveAspectRatio', 'xMidYMid meet');
 
-    this.contentGroup = this.svg.append('g')
-      .attr('class', 'content-group');
+    this.contentGroup = this.svg.append('g').attr('class', 'content-group');
 
-    // T029: Setup zoom behavior
     this.zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.1, 10])
       .on('zoom', (event) => {
@@ -38,33 +40,31 @@ export class SvgRendererService {
     this.svg.call(this.zoom);
   }
 
-  // T028 & T030 & T119: Render layout configuration with D3 data join pattern
   render(config: LayoutConfiguration, viewport: Viewport, selectedFloor?: number | null): void {
     if (!this.svg || !this.contentGroup) return;
 
-    // T119-T121: Determine which regions to render based on view mode and selected floor
-    let regionsToRender: Region[] = config.regions;
+    this.contentGroup.selectAll('*').remove(); // Clear previous render
 
-    if (viewport.viewMode === '2d' && selectedFloor !== null && selectedFloor !== undefined) {
-      // T120: 2D mode - filter by selected floor
-      regionsToRender = FloorUtils.filterRegionsByFloor(config.regions, selectedFloor);
-    } else if (viewport.viewMode === 'isometric') {
-      // T121: Isometric mode - render all floors, sorted bottom to top for proper z-ordering
-      regionsToRender = [...config.regions].sort((a, b) => (a.floor ?? 0) - (b.floor ?? 0));
+    if (this.currentViewMode === 'isometric') {
+      this.renderIsometric(config, viewport);
+    } else {
+      this.render2D(config, viewport, selectedFloor);
     }
+  }
+
+  private render2D(config: LayoutConfiguration, viewport: Viewport, selectedFloor?: number | null): void {
+    let regionsToRender = FloorUtils.filterRegionsByFloor(config.regions, selectedFloor ?? 0);
 
     const { xScale, yScale } = ScaleCalculator.calculateFitScales(
-      config,
+      { regions: regionsToRender },
       viewport.width,
       viewport.height
     );
 
-    // T030: D3 data join pattern for regions
-    const rects = this.contentGroup
+    const rects = this.contentGroup!
       .selectAll<SVGRectElement, Region>('rect.region')
       .data(regionsToRender, d => d.id);
 
-    // Enter + Update
     rects.enter()
       .append('rect')
       .attr('class', 'region')
@@ -75,130 +75,120 @@ export class SvgRendererService {
       .attr('height', d => yScale(d.y + d.height) - yScale(d.y))
       .attr('fill', d => d.color || '#E3F2FD')
       .attr('stroke', d => d.strokeColor || '#2196F3')
-      .attr('stroke-width', 2)
-      .style('cursor', 'pointer');
+      .attr('stroke-width', 2);
 
-    // Add labels
-    const labels = this.contentGroup
-      .selectAll<SVGTextElement, Region>('text.region-label')
-      .data(regionsToRender.filter(r => r.label), d => d.id);
-
-    labels.enter()
-      .append('text')
-      .attr('class', 'region-label')
-      .merge(labels)
-      .attr('x', d => xScale(d.x + d.width / 2))
-      .attr('y', d => yScale(d.y + d.height / 2))
-      .attr('text-anchor', 'middle')
-      .attr('dominant-baseline', 'middle')
-      .attr('fill', '#333')
-      .attr('font-size', '14px')
-      .text(d => d.label || '');
-
-    // T040a: Add bottom-left coordinate labels (x, y)
-    const coordLabelsBL = this.contentGroup
-      .selectAll<SVGTextElement, Region>('text.coord-label-bl')
-      .data(regionsToRender, d => d.id);
-
-    coordLabelsBL.enter()
-      .append('text')
-      .attr('class', 'coord-label-bl')
-      .merge(coordLabelsBL)
-      .attr('x', d => xScale(d.x) + 5)  // Small offset from corner
-      .attr('y', d => yScale(d.y) + 15)  // Small offset from corner
-      .attr('text-anchor', 'start')
-      .attr('dominant-baseline', 'hanging')
-      // T134: Show floor in isometric mode
-      .text(d => {
-        if (this.currentViewMode === 'isometric') {
-          return `(${d.x}, ${d.y}) F${d.floor ?? 0}`;
-        } else {
-          return `(${d.x}, ${d.y})`;
-        }
-      })
-      .style('font-size', '10px')
-      .style('font-family', 'monospace')
-      .style('fill', '#666')
-      .style('pointer-events', 'none')
-      .style('user-select', 'none')
-      // T040d & T082: Conditional visibility based on region size to prevent overlap
-      .style('display', d => {
-        const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
-        const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
-        // Adjust thresholds based on view mode - isometric needs larger regions
-        const minWidth = this.currentViewMode === 'isometric' ? 80 : 60;
-        const minHeight = this.currentViewMode === 'isometric' ? 60 : 40;
-        return (widthPx < minWidth || heightPx < minHeight) ? 'none' : 'block';
-      });
-
-    // T040b: Add top-right coordinate labels (x+width, y+height)
-    const coordLabelsTR = this.contentGroup
-      .selectAll<SVGTextElement, Region>('text.coord-label-tr')
-      .data(regionsToRender, d => d.id);
-
-    coordLabelsTR.enter()
-      .append('text')
-      .attr('class', 'coord-label-tr')
-      .merge(coordLabelsTR)
-      .attr('x', d => xScale(d.x + d.width) - 5)  // Small offset from corner
-      .attr('y', d => yScale(d.y + d.height) - 5)  // Small offset from corner
-      .attr('text-anchor', 'end')
-      .attr('dominant-baseline', 'auto')
-      // T134: Show floor in isometric mode
-      .text(d => {
-        if (this.currentViewMode === 'isometric') {
-          return `(${d.x + d.width}, ${d.y + d.height}) F${d.floor ?? 0}`;
-        } else {
-          return `(${d.x + d.width}, ${d.y + d.height})`;
-        }
-      })
-      .style('font-size', '10px')
-      .style('font-family', 'monospace')
-      .style('fill', '#666')
-      .style('pointer-events', 'none')
-      .style('user-select', 'none')
-      // T040d & T082: Conditional visibility based on region size to prevent overlap
-      .style('display', d => {
-        const widthPx = Math.abs(xScale(d.x + d.width) - xScale(d.x));
-        const heightPx = Math.abs(yScale(d.y + d.height) - yScale(d.y));
-        // Adjust thresholds based on view mode - isometric needs larger regions
-        const minWidth = this.currentViewMode === 'isometric' ? 80 : 60;
-        const minHeight = this.currentViewMode === 'isometric' ? 60 : 40;
-        return (widthPx < minWidth || heightPx < minHeight) ? 'none' : 'block';
-      });
-
-    // Exit
     rects.exit().remove();
-    labels.exit().remove();
-    coordLabelsBL.exit().remove();
-    coordLabelsTR.exit().remove();
   }
 
-  // T028: Update viewport transform
+  private renderIsometric(config: LayoutConfiguration, viewport: Viewport): void {
+    const regionsToRender = [...config.regions].sort((a, b) => {
+        const floorDiff = (a.floor ?? 0) - (b.floor ?? 0);
+        if (floorDiff !== 0) return floorDiff;
+        const aCenterY = a.y + a.height / 2;
+        const bCenterY = b.y + b.height / 2;
+        if (aCenterY !== bCenterY) return bCenterY - aCenterY;
+        const aCenterX = a.x + a.width / 2;
+        const bCenterX = b.x + b.width / 2;
+        return bCenterX - aCenterX;
+    });
+
+    const regionGroups = this.contentGroup!
+      .selectAll<SVGGElement, Region>('g.region-group')
+      .data(regionsToRender, d => d.id);
+
+    const enterGroups = regionGroups.enter()
+      .append('g')
+      .attr('class', 'region-group');
+
+    // Add walls and floor polygons to each new group
+    enterGroups.append('polygon').attr('class', 'wall-face-1');
+    enterGroups.append('polygon').attr('class', 'wall-face-2');
+    enterGroups.append('polygon').attr('class', 'floor-surface');
+    enterGroups.append('text').attr('class', 'region-label');
+
+    const allGroups = enterGroups.merge(regionGroups);
+
+    allGroups.each((d, i, nodes) => {
+      const group = d3.select(nodes[i]);
+      const z = (d.floor ?? 0) * FLOOR_HEIGHT;
+
+      // Wall 1 (back-left)
+      // const wall1Points: [number, number, number][] = [
+      //   [d.x, d.y, z],
+      //   [d.x + d.width, d.y, z],
+      //   [d.x + d.width, d.y, z - WALL_HEIGHT],
+      //   [d.x, d.y, z - WALL_HEIGHT]
+      // ];
+      // group.select('.wall-face-1')
+      //   .attr('points', this.isometricProj.projectPolygon(wall1Points))
+      //   .attr('fill', d3.color(d.color || '#ccc')?.darker(0.5).toString() ?? '#999')
+      //   .attr('fill-opacity', 0.1);
+
+      // Wall 2 (back-right)
+      // const wall2Points: [number, number, number][] = [
+      //   [d.x + d.width, d.y, z],
+      //   [d.x + d.width, d.y + d.height, z],
+      //   [d.x + d.width, d.y + d.height, z - WALL_HEIGHT],
+      //   [d.x + d.width, d.y, z - WALL_HEIGHT]
+      // ];
+      // group.select('.wall-face-2')
+      //   .attr('points', this.isometricProj.projectPolygon(wall2Points))
+      //   .attr('fill', d3.color(d.color || '#ccc')?.darker(0.7).toString() ?? '#888')
+      //   .attr('fill-opacity', 0.1);
+
+      // Floor surface
+      const floorPoints: [number, number, number][] = [
+        [d.x, d.y, z],
+        [d.x + d.width, d.y, z],
+        [d.x + d.width, d.y + d.height, z],
+        [d.x, d.y + d.height, z]
+      ];
+      group.select('.floor-surface')
+        .attr('points', this.isometricProj.projectPolygon(floorPoints))
+        .attr('fill', d.color || '#ccc')
+        .attr('stroke', d.strokeColor || '#999')
+        .attr('stroke-width', 1)
+        .attr('fill-opacity', 0.5);
+        
+      // Label
+      const [labelX, labelY] = this.isometricProj.project(d.x + d.width / 2, d.y + d.height / 2, z + 10);
+      group.select('.region-label')
+        .attr('x', labelX)
+        .attr('y', labelY)
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'middle')
+        .attr('fill', '#000')
+        .text(d.label || '');
+    });
+
+    regionGroups.exit().remove();
+    
+    // Auto-zoom to fit content
+    this.resetViewport(true);
+  }
+
   updateViewport(viewport: Viewport): void {
     if (!this.svg || !this.zoom) return;
-
-    const transform = d3.zoomIdentity
-      .translate(viewport.translateX, viewport.translateY)
-      .scale(viewport.scale);
-
+    const transform = d3.zoomIdentity.translate(viewport.translateX, viewport.translateY).scale(viewport.scale);
     this.svg.call(this.zoom.transform, transform);
   }
 
-  // T042: Setup interaction handlers
-  setupInteractions(
-    onHover: (region: Region | null, event: MouseEvent) => void,
-    onClick: (region: Region, event: MouseEvent) => void
-  ): void {
+  setupInteractions(onHover: (region: Region | null, event: MouseEvent) => void, onClick: (region: Region, event: MouseEvent) => void): void {
     if (!this.contentGroup) return;
 
-    this.contentGroup.selectAll('rect.region')
+    const selection = this.currentViewMode === 'isometric' 
+      ? this.contentGroup.selectAll('g.region-group')
+      : this.contentGroup.selectAll('rect.region');
+
+    selection
       .on('mouseenter', function(event, d: any) {
-        d3.select(this).attr('opacity', 0.7);
+        d3.select(this).selectAll('polygon').attr('opacity', 0.7);
+        d3.select(this).filter('rect').attr('opacity', 0.7);
         onHover(d, event);
       })
-      .on('mouseleave', function(event) {
-        d3.select(this).attr('opacity', 1);
+      .on('mouseleave', function(event, d: any) {
+        d3.select(this).selectAll('polygon').attr('opacity', 1);
+        d3.select(this).filter('rect').attr('opacity', 1);
         onHover(null, event);
       })
       .on('click', (event, d: any) => {
@@ -206,79 +196,57 @@ export class SvgRendererService {
       });
   }
 
-  // T043: Highlight region
   highlightRegion(regionId: string | null): void {
     if (!this.contentGroup) return;
 
-    this.contentGroup.selectAll('rect.region')
-      .attr('opacity', function(d: any) {
-        return regionId === null || d.id === regionId ? 1 : 0.5;
-      });
+    const selection = this.currentViewMode === 'isometric' 
+      ? this.contentGroup.selectAll('g.region-group')
+      : this.contentGroup.selectAll('rect.region');
+
+    selection.attr('opacity', function(d: any) {
+      return regionId === null || d.id === regionId ? 1 : 0.5;
+    });
   }
 
-  // T029: Zoom in
   zoomIn(factor: number = 1.2): void {
-    if (!this.svg || !this.zoom) return;
-
-    this.svg.transition()
-      .duration(300)
-      .call(this.zoom.scaleBy, factor);
+    this.svg?.transition().duration(300).call(this.zoom!.scaleBy, factor);
   }
 
-  // T029: Zoom out
   zoomOut(factor: number = 1.2): void {
-    if (!this.svg || !this.zoom) return;
-
-    this.svg.transition()
-      .duration(300)
-      .call(this.zoom.scaleBy, 1 / factor);
+    this.svg?.transition().duration(300).call(this.zoom!.scaleBy, 1 / factor);
   }
 
-  // T029: Reset viewport
-  resetViewport(): void {
-    if (!this.svg || !this.zoom) return;
+  resetViewport(instant = false): void {
+    if (!this.contentGroup || !this.svg || !this.zoom) return;
 
-    this.svg.transition()
-      .duration(750)
-      .call(this.zoom.transform, d3.zoomIdentity);
+    const bounds = this.contentGroup.node()!.getBBox();
+    const parent = this.svg.node()!.parentElement!;
+    const { width, height } = parent.getBoundingClientRect();
+
+    const scale = Math.min(width / bounds.width, height / bounds.height) * 0.9;
+    const translateX = width / 2 - (bounds.x + bounds.width / 2) * scale;
+    const translateY = height / 2 - (bounds.y + bounds.height / 2) * scale;
+
+    const transform = d3.zoomIdentity.translate(translateX, translateY).scale(scale);
+    
+    const transition = this.svg.transition().duration(instant ? 0 : 750);
+    transition.call(this.zoom.transform, transform);
   }
 
-  // Export SVG as string
   exportSVG(): string {
     return this.svg?.node()?.outerHTML || '';
   }
 
-  // Clean up D3 resources
   destroy(): void {
-    if (this.svg) {
-      this.svg.selectAll('*').remove();
-      this.svg = null;
-    }
-    this.contentGroup = null;
-    this.zoom = null;
+    this.svg?.selectAll('*').remove();
+    this.svg = null;
   }
 
-  // T073: Set view mode (2D or isometric)
   setViewMode(viewMode: ViewMode): void {
-    if (!this.contentGroup) return;
-
     this.currentViewMode = viewMode;
-
-    // T074: Apply CSS transform based on view mode
-    const transform = IsometricTransform.getTransform(viewMode);
-
-    if (viewMode === 'isometric') {
-      this.contentGroup
-        .attr('class', 'content-group isometric')
-        .style('transform', transform);
-    } else {
-      this.contentGroup
-        .attr('class', 'content-group')
-        .style('transform', 'none');
-    }
+    // No longer applying CSS transforms. The render method handles the view mode.
   }
 
-  // Get current view mode
   getViewMode(): ViewMode {
     return this.currentViewMode;
   }

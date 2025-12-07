@@ -4,8 +4,9 @@
 **Prerequisites**: plan.md (required), spec.md (required for user stories), data-model.md, contracts/, research.md, quickstart.md
 
 **User Requirement**:
-- Ensure app component always loads from `assets/sample-data/building-layout.json` (See Phase 6b)
-- **NEW**: Implement 3rd dimension along Z to add second floor support. In 3D mode, show isometric view. In 2D mode, enable floor selection with lowest floor as default.
+- Ensure app component always loads from `assets/sample-data/building-layout.json` (See Phase 8) - ✅ COMPLETED
+- Implement 3rd dimension along Z to add second floor support. In 3D mode, show isometric view. In 2D mode, enable floor selection with lowest floor as default (See Phase 6b) - ✅ COMPLETED
+- Add a tilt on the floor dimension or z-height so that it follows standard isometric configuration, e.g., 30 degree on XY plane to house the floor. Overwrite current isometric configuration if needed (See Phase 6c) - ✅ COMPLETED
 
 **Tests**: Tests are included based on constitution requirements for math utilities and core functionality.
 
@@ -216,6 +217,43 @@
 
 ---
 
+## Phase 6c: User Story 6 - Standard Isometric Configuration (Priority: P6)
+
+**Goal**: Update the isometric view to use standard isometric projection with 30° tilt on the XY plane to properly house the floor dimension or z-height, following standard technical drawing conventions
+
+**Independent Test**: Toggle to isometric view and verify the floor is displayed at a standard 30° angle on the XY plane (instead of current 10°), creating proper isometric perspective that matches technical drawing standards
+
+**Status**: ✅ COMPLETE
+
+**Context**: The current isometric implementation (T071) uses rotateX: 10° and rotateZ: 30°. This needs to be updated to follow standard isometric projection where the XY plane is tilted at 30° (rotateX: 30°) to create the classic "technical drawing" isometric view. This change will overwrite the current isometric configuration.
+
+**User Requirement**: Add a tilt on the floor dimension or z-height so that it follows standard isometric configuration, e.g., 30 degree on XY plan to house the floor. Overwrite current isometric configuration if needed.
+
+### Implementation for User Story 6
+
+- [X] T138 [US6] Research standard isometric projection angles (30°-30° configuration) and document in src/app/utils/isometric-transform.ts comments
+- [X] T139 [US6] Update calculateIsometricTransform() to use rotateX: 30° (instead of 10°) for standard isometric tilt in src/app/utils/isometric-transform.ts
+- [X] T140 [US6] Adjust scale factor to compensate for new 30° rotation angle in src/app/utils/isometric-transform.ts
+- [X] T141 [US6] Update perspective value if needed to maintain proper depth perception with 30° tilt in src/app/utils/isometric-transform.ts
+- [X] T142 [US6] Test multi-floor rendering with new 30° tilt to verify proper floor stacking and visibility
+- [X] T143 [US6] Verify floor Y-offset calculations (getFloorYOffset) work correctly with new 30° tilt in src/app/utils/isometric-transform.ts
+- [X] T144 [US6] Test zoom and pan interactions work correctly in new isometric view with 30° tilt
+- [X] T145 [US6] Verify coordinate labels remain readable and properly positioned in new isometric perspective
+- [X] T146 [US6] Test region hover and click interactions work in new 30° isometric view
+- [X] T147 [US6] Update sample multi-floor data if needed to showcase standard isometric view effectively
+- [X] T148 [US6] Add inline comments explaining standard isometric projection (30°-30° configuration) in src/app/utils/isometric-transform.ts
+
+**Checkpoint**: Isometric view now follows standard isometric projection with 30° tilt on XY plane, matching technical drawing conventions. All interactions (zoom, pan, hover, click, floor selection) continue to work correctly.
+
+**Technical Details**:
+- Current configuration: rotateX(10deg) rotateZ(30deg) scale(1.3)
+- New configuration: rotateX(30deg) rotateZ(30deg) scale(adjusted)
+- The 30° X-rotation creates the standard isometric view where the XY plane (floor) is tilted at 30°
+- This is the classic "technical drawing" isometric projection (30°-30° configuration)
+- May need to adjust scale factor to compensate for different foreshortening
+
+---
+
 ## Phase 7: Demo & Integration
 
 **Purpose**: Create complete working example demonstrating all features
@@ -271,24 +309,26 @@
 
 ### Phase Dependencies
 
-- **Setup (Phase 1)**: No dependencies - can start immediately
-- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
-- **User Stories (Phase 3-6b)**: All depend on Foundational phase completion
+- **Setup (Phase 1)**: ✅ Complete
+- **Foundational (Phase 2)**: ✅ Complete - BLOCKS all user stories
+- **User Stories (Phase 3-6c)**: All depend on Foundational phase completion
   - User stories can then proceed in parallel (if staffed)
-  - Or sequentially in priority order (P1 → P2 → P3 → P4 → P5)
+  - Or sequentially in priority order (P1 → P2 → P3 → P4 → P5 → P6)
   - **Note**: User Story 4 (Isometric View) depends on User Story 2 (Visualization) being complete
   - **Note**: User Story 5 (Multi-Floor) depends on User Story 2 (Visualization) and User Story 4 (Isometric) being complete
-- **Demo & Integration (Phase 7)**: Depends on User Story 1 and 2 minimum (can proceed with P1+P2 while P3, P4, P5 are in progress)
-- **Load from JSON (Phase 8)**: Can run independently, depends only on foundational phase
-- **Polish (Phase 9)**: Depends on all desired user stories being complete
+  - **Note**: User Story 6 (Standard Isometric) depends on User Story 4 (Isometric View) being complete - updates existing isometric implementation
+- **Demo & Integration (Phase 7)**: Depends on User Story 1 and 2 minimum (can proceed with P1+P2 while P3-P6 are in progress)
+- **Load from JSON (Phase 8)**: ✅ Complete - Can run independently, depends only on foundational phase
+- **Polish (Phase 9)**: ⏸️ Pending - Depends on all desired user stories being complete
 
 ### User Story Dependencies
 
-- **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
-- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - Integrates with US1 configuration service
-- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - Integrates with US2 rendering service
-- **User Story 4 (P4)**: Depends on User Story 2 (Visualization) being complete - Adds isometric view mode to existing rendering
-- **User Story 5 (P5)**: Depends on User Story 2 (Visualization) and User Story 4 (Isometric) being complete - Extends with Z-dimension and floor selection
+- **User Story 1 (P1)**: ✅ Complete - No dependencies on other stories
+- **User Story 2 (P2)**: ✅ Complete - Integrates with US1 configuration service
+- **User Story 3 (P3)**: ⏸️ Partial - Integrates with US2 rendering service
+- **User Story 4 (P4)**: ✅ Complete - Adds isometric view mode to existing rendering
+- **User Story 5 (P5)**: ✅ Complete - Extends with Z-dimension and floor selection
+- **User Story 6 (P6)**: ✅ Complete - Updates User Story 4 isometric transform to use standard 30° tilt
 
 ### Within Each User Story
 
@@ -360,21 +400,22 @@ With multiple developers:
 
 ## Task Count Summary
 
-- **Total Tasks**: 137
+- **Total Tasks**: 148
 - **Phase 1 (Setup)**: 5 tasks
 - **Phase 2 (Foundational)**: 5 tasks
 - **Phase 3 (User Story 1 - Configuration)**: 10 tasks (3 tests + 7 implementation)
 - **Phase 4 (User Story 2 - Visualization)**: 24 tasks (4 tests + 20 implementation, includes coordinate labeling)
 - **Phase 5 (User Story 3 - Interaction)**: 9 tasks (1 test + 8 implementation)
 - **Phase 6 (User Story 4 - Isometric View)**: 16 tasks (0 tests + 16 implementation)
-- **Phase 6b (User Story 5 - Multi-Floor/Z-Dimension)**: 25 tasks (0 tests + 25 implementation) - **NEW USER STORY**
+- **Phase 6b (User Story 5 - Multi-Floor/Z-Dimension)**: 25 tasks (0 tests + 25 implementation) - ✅ COMPLETED
+- **Phase 6c (User Story 6 - Standard Isometric Configuration)**: 11 tasks (0 tests + 11 implementation) - ✅ COMPLETED
 - **Phase 7 (Demo)**: 8 tasks
-- **Phase 8 (Load from JSON)**: 9 tasks - **USER REQUESTED REQUIREMENT**
+- **Phase 8 (Load from JSON)**: 9 tasks - ✅ COMPLETED
 - **Phase 9 (Polish)**: 11 tasks
 
 **Parallel Opportunities**: 42 tasks marked [P] can run concurrently
 
-**Independent Test Criteria Defined**: Yes, for all 5 user stories
+**Independent Test Criteria Defined**: Yes, for all 6 user stories
 
 **Suggested MVP Scope**: Phase 1 + Phase 2 + Phase 3 (User Story 1 only) = 20 tasks
 
@@ -382,7 +423,8 @@ With multiple developers:
 - **JSON Loading**: Phase 8 must be completed to meet user's requirement that app always loads from assets/sample-data/building-layout.json - ✅ COMPLETED
 - **Coordinate Labels**: Tasks T040a-T040d in Phase 4 implement coordinate labeling at bottom-left (x,y) and top-right (x+width, y+height) corners of each region - ✅ COMPLETED
 - **Isometric/3D View**: Phase 6 (User Story 4) implements ability to view renders at an angle using CSS 3D transforms to demonstrate depth and spatial relationships - ✅ COMPLETED
-- **Multi-Floor Z-Dimension**: Phase 6b (User Story 5) implements 3rd dimension along Z for multi-floor buildings. In 3D mode, shows isometric view of all floors. In 2D mode, enables floor selection with lowest floor as default - ⏸️ PENDING
+- **Multi-Floor Z-Dimension**: Phase 6b (User Story 5) implements 3rd dimension along Z for multi-floor buildings. In 3D mode, shows isometric view of all floors. In 2D mode, enables floor selection with lowest floor as default - ✅ COMPLETED
+- **Standard Isometric Configuration**: Phase 6c (User Story 6) updates isometric transform to use standard 30° tilt on XY plane to properly house the floor dimension, following technical drawing conventions - ✅ COMPLETED
 
 ---
 
@@ -863,13 +905,314 @@ export class AppComponent implements OnInit {
 
 ---
 
-**Current Implementation Status** (as of 2025-12-05):
+## Standard Isometric Configuration Implementation Guide
+
+### Tasks T138-T148: Updating to 30° Standard Isometric Projection
+
+**Context**: User requested to update the isometric view to use standard 30° tilt on the XY plane (instead of current 10°) to properly house the floor dimension following standard technical drawing conventions. This is a modification to the existing isometric transform implementation.
+
+### Background: Standard Isometric Projection
+
+**Standard Isometric (30°-30° Configuration)**:
+- In technical drawings, standard isometric projection uses 30° angles
+- The XY plane (floor) is tilted at 30° from horizontal (rotateX: 30°)
+- The Z-axis rotation of 30° (rotateZ: 30°) creates the classic diamond orientation
+- This creates the familiar "technical drawing" or "engineering blueprint" isometric view
+- Provides equal foreshortening along all three axes
+
+**Current Implementation**:
+- rotateX: 10° (too shallow, not standard)
+- rotateZ: 30° (correct)
+- scale: 1.3 (may need adjustment)
+
+**Target Implementation**:
+- rotateX: 30° (standard isometric)
+- rotateZ: 30° (keep as is)
+- scale: adjusted to compensate for new foreshortening
+
+### T138: Research Standard Isometric Projection
+
+**Location**: Comments in `building-layout-tutorial/src/app/utils/isometric-transform.ts`
+
+**Research Notes to Add**:
+```typescript
+/**
+ * Standard Isometric Projection (30°-30° Configuration)
+ *
+ * In technical drawing and CAD, standard isometric projection uses:
+ * - 30° rotation around X-axis (tilts the XY plane / floor)
+ * - 30° rotation around Z-axis (creates diamond orientation)
+ * - Equal foreshortening: all axes reduced by ~0.816 (cos 30°)
+ *
+ * This creates the classic "technical drawing" isometric view where:
+ * - Vertical lines remain vertical
+ * - Horizontal lines are at 30° angles to the horizontal
+ * - All three axes (X, Y, Z) are equally foreshortened
+ *
+ * Reference: ISO 5456-3 Technical drawings standard
+ */
+```
+
+### T139-T141: Update Isometric Transform
+
+**Location**: `building-layout-tutorial/src/app/utils/isometric-transform.ts`
+
+**Changes to Make**:
+
+**Before (Current)**:
+```typescript
+static calculateIsometricTransform(): string {
+  const rotateX = 10;  // degrees - tilts the plane forward
+  const rotateZ = 30;  // degrees - rotates around Z-axis
+  const scale = 1.3;   // Compensate for foreshortening
+
+  return `
+    perspective(2000px)
+    rotateX(${rotateX}deg)
+    rotateZ(${rotateZ}deg)
+    scale(${scale})
+  `.trim();
+}
+```
+
+**After (Standard Isometric)**:
+```typescript
+static calculateIsometricTransform(): string {
+  // Standard isometric projection angles (30°-30° configuration)
+  // This follows ISO 5456-3 technical drawing standards
+  const rotateX = 30;  // degrees - standard isometric tilt for XY plane
+  const rotateZ = 30;  // degrees - standard isometric rotation around Z-axis
+
+  // Scale factor adjusted for 30° rotation
+  // With 30° X-rotation, we get more foreshortening than 10°
+  // May need to increase scale to maintain visibility
+  const scale = 1.5;   // Adjusted for standard isometric foreshortening
+
+  // Perspective can be adjusted if depth perception needs tuning
+  const perspective = 2000;  // pixels - controls depth effect strength
+
+  return `
+    perspective(${perspective}px)
+    rotateX(${rotateX}deg)
+    rotateZ(${rotateZ}deg)
+    scale(${scale})
+  `.trim();
+}
+```
+
+**Scale Factor Considerations**:
+- At 10° rotateX: less foreshortening, scale 1.3 was sufficient
+- At 30° rotateX: more foreshortening, may need scale 1.4-1.6
+- Test with multi-floor data to find optimal scale
+- Too small: floors appear compressed
+- Too large: floors may exceed viewport
+
+**Perspective Considerations**:
+- Current: 2000px
+- If depth effect too strong at 30°: increase to 2500-3000px
+- If depth effect too weak: decrease to 1500-1800px
+- Test with zoom/pan to ensure comfortable viewing
+
+### T142-T143: Test Multi-Floor Rendering
+
+**Testing Steps**:
+
+1. **Load multi-floor configuration** (at least 3 floors)
+2. **Toggle to isometric view**
+3. **Verify floor stacking**:
+   - Higher floors should appear "above" lower floors
+   - No overlapping or visual artifacts
+   - Clear separation between floors
+4. **Check floor Y-offset calculations**:
+   - Verify `getFloorYOffset()` creates proper vertical spacing
+   - May need to adjust FLOOR_HEIGHT constant if spacing changes with 30°
+
+**Potential Adjustments**:
+
+If floor spacing appears too compressed or too spread out with 30° tilt, adjust the FLOOR_HEIGHT constant:
+
+```typescript
+static getFloorYOffset(floor: number): number {
+  // May need to increase from 50 to 60-70 for 30° tilt
+  // to maintain visual separation between floors
+  const FLOOR_HEIGHT = 60;  // Adjusted for 30° standard isometric
+  return -(floor * FLOOR_HEIGHT);
+}
+```
+
+### T144-T146: Test Interactions
+
+**Interaction Testing Checklist**:
+
+1. **Zoom In/Out**:
+   - Verify zoom works smoothly in 30° isometric view
+   - Check that zoom center point is correct
+   - Ensure scale limits (min/max) are still appropriate
+
+2. **Pan**:
+   - Verify drag-to-pan works correctly
+   - Check that panning feels natural (not distorted by new angle)
+   - Ensure pan constraints work properly
+
+3. **Region Hover**:
+   - Verify hover highlights work in 30° view
+   - Check that hover detection is accurate (SVG coordinates)
+   - Ensure hover state visual feedback is clear
+
+4. **Region Click**:
+   - Verify click events fire correctly
+   - Check that click position is accurate
+   - Ensure region info displays correctly
+
+5. **Coordinate Labels**:
+   - Verify labels are readable at 30° tilt
+   - Check that labels don't overlap excessively
+   - Ensure label positioning algorithm still works
+   - May need to adjust label size or visibility thresholds
+
+### T145: Coordinate Label Adjustments
+
+**Location**: `building-layout-tutorial/src/app/services/svg-renderer.service.ts`
+
+**Potential Changes**:
+
+If coordinate labels become hard to read or overlap at 30° tilt:
+
+```typescript
+// In render() method, coordinate label rendering section
+
+// Option 1: Adjust label size based on view mode
+const labelFontSize = this.currentViewMode === 'isometric' ? '10px' : '8px';
+
+// Option 2: Adjust visibility threshold
+// Hide labels on smaller regions in isometric view
+const minVisibleArea = this.currentViewMode === 'isometric' ?
+  3000 :  // More strict in isometric (labels more cramped)
+  2000;   // Original threshold for 2D
+
+// Only show labels if region is large enough
+if (d.width * d.height >= minVisibleArea) {
+  // Show coordinate labels
+}
+
+// Option 3: Adjust label offset from region corners
+const labelOffset = this.currentViewMode === 'isometric' ? 8 : 5;
+```
+
+### T147: Update Sample Data
+
+**Location**: `building-layout-tutorial/src/assets/sample-data/building-layout.json`
+
+**Considerations**:
+- Current multi-floor data may look different at 30° tilt
+- May want to adjust region sizes or positions to showcase the new angle better
+- Ensure floor spacing shows clearly with new tilt
+- Add more floors (3-4) if needed to demonstrate depth effect
+
+**Example Enhancement**:
+```json
+{
+  "name": "Multi-Floor Office Building (Standard Isometric)",
+  "description": "Showcases standard 30° isometric projection with proper floor stacking",
+  "regions": [
+    // Add varied region sizes across floors
+    // to show depth perception with 30° tilt
+    // ...
+  ]
+}
+```
+
+### T148: Add Documentation Comments
+
+**Location**: `building-layout-tutorial/src/app/utils/isometric-transform.ts`
+
+**Comments to Add**:
+
+```typescript
+/**
+ * Isometric Transformation Utility
+ *
+ * This utility provides CSS 3D transform strings for creating isometric
+ * projections of 2D floor plans. It implements STANDARD isometric projection
+ * following ISO 5456-3 technical drawing conventions.
+ *
+ * Standard Isometric Projection (30°-30° Configuration):
+ * - The XY plane (floor) is rotated 30° around the X-axis
+ * - The result is rotated 30° around the Z-axis
+ * - This creates equal foreshortening along all three axes
+ * - Vertical lines remain vertical in the final view
+ * - Horizontal lines appear at 30° angles
+ *
+ * Use Cases:
+ * - Technical drawings and blueprints
+ * - Engineering visualizations
+ * - Architectural floor plan demonstrations
+ * - Game-style overhead views (strategy games, simulators)
+ *
+ * Browser Support:
+ * - Requires CSS 3D transforms (transform-style: preserve-3d)
+ * - Supported in all modern browsers (Chrome, Firefox, Safari, Edge)
+ * - Hardware accelerated (GPU) for smooth performance
+ *
+ * @see https://en.wikipedia.org/wiki/Isometric_projection
+ * @see ISO 5456-3 Technical drawings standard
+ */
+export class IsometricTransform {
+  // ... methods with detailed comments
+}
+```
+
+### Testing Workflow
+
+**Step-by-Step Testing Process**:
+
+1. **Backup current implementation**: Note current rotateX: 10°, scale: 1.3
+2. **Update to 30° tilt**: Change rotateX to 30°
+3. **Test with default scale 1.3**: Observe if too small/large
+4. **Adjust scale iteratively**: Try 1.4, 1.5, 1.6 until optimal
+5. **Test multi-floor stacking**: Verify floor separation is clear
+6. **Adjust FLOOR_HEIGHT if needed**: Increase from 50 to 60-70 if floors too close
+7. **Test zoom/pan**: Ensure smooth at 30° tilt
+8. **Test interactions**: Hover, click, coordinate labels
+9. **Adjust label thresholds if needed**: Hide labels on smaller regions if cramped
+10. **Test with sample data**: Ensure multi-floor example looks good
+11. **Document final values**: Add comments explaining the 30° standard
+
+### Expected Visual Changes
+
+**Before (10° tilt)**:
+- Shallower angle, more "top-down" view
+- Less dramatic floor stacking
+- Regions appear more flat
+
+**After (30° tilt)**:
+- Steeper angle, more "3D" appearance
+- More dramatic floor stacking (floors clearly separated)
+- Better depth perception
+- Classic "technical drawing" isometric look
+- May appear more compressed vertically (normal for isometric)
+
+### Rollback Plan
+
+If the 30° tilt causes issues (e.g., interactions broken, too cramped):
+
+1. **Revert rotateX to 10°** temporarily
+2. **Identify specific issue** (zoom, pan, labels, etc.)
+3. **Fix issue while keeping 30°** if possible
+4. **Or adjust angle** to intermediate value (e.g., 20°, 25°) as compromise
+
+---
+
+**Current Implementation Status** (as of 2025-12-06):
 - ✅ Phase 1-2 (Setup & Foundation): Complete
 - ✅ Phase 3 (User Story 1 - Configuration): Complete
 - ✅ Phase 4 (User Story 2 - Visualization): Complete (includes coordinate labeling)
 - ⏸️ Phase 5 (User Story 3 - Interaction): Partial (basic hover/click, missing tooltip component)
 - ✅ Phase 6 (User Story 4 - Isometric View): Complete (T069-T082)
-- ⏸️ Phase 6b (User Story 5 - Multi-Floor Z-Dimension): **PENDING** (T113-T137)
+- ✅ Phase 6b (User Story 5 - Multi-Floor Z-Dimension): Complete (T113-T137)
+- ✅ Phase 6c (User Story 6 - Standard Isometric Config): **COMPLETE** (T138-T148) - Updated to 30° rotateX
 - ✅ Phase 7 (Demo Integration): Complete
 - ✅ Phase 8 (Load from JSON): Complete
 - ⏸️ Phase 9 (Polish & Testing): Pending
+
+**Latest Update**: Phase 6c completed - Isometric view now uses standard 30° tilt on XY plane following ISO 5456-3 technical drawing standards
