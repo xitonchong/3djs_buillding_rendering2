@@ -1230,9 +1230,9 @@ If the 30° tilt causes issues (e.g., interactions broken, too cramped):
 
 **Purpose**: Install new libraries for movement tracking extension
 
-- [ ] T149 Install date-fns library (npm install date-fns) for ISO week date handling
-- [ ] T150 Install seedrandom library (npm install seedrandom @types/seedrandom) for reproducible RNG
-- [ ] T151 [P] Install d3-sankey library (npm install d3-sankey @types/d3-sankey) for flow visualization
+- [X] T149 Install date-fns library (npm install date-fns) for ISO week date handling
+- [X] T150 Install seedrandom library (npm install seedrandom @types/seedrandom) for reproducible RNG
+- [X] T151 [P] Install d3-sankey library (npm install d3-sankey @types/d3-sankey) for flow visualization
 
 **Checkpoint**: All movement tracking dependencies installed
 
@@ -1244,13 +1244,13 @@ If the 30° tilt causes issues (e.g., interactions broken, too cramped):
 
 **⚠️ CRITICAL**: No movement tracking work can begin until this phase is complete
 
-- [ ] T152 [P] Create MovementData interface in building-layout-tutorial/src/app/models/movement-data.interface.ts
-- [ ] T153 [P] Create MovementGeneratorConfig interface in building-layout-tutorial/src/app/models/movement-data.interface.ts
-- [ ] T154 [P] Create TimeSlot interface in building-layout-tutorial/src/app/models/movement-data.interface.ts
-- [ ] T155 Implement parseWorkweek function in building-layout-tutorial/src/app/utils/workweek-parser.ts
-- [ ] T156 Implement formatWorkweek function in building-layout-tutorial/src/app/utils/workweek-parser.ts
-- [ ] T157 Implement validateWorkweek function in building-layout-tutorial/src/app/utils/workweek-parser.ts
-- [ ] T158 Add workweek regex validation constant in building-layout-tutorial/src/app/utils/workweek-parser.ts
+- [X] T152 [P] Create MovementData interface in building-layout-tutorial/src/app/models/movement-data.interface.ts
+- [X] T153 [P] Create MovementGeneratorConfig interface in building-layout-tutorial/src/app/models/movement-data.interface.ts
+- [X] T154 [P] Create TimeSlot interface in building-layout-tutorial/src/app/models/movement-data.interface.ts
+- [X] T155 Implement parseWorkweek function in building-layout-tutorial/src/app/utils/workweek-parser.ts
+- [X] T156 Implement formatWorkweek function in building-layout-tutorial/src/app/utils/workweek-parser.ts
+- [X] T157 Implement validateWorkweek function in building-layout-tutorial/src/app/utils/workweek-parser.ts
+- [X] T158 Add workweek regex validation constant in building-layout-tutorial/src/app/utils/workweek-parser.ts
 
 **Checkpoint**: Movement tracking foundation ready
 
@@ -1276,19 +1276,19 @@ If the 30° tilt causes issues (e.g., interactions broken, too cramped):
 
 ### Implementation for User Story 7
 
-- [ ] T164 [US7] Generate MovementGeneratorService using Angular CLI (ng generate service services/movement-generator)
-- [ ] T165 [US7] Implement seeded RNG initialization using seedrandom in building-layout-tutorial/src/app/services/movement-generator.service.ts
-- [ ] T166 [US7] Implement randomInt utility method in building-layout-tutorial/src/app/services/movement-generator.service.ts
-- [ ] T167 [US7] Implement selectRandom utility method in building-layout-tutorial/src/app/services/movement-generator.service.ts
-- [ ] T168 [US7] Implement getWeekRange method in building-layout-tutorial/src/app/services/movement-generator.service.ts
-- [ ] T169 [US7] Implement generateSingleMovement method in building-layout-tutorial/src/app/services/movement-generator.service.ts
-- [ ] T170 [US7] Implement generateMovements core logic with loop over week range in building-layout-tutorial/src/app/services/movement-generator.service.ts
-- [ ] T171 [US7] Add validation to ensure no self-loops (fromRegion ≠ toRegion) in building-layout-tutorial/src/app/services/movement-generator.service.ts
-- [ ] T172 [US7] Add metadata generation (peakHour, dayOfWeek, category) in building-layout-tutorial/src/app/services/movement-generator.service.ts
-- [ ] T173 [US7] Implement validateMovement method in building-layout-tutorial/src/app/services/movement-generator.service.ts
-- [ ] T174 [P] [US7] Create sample movement data JSON file in building-layout-tutorial/src/assets/data/sample-movements.json
-- [ ] T175 [US7] Integrate MovementGeneratorService into AppComponent for demo in building-layout-tutorial/src/app/app.component.ts
-- [ ] T176 [US7] Add console logging to verify generated movement count in building-layout-tutorial/src/app/app.component.ts
+- [X] T164 [US7] Generate MovementGeneratorService using Angular CLI (ng generate service services/movement-generator)
+- [X] T165 [US7] Implement seeded RNG initialization using seedrandom in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [X] T166 [US7] Implement randomInt utility method in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [X] T167 [US7] Implement selectRandom utility method in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [X] T168 [US7] Implement getWeekRange method in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [X] T169 [US7] Implement generateSingleMovement method in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [X] T170 [US7] Implement generateMovements core logic with loop over week range in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [X] T171 [US7] Add validation to ensure no self-loops (fromRegion ≠ toRegion) in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [X] T172 [US7] Add metadata generation (peakHour, dayOfWeek, category) in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [X] T173 [US7] Implement validateMovement method in building-layout-tutorial/src/app/services/movement-generator.service.ts
+- [X] T174 [P] [US7] Create sample movement data JSON file in building-layout-tutorial/src/assets/data/sample-movements.json
+- [X] T175 [US7] Integrate MovementGeneratorService into AppComponent for demo in building-layout-tutorial/src/app/app.component.ts
+- [X] T176 [US7] Add console logging to verify generated movement count in building-layout-tutorial/src/app/app.component.ts
 
 **Checkpoint**: Movement data can be generated programmatically with reproducible results. Running the app should show "Generated N movement records" in console.
 

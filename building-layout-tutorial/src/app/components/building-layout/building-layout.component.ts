@@ -8,6 +8,7 @@ import { FloorInfo } from '../../models/floor.interface';  // T127: Floor info f
 import { SvgRendererService } from '../../services/svg-renderer.service';
 import { FloorUtils } from '../../utils/floor-utils';  // T130: Floor utilities
 import { FloorSelectorComponent } from './floor-selector/floor-selector.component';  // T128: Floor selector
+import { MovementData } from '../../models/movement-data.interface';
 
 @Component({
   selector: 'app-building-layout',
@@ -19,6 +20,7 @@ import { FloorSelectorComponent } from './floor-selector/floor-selector.componen
 export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDestroy {
   // T032: Component inputs
   @Input() config: LayoutConfiguration = { regions: [] };
+  @Input() movements: MovementData[] = [];
   @Input() width: number = 800;
   @Input() height: number = 600;
   @Input() showControls: boolean = true;
@@ -75,6 +77,7 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
 
     this.renderer.render(this.config, this.viewport, this.selectedFloor);
     this.renderer.setViewMode(this.viewMode);  // T075: Apply initial view mode
+    this.renderer.renderMovements(this.movements);
     this.renderComplete.emit();
   }
 
@@ -90,6 +93,7 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
 
       if (!changes['config'].firstChange) {
         this.renderer.render(this.config, this.viewport, this.selectedFloor);
+        this.renderer.renderMovements(this.movements);
       }
     }
 
@@ -99,11 +103,16 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
       this.renderer.setViewMode(this.viewMode);
       // Re-render when view mode changes to apply floor filtering correctly
       this.renderer.render(this.config, this.viewport, this.selectedFloor);
+      this.renderer.renderMovements(this.movements);
     }
 
     // Handle selected floor changes
     if (changes['selectedFloor'] && !changes['selectedFloor'].firstChange) {
       this.renderer.render(this.config, this.viewport, this.selectedFloor);
+      this.renderer.renderMovements(this.movements);
+    }
+     if (changes['movements'] && !changes['movements'].firstChange) {
+      this.renderer.renderMovements(this.movements);
     }
   }
 

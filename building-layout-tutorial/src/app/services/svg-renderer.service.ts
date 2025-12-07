@@ -1,6 +1,7 @@
 // T027-T030: SvgRendererService with D3.js rendering
 import { Injectable, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
+import { MovementData } from '../models/movement-data.interface';
 import { LayoutConfiguration } from '../models/layout-config.interface';
 import { Viewport, ViewMode } from '../models/viewport.interface';
 import { Region } from '../models/region.interface';
@@ -19,6 +20,11 @@ export class SvgRendererService {
   private contentGroup: d3.Selection<SVGGElement, unknown, null, undefined> | null = null;
   private zoom: d3.ZoomBehavior<SVGSVGElement, unknown> | null = null;
   private currentViewMode: ViewMode = '2d';
+  private currentConfig: LayoutConfiguration | null = null;
+  private currentViewport: Viewport | null = null;
+  private xScale: d3.ScaleLinear<number, number> | null = null;
+  private yScale: d3.ScaleLinear<number, number> | null = null;
+
 
   constructor(private isometricProj: IsometricProjection) {}
 
@@ -42,6 +48,9 @@ export class SvgRendererService {
 
   render(config: LayoutConfiguration, viewport: Viewport, selectedFloor?: number | null): void {
     if (!this.svg || !this.contentGroup) return;
+    
+    this.currentConfig = config;
+    this.currentViewport = viewport;
 
     this.contentGroup.selectAll('*').remove(); // Clear previous render
 
@@ -60,6 +69,8 @@ export class SvgRendererService {
       viewport.width,
       viewport.height
     );
+    this.xScale = xScale;
+    this.yScale = yScale;
 
     const rects = this.contentGroup!
       .selectAll<SVGRectElement, Region>('rect.region')
@@ -353,5 +364,85 @@ export class SvgRendererService {
 
   getViewMode(): ViewMode {
     return this.currentViewMode;
+  }
+  // Renders movement flows (arrows) on the SVG canvas
+  renderMovements(movements: MovementData[]): void {
+    if (!this.svg || !this.contentGroup || !this.currentConfig) return;
+
+    // Clear previous movement flows
+    this.contentGroup.selectAll('.flow-links').remove();
+    this.svg.select('defs').remove(); // Remove old markers
+
+    if (!movements || movements.length === 0) return;
+    
+    // Define arrowhead marker
+    const defs = this.svg.append('defs');
+    defs.append('marker')
+      .attr('id', 'arrowhead')
+      .attr('viewBox', '-0 -5 10 10')
+      .attr('refX', 5)
+      .attr('refY', 0)
+      .attr('orient', 'auto')
+      .attr('markerWidth', 6)
+      .attr('markerHeight', 6)
+      .append('path')
+      .attr('d', 'M0,-5L10,0L0,5')
+      .attr('fill', '#000');
+      
+    const regionsMap = new Map(this.currentConfig.regions.map(r => [r.id, r]));
+    const maxMoves = Math.max(...movements.map(m => m.moves), 0);
+
+    const linksGroup = this.contentGroup.append('g').attr('class', 'flow-links');
+
+    for (const movement of movements) {
+      const fromRegion = regionsMap.get(movement.fromRegion);
+      const toRegion = regionsMap.get(movement.toRegion);
+
+      if (!fromRegion || !toRegion) continue;
+
+      const startX = fromRegion.x + fromRegion.width / 2;
+      const startY = fromRegion.y + fromRegion.height / 2;
+      const endX = toRegion.x + toRegion.width / 2;
+      const endY = toRegion.y + toRegion.height / 2;
+      
+      let d = '';
+
+      if (this.currentViewMode === 'isometric') {
+        const startZ = (fromRegion.floor ?? 0) * FLOOR_HEIGHT;
+        const endZ = (toRegion.floor ?? 0) * FLOOR_HEIGHT;
+
+        if (startZ === endZ) {
+          // Same floor: straight line
+          const arrowZ = startZ + 1;
+          const start = this.isometricProj.project(startX, startY, arrowZ);
+          const end = this.isometricProj.project(endX, endY, arrowZ);
+          d = `M${start[0]},${start[1]}L${end[0]},${end[1]}`;
+        } else {
+          // Different floors: arc
+          const midZ = (startZ + endZ) / 2 + FLOOR_HEIGHT * 1.5; // Arc height
+          const p1 = this.isometricProj.project(startX, startY, startZ);
+          const p2 = this.isometricProj.project(startX, startY, midZ);
+          const p3 = this.isometricProj.project(endX, endY, midZ);
+          const p4 = this.isometricProj.project(endX, endY, endZ);
+          d = `M${p1[0]},${p1[1]} C${p2[0]},${p2[1]} ${p3[0]},${p3[1]} ${p4[0]},${p4[1]}`;
+        }
+      } else {
+        if (fromRegion.floor !== toRegion.floor) continue;
+        if (!this.xScale || !this.yScale) continue;
+        const start = [this.xScale(startX), this.yScale(startY)];
+        const end = [this.xScale(endX), this.yScale(endY)];
+        d = `M${start[0]},${start[1]}L${end[0]},${end[1]}`;
+      }
+
+      const thickness = maxMoves > 0 ? Math.max(1, (movement.moves / maxMoves) * 10) : 1;
+
+      linksGroup.append('path')
+        .attr('class', 'flow-link')
+        .attr('d', d)
+        .attr('stroke', 'rgba(0, 0, 0, 0.5)')
+        .attr('stroke-width', thickness)
+        .attr('marker-end', 'url(#arrowhead)')
+        .attr('fill', 'none');
+    }
   }
 }

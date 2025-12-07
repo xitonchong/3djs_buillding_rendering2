@@ -35,6 +35,7 @@
     <app-building-layout
       *ngIf="layoutConfig && !isLoading && !errorMessage"
       [config]="layoutConfig"
+      [movements]="movements"
       [width]="1024"
       [height]="768"
       [showControls]="true"

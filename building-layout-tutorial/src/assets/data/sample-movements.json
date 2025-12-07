@@ -1,0 +1,38 @@
+[
+  {
+    "id": "mov-202501-001",
+    "fromRegion": "lobby",
+    "toRegion": "reception",
+    "moves": 15,
+    "workweek": "202501",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202501-002",
+    "fromRegion": "reception",
+    "toRegion": "conf-1-1",
+    "moves": 12,
+    "workweek": "202501",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202501-003",
+    "fromRegion": "conf-1-1",
+    "toRegion": "lobby",
+    "moves": 20,
+    "workweek": "202501",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  }
+]
