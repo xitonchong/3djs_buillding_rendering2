@@ -71,10 +71,10 @@ export class AppComponent implements OnInit {
     const movementConfig: MovementGeneratorConfig = {
       regions: config.regions,
       startWeek: '202501',
-      endWeek: '202505',
-      recordsPerWeek: 1,
+      endWeek: '202532',
+      recordsPerWeek: 3,
       minMoves: 5,
-      maxMoves: 30,
+      maxMoves: 50,
       seed: 'demo-seed-2025'
     };
 

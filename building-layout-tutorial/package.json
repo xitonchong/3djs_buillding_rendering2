@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "generate:movements": "ts-node --project scripts/tsconfig.json scripts/generate-movements.ts"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +33,7 @@
     "@types/d3": "^7.4.0",
     "@types/d3-sankey": "^0.12.5",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^20.0.0",
     "@types/seedrandom": "^3.0.8",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
@@ -39,6 +41,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "ts-node": "^10.9.0",
     "typescript": "~5.4.0"
   }
 }

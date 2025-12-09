@@ -1,10 +1,1311 @@
 [
   {
-    "id": "mov-202501-001",
-    "fromRegion": "lobby",
-    "toRegion": "reception",
-    "moves": 15,
+    "id": "mov-202501-0",
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "moves": 20,
     "workweek": "202501",
+    "timestamp": "2024-12-31T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202501-1",
+    "fromRegion": "E-2",
+    "toRegion": "mailroom",
+    "moves": 36,
+    "workweek": "202501",
+    "timestamp": "2024-12-31T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202501-2",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 26,
+    "workweek": "202501",
+    "timestamp": "2024-12-31T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202501-3",
+    "fromRegion": "office-2-1",
+    "toRegion": "mailroom",
+    "moves": 38,
+    "workweek": "202501",
+    "timestamp": "2024-12-31T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202501-4",
+    "fromRegion": "E-2",
+    "toRegion": "E-1",
+    "moves": 13,
+    "workweek": "202501",
+    "timestamp": "2024-12-31T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202501-5",
+    "fromRegion": "mailroom",
+    "toRegion": "E-3",
+    "moves": 41,
+    "workweek": "202501",
+    "timestamp": "2024-12-31T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202501-6",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 32,
+    "workweek": "202501",
+    "timestamp": "2024-12-31T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202501-7",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 47,
+    "workweek": "202501",
+    "timestamp": "2024-12-31T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202501-8",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-3",
+    "moves": 14,
+    "workweek": "202501",
+    "timestamp": "2024-12-31T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202501-9",
+    "fromRegion": "office-2-1",
+    "toRegion": "F-2",
+    "moves": 35,
+    "workweek": "202501",
+    "timestamp": "2024-12-31T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202502-0",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 17,
+    "workweek": "202502",
+    "timestamp": "2025-01-07T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202502-1",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 46,
+    "workweek": "202502",
+    "timestamp": "2025-01-07T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202502-2",
+    "fromRegion": "mailroom",
+    "toRegion": "E-2",
+    "moves": 8,
+    "workweek": "202502",
+    "timestamp": "2025-01-07T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202502-3",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 37,
+    "workweek": "202502",
+    "timestamp": "2025-01-07T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202502-4",
+    "fromRegion": "E-3",
+    "toRegion": "mailroom",
+    "moves": 50,
+    "workweek": "202502",
+    "timestamp": "2025-01-07T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202502-5",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 29,
+    "workweek": "202502",
+    "timestamp": "2025-01-07T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202502-6",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 18,
+    "workweek": "202502",
+    "timestamp": "2025-01-07T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202502-7",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 10,
+    "workweek": "202502",
+    "timestamp": "2025-01-07T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202502-8",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 9,
+    "workweek": "202502",
+    "timestamp": "2025-01-07T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202502-9",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 42,
+    "workweek": "202502",
+    "timestamp": "2025-01-07T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202503-0",
+    "fromRegion": "mailroom",
+    "toRegion": "G-1",
+    "moves": 6,
+    "workweek": "202503",
+    "timestamp": "2025-01-14T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202503-1",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 11,
+    "workweek": "202503",
+    "timestamp": "2025-01-14T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202503-2",
+    "fromRegion": "F-2",
+    "toRegion": "E-1",
+    "moves": 50,
+    "workweek": "202503",
+    "timestamp": "2025-01-14T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202503-3",
+    "fromRegion": "G-1",
+    "toRegion": "E-2",
+    "moves": 35,
+    "workweek": "202503",
+    "timestamp": "2025-01-14T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202503-4",
+    "fromRegion": "F-2",
+    "toRegion": "E-1",
+    "moves": 43,
+    "workweek": "202503",
+    "timestamp": "2025-01-14T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202503-5",
+    "fromRegion": "F-2",
+    "toRegion": "mailroom",
+    "moves": 19,
+    "workweek": "202503",
+    "timestamp": "2025-01-14T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202503-6",
+    "fromRegion": "mailroom",
+    "toRegion": "E-2",
+    "moves": 36,
+    "workweek": "202503",
+    "timestamp": "2025-01-14T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202503-7",
+    "fromRegion": "E-3",
+    "toRegion": "E-1",
+    "moves": 46,
+    "workweek": "202503",
+    "timestamp": "2025-01-14T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202503-8",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 31,
+    "workweek": "202503",
+    "timestamp": "2025-01-14T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202503-9",
+    "fromRegion": "G-1",
+    "toRegion": "mailroom",
+    "moves": 12,
+    "workweek": "202503",
+    "timestamp": "2025-01-14T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202504-0",
+    "fromRegion": "F-2",
+    "toRegion": "E-3",
+    "moves": 36,
+    "workweek": "202504",
+    "timestamp": "2025-01-21T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202504-1",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 49,
+    "workweek": "202504",
+    "timestamp": "2025-01-21T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202504-2",
+    "fromRegion": "office-2-1",
+    "toRegion": "F-2",
+    "moves": 31,
+    "workweek": "202504",
+    "timestamp": "2025-01-21T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202504-3",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 37,
+    "workweek": "202504",
+    "timestamp": "2025-01-21T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202504-4",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 20,
+    "workweek": "202504",
+    "timestamp": "2025-01-21T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202504-5",
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "moves": 36,
+    "workweek": "202504",
+    "timestamp": "2025-01-21T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202504-6",
+    "fromRegion": "E-2",
+    "toRegion": "office-2-1",
+    "moves": 12,
+    "workweek": "202504",
+    "timestamp": "2025-01-21T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202504-7",
+    "fromRegion": "G-1",
+    "toRegion": "office-2-1",
+    "moves": 49,
+    "workweek": "202504",
+    "timestamp": "2025-01-21T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202504-8",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-3",
+    "moves": 37,
+    "workweek": "202504",
+    "timestamp": "2025-01-21T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202504-9",
+    "fromRegion": "E-2",
+    "toRegion": "office-2-1",
+    "moves": 49,
+    "workweek": "202504",
+    "timestamp": "2025-01-21T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202505-0",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 44,
+    "workweek": "202505",
+    "timestamp": "2025-01-28T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202505-1",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 39,
+    "workweek": "202505",
+    "timestamp": "2025-01-28T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202505-2",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 41,
+    "workweek": "202505",
+    "timestamp": "2025-01-28T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202505-3",
+    "fromRegion": "office-2-1",
+    "toRegion": "F-2",
+    "moves": 11,
+    "workweek": "202505",
+    "timestamp": "2025-01-28T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202505-4",
+    "fromRegion": "F-2",
+    "toRegion": "E-2",
+    "moves": 36,
+    "workweek": "202505",
+    "timestamp": "2025-01-28T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202505-5",
+    "fromRegion": "G-1",
+    "toRegion": "E-2",
+    "moves": 22,
+    "workweek": "202505",
+    "timestamp": "2025-01-28T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202505-6",
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "moves": 12,
+    "workweek": "202505",
+    "timestamp": "2025-01-28T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202505-7",
+    "fromRegion": "G-1",
+    "toRegion": "mailroom",
+    "moves": 8,
+    "workweek": "202505",
+    "timestamp": "2025-01-28T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202505-8",
+    "fromRegion": "mailroom",
+    "toRegion": "office-2-1",
+    "moves": 8,
+    "workweek": "202505",
+    "timestamp": "2025-01-28T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202505-9",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 17,
+    "workweek": "202505",
+    "timestamp": "2025-01-28T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202506-0",
+    "fromRegion": "G-1",
+    "toRegion": "F-2",
+    "moves": 23,
+    "workweek": "202506",
+    "timestamp": "2025-02-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202506-1",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 38,
+    "workweek": "202506",
+    "timestamp": "2025-02-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202506-2",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 9,
+    "workweek": "202506",
+    "timestamp": "2025-02-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202506-3",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 39,
+    "workweek": "202506",
+    "timestamp": "2025-02-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202506-4",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 27,
+    "workweek": "202506",
+    "timestamp": "2025-02-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202506-5",
+    "fromRegion": "G-1",
+    "toRegion": "mailroom",
+    "moves": 12,
+    "workweek": "202506",
+    "timestamp": "2025-02-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202506-6",
+    "fromRegion": "F-2",
+    "toRegion": "G-1",
+    "moves": 37,
+    "workweek": "202506",
+    "timestamp": "2025-02-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202506-7",
+    "fromRegion": "G-1",
+    "toRegion": "F-2",
+    "moves": 39,
+    "workweek": "202506",
+    "timestamp": "2025-02-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202506-8",
+    "fromRegion": "F-2",
+    "toRegion": "G-1",
+    "moves": 38,
+    "workweek": "202506",
+    "timestamp": "2025-02-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202506-9",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 9,
+    "workweek": "202506",
+    "timestamp": "2025-02-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202507-0",
+    "fromRegion": "G-1",
+    "toRegion": "mailroom",
+    "moves": 9,
+    "workweek": "202507",
+    "timestamp": "2025-02-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202507-1",
+    "fromRegion": "G-1",
+    "toRegion": "office-2-1",
+    "moves": 14,
+    "workweek": "202507",
+    "timestamp": "2025-02-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202507-2",
+    "fromRegion": "E-2",
+    "toRegion": "G-1",
+    "moves": 29,
+    "workweek": "202507",
+    "timestamp": "2025-02-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202507-3",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 47,
+    "workweek": "202507",
+    "timestamp": "2025-02-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202507-4",
+    "fromRegion": "E-1",
+    "toRegion": "mailroom",
+    "moves": 47,
+    "workweek": "202507",
+    "timestamp": "2025-02-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202507-5",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 42,
+    "workweek": "202507",
+    "timestamp": "2025-02-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202507-6",
+    "fromRegion": "E-2",
+    "toRegion": "office-2-1",
+    "moves": 45,
+    "workweek": "202507",
+    "timestamp": "2025-02-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202507-7",
+    "fromRegion": "mailroom",
+    "toRegion": "E-2",
+    "moves": 33,
+    "workweek": "202507",
+    "timestamp": "2025-02-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202507-8",
+    "fromRegion": "E-3",
+    "toRegion": "E-2",
+    "moves": 12,
+    "workweek": "202507",
+    "timestamp": "2025-02-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202507-9",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 9,
+    "workweek": "202507",
+    "timestamp": "2025-02-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202508-0",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 40,
+    "workweek": "202508",
+    "timestamp": "2025-02-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202508-1",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 16,
+    "workweek": "202508",
+    "timestamp": "2025-02-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202508-2",
+    "fromRegion": "E-2",
+    "toRegion": "F-2",
+    "moves": 49,
+    "workweek": "202508",
+    "timestamp": "2025-02-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202508-3",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 15,
+    "workweek": "202508",
+    "timestamp": "2025-02-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202508-4",
+    "fromRegion": "E-1",
+    "toRegion": "E-1",
+    "moves": 48,
+    "workweek": "202508",
+    "timestamp": "2025-02-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202508-5",
+    "fromRegion": "E-2",
+    "toRegion": "F-2",
+    "moves": 12,
+    "workweek": "202508",
+    "timestamp": "2025-02-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202508-6",
+    "fromRegion": "F-2",
+    "toRegion": "E-3",
+    "moves": 43,
+    "workweek": "202508",
+    "timestamp": "2025-02-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202508-7",
+    "fromRegion": "office-2-1",
+    "toRegion": "F-2",
+    "moves": 21,
+    "workweek": "202508",
+    "timestamp": "2025-02-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202508-8",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 39,
+    "workweek": "202508",
+    "timestamp": "2025-02-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202508-9",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 43,
+    "workweek": "202508",
+    "timestamp": "2025-02-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202509-0",
+    "fromRegion": "G-1",
+    "toRegion": "mailroom",
+    "moves": 25,
+    "workweek": "202509",
+    "timestamp": "2025-02-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202509-1",
+    "fromRegion": "E-2",
+    "toRegion": "G-1",
+    "moves": 8,
+    "workweek": "202509",
+    "timestamp": "2025-02-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202509-2",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 31,
+    "workweek": "202509",
+    "timestamp": "2025-02-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202509-3",
+    "fromRegion": "E-2",
+    "toRegion": "E-3",
+    "moves": 9,
+    "workweek": "202509",
+    "timestamp": "2025-02-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202509-4",
+    "fromRegion": "E-3",
+    "toRegion": "E-2",
+    "moves": 46,
+    "workweek": "202509",
+    "timestamp": "2025-02-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202509-5",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 36,
+    "workweek": "202509",
+    "timestamp": "2025-02-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202509-6",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 33,
+    "workweek": "202509",
+    "timestamp": "2025-02-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202509-7",
+    "fromRegion": "E-3",
+    "toRegion": "office-2-1",
+    "moves": 48,
+    "workweek": "202509",
+    "timestamp": "2025-02-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202509-8",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 40,
+    "workweek": "202509",
+    "timestamp": "2025-02-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202509-9",
+    "fromRegion": "F-2",
+    "toRegion": "office-2-1",
+    "moves": 45,
+    "workweek": "202509",
+    "timestamp": "2025-02-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202510-0",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-1",
+    "moves": 33,
+    "workweek": "202510",
+    "timestamp": "2025-03-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202510-1",
+    "fromRegion": "F-2",
+    "toRegion": "G-1",
+    "moves": 43,
+    "workweek": "202510",
+    "timestamp": "2025-03-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202510-2",
+    "fromRegion": "E-1",
+    "toRegion": "E-1",
+    "moves": 45,
+    "workweek": "202510",
+    "timestamp": "2025-03-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202510-3",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 20,
+    "workweek": "202510",
+    "timestamp": "2025-03-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202510-4",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 5,
+    "workweek": "202510",
+    "timestamp": "2025-03-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202510-5",
+    "fromRegion": "E-3",
+    "toRegion": "G-1",
+    "moves": 25,
+    "workweek": "202510",
+    "timestamp": "2025-03-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202510-6",
+    "fromRegion": "E-2",
+    "toRegion": "G-1",
+    "moves": 12,
+    "workweek": "202510",
+    "timestamp": "2025-03-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202510-7",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 20,
+    "workweek": "202510",
+    "timestamp": "2025-03-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202510-8",
+    "fromRegion": "E-3",
+    "toRegion": "E-2",
+    "moves": 37,
+    "workweek": "202510",
+    "timestamp": "2025-03-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202510-9",
+    "fromRegion": "E-3",
+    "toRegion": "G-1",
+    "moves": 49,
+    "workweek": "202510",
+    "timestamp": "2025-03-04T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202511-0",
+    "fromRegion": "E-2",
+    "toRegion": "F-2",
+    "moves": 44,
+    "workweek": "202511",
+    "timestamp": "2025-03-11T16:00:00.000Z",
     "metadata": {
       "peakHour": 8,
       "dayOfWeek": 1,
@@ -12,11 +1313,25 @@
     }
   },
   {
-    "id": "mov-202501-002",
-    "fromRegion": "reception",
-    "toRegion": "conf-1-1",
-    "moves": 12,
-    "workweek": "202501",
+    "id": "mov-202511-1",
+    "fromRegion": "E-2",
+    "toRegion": "G-1",
+    "moves": 19,
+    "workweek": "202511",
+    "timestamp": "2025-03-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202511-2",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 29,
+    "workweek": "202511",
+    "timestamp": "2025-03-11T16:00:00.000Z",
     "metadata": {
       "peakHour": 9,
       "dayOfWeek": 1,
@@ -24,15 +1339,2824 @@
     }
   },
   {
-    "id": "mov-202501-003",
-    "fromRegion": "conf-1-1",
-    "toRegion": "lobby",
-    "moves": 20,
-    "workweek": "202501",
+    "id": "mov-202511-3",
+    "fromRegion": "F-2",
+    "toRegion": "G-1",
+    "moves": 11,
+    "workweek": "202511",
+    "timestamp": "2025-03-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202511-4",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 19,
+    "workweek": "202511",
+    "timestamp": "2025-03-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202511-5",
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "moves": 38,
+    "workweek": "202511",
+    "timestamp": "2025-03-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202511-6",
+    "fromRegion": "F-2",
+    "toRegion": "E-3",
+    "moves": 49,
+    "workweek": "202511",
+    "timestamp": "2025-03-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202511-7",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-3",
+    "moves": 40,
+    "workweek": "202511",
+    "timestamp": "2025-03-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202511-8",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 13,
+    "workweek": "202511",
+    "timestamp": "2025-03-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202511-9",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 10,
+    "workweek": "202511",
+    "timestamp": "2025-03-11T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202512-0",
+    "fromRegion": "E-1",
+    "toRegion": "E-1",
+    "moves": 29,
+    "workweek": "202512",
+    "timestamp": "2025-03-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202512-1",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 18,
+    "workweek": "202512",
+    "timestamp": "2025-03-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202512-2",
+    "fromRegion": "G-1",
+    "toRegion": "mailroom",
+    "moves": 9,
+    "workweek": "202512",
+    "timestamp": "2025-03-18T16:00:00.000Z",
     "metadata": {
       "peakHour": 12,
       "dayOfWeek": 1,
       "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202512-3",
+    "fromRegion": "E-2",
+    "toRegion": "G-1",
+    "moves": 35,
+    "workweek": "202512",
+    "timestamp": "2025-03-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202512-4",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 35,
+    "workweek": "202512",
+    "timestamp": "2025-03-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202512-5",
+    "fromRegion": "G-1",
+    "toRegion": "mailroom",
+    "moves": 24,
+    "workweek": "202512",
+    "timestamp": "2025-03-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202512-6",
+    "fromRegion": "office-2-1",
+    "toRegion": "F-2",
+    "moves": 27,
+    "workweek": "202512",
+    "timestamp": "2025-03-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202512-7",
+    "fromRegion": "E-1",
+    "toRegion": "mailroom",
+    "moves": 50,
+    "workweek": "202512",
+    "timestamp": "2025-03-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202512-8",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 38,
+    "workweek": "202512",
+    "timestamp": "2025-03-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202512-9",
+    "fromRegion": "office-2-1",
+    "toRegion": "mailroom",
+    "moves": 13,
+    "workweek": "202512",
+    "timestamp": "2025-03-18T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202513-0",
+    "fromRegion": "F-2",
+    "toRegion": "E-2",
+    "moves": 15,
+    "workweek": "202513",
+    "timestamp": "2025-03-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202513-1",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 37,
+    "workweek": "202513",
+    "timestamp": "2025-03-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202513-2",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 41,
+    "workweek": "202513",
+    "timestamp": "2025-03-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202513-3",
+    "fromRegion": "E-2",
+    "toRegion": "F-2",
+    "moves": 6,
+    "workweek": "202513",
+    "timestamp": "2025-03-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202513-4",
+    "fromRegion": "E-3",
+    "toRegion": "G-1",
+    "moves": 26,
+    "workweek": "202513",
+    "timestamp": "2025-03-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202513-5",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 34,
+    "workweek": "202513",
+    "timestamp": "2025-03-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202513-6",
+    "fromRegion": "mailroom",
+    "toRegion": "G-1",
+    "moves": 31,
+    "workweek": "202513",
+    "timestamp": "2025-03-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202513-7",
+    "fromRegion": "E-2",
+    "toRegion": "G-1",
+    "moves": 41,
+    "workweek": "202513",
+    "timestamp": "2025-03-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202513-8",
+    "fromRegion": "E-3",
+    "toRegion": "F-2",
+    "moves": 10,
+    "workweek": "202513",
+    "timestamp": "2025-03-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202513-9",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 31,
+    "workweek": "202513",
+    "timestamp": "2025-03-25T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202514-0",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 11,
+    "workweek": "202514",
+    "timestamp": "2025-04-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202514-1",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-1",
+    "moves": 28,
+    "workweek": "202514",
+    "timestamp": "2025-04-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202514-2",
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "moves": 49,
+    "workweek": "202514",
+    "timestamp": "2025-04-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202514-3",
+    "fromRegion": "office-2-1",
+    "toRegion": "F-2",
+    "moves": 13,
+    "workweek": "202514",
+    "timestamp": "2025-04-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202514-4",
+    "fromRegion": "mailroom",
+    "toRegion": "G-1",
+    "moves": 14,
+    "workweek": "202514",
+    "timestamp": "2025-04-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202514-5",
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "moves": 25,
+    "workweek": "202514",
+    "timestamp": "2025-04-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202514-6",
+    "fromRegion": "F-2",
+    "toRegion": "E-2",
+    "moves": 27,
+    "workweek": "202514",
+    "timestamp": "2025-04-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202514-7",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 26,
+    "workweek": "202514",
+    "timestamp": "2025-04-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202514-8",
+    "fromRegion": "G-1",
+    "toRegion": "office-2-1",
+    "moves": 34,
+    "workweek": "202514",
+    "timestamp": "2025-04-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202514-9",
+    "fromRegion": "F-2",
+    "toRegion": "E-1",
+    "moves": 42,
+    "workweek": "202514",
+    "timestamp": "2025-04-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202515-0",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 28,
+    "workweek": "202515",
+    "timestamp": "2025-04-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202515-1",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-1",
+    "moves": 28,
+    "workweek": "202515",
+    "timestamp": "2025-04-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202515-2",
+    "fromRegion": "mailroom",
+    "toRegion": "G-1",
+    "moves": 30,
+    "workweek": "202515",
+    "timestamp": "2025-04-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202515-3",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 15,
+    "workweek": "202515",
+    "timestamp": "2025-04-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202515-4",
+    "fromRegion": "office-2-1",
+    "toRegion": "F-2",
+    "moves": 26,
+    "workweek": "202515",
+    "timestamp": "2025-04-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202515-5",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 16,
+    "workweek": "202515",
+    "timestamp": "2025-04-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202515-6",
+    "fromRegion": "E-2",
+    "toRegion": "office-2-1",
+    "moves": 42,
+    "workweek": "202515",
+    "timestamp": "2025-04-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202515-7",
+    "fromRegion": "G-1",
+    "toRegion": "office-2-1",
+    "moves": 46,
+    "workweek": "202515",
+    "timestamp": "2025-04-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202515-8",
+    "fromRegion": "G-1",
+    "toRegion": "office-2-1",
+    "moves": 6,
+    "workweek": "202515",
+    "timestamp": "2025-04-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202515-9",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 48,
+    "workweek": "202515",
+    "timestamp": "2025-04-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202516-0",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 46,
+    "workweek": "202516",
+    "timestamp": "2025-04-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202516-1",
+    "fromRegion": "E-2",
+    "toRegion": "mailroom",
+    "moves": 20,
+    "workweek": "202516",
+    "timestamp": "2025-04-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202516-2",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 24,
+    "workweek": "202516",
+    "timestamp": "2025-04-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202516-3",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 34,
+    "workweek": "202516",
+    "timestamp": "2025-04-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202516-4",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 17,
+    "workweek": "202516",
+    "timestamp": "2025-04-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202516-5",
+    "fromRegion": "E-3",
+    "toRegion": "G-1",
+    "moves": 24,
+    "workweek": "202516",
+    "timestamp": "2025-04-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202516-6",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 30,
+    "workweek": "202516",
+    "timestamp": "2025-04-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202516-7",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 32,
+    "workweek": "202516",
+    "timestamp": "2025-04-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202516-8",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-1",
+    "moves": 49,
+    "workweek": "202516",
+    "timestamp": "2025-04-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202516-9",
+    "fromRegion": "E-2",
+    "toRegion": "E-1",
+    "moves": 5,
+    "workweek": "202516",
+    "timestamp": "2025-04-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202517-0",
+    "fromRegion": "F-2",
+    "toRegion": "G-1",
+    "moves": 44,
+    "workweek": "202517",
+    "timestamp": "2025-04-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202517-1",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 9,
+    "workweek": "202517",
+    "timestamp": "2025-04-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202517-2",
+    "fromRegion": "E-2",
+    "toRegion": "E-1",
+    "moves": 14,
+    "workweek": "202517",
+    "timestamp": "2025-04-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202517-3",
+    "fromRegion": "E-3",
+    "toRegion": "mailroom",
+    "moves": 12,
+    "workweek": "202517",
+    "timestamp": "2025-04-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202517-4",
+    "fromRegion": "E-3",
+    "toRegion": "E-1",
+    "moves": 29,
+    "workweek": "202517",
+    "timestamp": "2025-04-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202517-5",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 32,
+    "workweek": "202517",
+    "timestamp": "2025-04-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202517-6",
+    "fromRegion": "E-1",
+    "toRegion": "E-1",
+    "moves": 42,
+    "workweek": "202517",
+    "timestamp": "2025-04-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202517-7",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 11,
+    "workweek": "202517",
+    "timestamp": "2025-04-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202517-8",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 5,
+    "workweek": "202517",
+    "timestamp": "2025-04-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202517-9",
+    "fromRegion": "F-2",
+    "toRegion": "E-1",
+    "moves": 31,
+    "workweek": "202517",
+    "timestamp": "2025-04-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202518-0",
+    "fromRegion": "E-1",
+    "toRegion": "mailroom",
+    "moves": 43,
+    "workweek": "202518",
+    "timestamp": "2025-04-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202518-1",
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "moves": 27,
+    "workweek": "202518",
+    "timestamp": "2025-04-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202518-2",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 23,
+    "workweek": "202518",
+    "timestamp": "2025-04-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202518-3",
+    "fromRegion": "mailroom",
+    "toRegion": "G-1",
+    "moves": 36,
+    "workweek": "202518",
+    "timestamp": "2025-04-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202518-4",
+    "fromRegion": "E-2",
+    "toRegion": "E-3",
+    "moves": 26,
+    "workweek": "202518",
+    "timestamp": "2025-04-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202518-5",
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "moves": 36,
+    "workweek": "202518",
+    "timestamp": "2025-04-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202518-6",
+    "fromRegion": "E-1",
+    "toRegion": "mailroom",
+    "moves": 30,
+    "workweek": "202518",
+    "timestamp": "2025-04-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202518-7",
+    "fromRegion": "G-1",
+    "toRegion": "office-2-1",
+    "moves": 23,
+    "workweek": "202518",
+    "timestamp": "2025-04-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202518-8",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 16,
+    "workweek": "202518",
+    "timestamp": "2025-04-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202518-9",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 40,
+    "workweek": "202518",
+    "timestamp": "2025-04-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202519-0",
+    "fromRegion": "F-2",
+    "toRegion": "mailroom",
+    "moves": 18,
+    "workweek": "202519",
+    "timestamp": "2025-05-06T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202519-1",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-2",
+    "moves": 42,
+    "workweek": "202519",
+    "timestamp": "2025-05-06T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202519-2",
+    "fromRegion": "office-2-1",
+    "toRegion": "mailroom",
+    "moves": 19,
+    "workweek": "202519",
+    "timestamp": "2025-05-06T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202519-3",
+    "fromRegion": "F-2",
+    "toRegion": "G-1",
+    "moves": 23,
+    "workweek": "202519",
+    "timestamp": "2025-05-06T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202519-4",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 23,
+    "workweek": "202519",
+    "timestamp": "2025-05-06T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202519-5",
+    "fromRegion": "E-2",
+    "toRegion": "mailroom",
+    "moves": 21,
+    "workweek": "202519",
+    "timestamp": "2025-05-06T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202519-6",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 13,
+    "workweek": "202519",
+    "timestamp": "2025-05-06T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202519-7",
+    "fromRegion": "G-1",
+    "toRegion": "E-2",
+    "moves": 38,
+    "workweek": "202519",
+    "timestamp": "2025-05-06T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202519-8",
+    "fromRegion": "E-3",
+    "toRegion": "G-1",
+    "moves": 18,
+    "workweek": "202519",
+    "timestamp": "2025-05-06T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202519-9",
+    "fromRegion": "mailroom",
+    "toRegion": "E-1",
+    "moves": 50,
+    "workweek": "202519",
+    "timestamp": "2025-05-06T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202520-0",
+    "fromRegion": "G-1",
+    "toRegion": "mailroom",
+    "moves": 41,
+    "workweek": "202520",
+    "timestamp": "2025-05-13T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202520-1",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 48,
+    "workweek": "202520",
+    "timestamp": "2025-05-13T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202520-2",
+    "fromRegion": "F-2",
+    "toRegion": "G-1",
+    "moves": 41,
+    "workweek": "202520",
+    "timestamp": "2025-05-13T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202520-3",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 33,
+    "workweek": "202520",
+    "timestamp": "2025-05-13T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202520-4",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 17,
+    "workweek": "202520",
+    "timestamp": "2025-05-13T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202520-5",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 31,
+    "workweek": "202520",
+    "timestamp": "2025-05-13T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202520-6",
+    "fromRegion": "F-2",
+    "toRegion": "E-3",
+    "moves": 37,
+    "workweek": "202520",
+    "timestamp": "2025-05-13T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202520-7",
+    "fromRegion": "F-2",
+    "toRegion": "E-3",
+    "moves": 22,
+    "workweek": "202520",
+    "timestamp": "2025-05-13T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202520-8",
+    "fromRegion": "E-2",
+    "toRegion": "mailroom",
+    "moves": 48,
+    "workweek": "202520",
+    "timestamp": "2025-05-13T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202520-9",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 26,
+    "workweek": "202520",
+    "timestamp": "2025-05-13T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202521-0",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 41,
+    "workweek": "202521",
+    "timestamp": "2025-05-20T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202521-1",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 27,
+    "workweek": "202521",
+    "timestamp": "2025-05-20T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202521-2",
+    "fromRegion": "F-2",
+    "toRegion": "E-1",
+    "moves": 20,
+    "workweek": "202521",
+    "timestamp": "2025-05-20T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202521-3",
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "moves": 22,
+    "workweek": "202521",
+    "timestamp": "2025-05-20T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202521-4",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 24,
+    "workweek": "202521",
+    "timestamp": "2025-05-20T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202521-5",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 42,
+    "workweek": "202521",
+    "timestamp": "2025-05-20T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202521-6",
+    "fromRegion": "E-3",
+    "toRegion": "F-2",
+    "moves": 25,
+    "workweek": "202521",
+    "timestamp": "2025-05-20T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202521-7",
+    "fromRegion": "F-2",
+    "toRegion": "mailroom",
+    "moves": 23,
+    "workweek": "202521",
+    "timestamp": "2025-05-20T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202521-8",
+    "fromRegion": "F-2",
+    "toRegion": "E-3",
+    "moves": 23,
+    "workweek": "202521",
+    "timestamp": "2025-05-20T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202521-9",
+    "fromRegion": "office-2-1",
+    "toRegion": "F-2",
+    "moves": 5,
+    "workweek": "202521",
+    "timestamp": "2025-05-20T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202522-0",
+    "fromRegion": "F-2",
+    "toRegion": "E-3",
+    "moves": 48,
+    "workweek": "202522",
+    "timestamp": "2025-05-27T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202522-1",
+    "fromRegion": "E-3",
+    "toRegion": "E-1",
+    "moves": 18,
+    "workweek": "202522",
+    "timestamp": "2025-05-27T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202522-2",
+    "fromRegion": "G-1",
+    "toRegion": "F-2",
+    "moves": 46,
+    "workweek": "202522",
+    "timestamp": "2025-05-27T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202522-3",
+    "fromRegion": "F-2",
+    "toRegion": "G-1",
+    "moves": 18,
+    "workweek": "202522",
+    "timestamp": "2025-05-27T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202522-4",
+    "fromRegion": "E-3",
+    "toRegion": "E-2",
+    "moves": 19,
+    "workweek": "202522",
+    "timestamp": "2025-05-27T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202522-5",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 7,
+    "workweek": "202522",
+    "timestamp": "2025-05-27T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202522-6",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 17,
+    "workweek": "202522",
+    "timestamp": "2025-05-27T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202522-7",
+    "fromRegion": "F-2",
+    "toRegion": "E-2",
+    "moves": 6,
+    "workweek": "202522",
+    "timestamp": "2025-05-27T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202522-8",
+    "fromRegion": "E-3",
+    "toRegion": "E-1",
+    "moves": 5,
+    "workweek": "202522",
+    "timestamp": "2025-05-27T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202522-9",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 42,
+    "workweek": "202522",
+    "timestamp": "2025-05-27T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202523-0",
+    "fromRegion": "G-1",
+    "toRegion": "F-2",
+    "moves": 50,
+    "workweek": "202523",
+    "timestamp": "2025-06-03T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202523-1",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 23,
+    "workweek": "202523",
+    "timestamp": "2025-06-03T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202523-2",
+    "fromRegion": "G-1",
+    "toRegion": "E-2",
+    "moves": 6,
+    "workweek": "202523",
+    "timestamp": "2025-06-03T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202523-3",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 8,
+    "workweek": "202523",
+    "timestamp": "2025-06-03T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202523-4",
+    "fromRegion": "G-1",
+    "toRegion": "mailroom",
+    "moves": 50,
+    "workweek": "202523",
+    "timestamp": "2025-06-03T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202523-5",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 13,
+    "workweek": "202523",
+    "timestamp": "2025-06-03T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202523-6",
+    "fromRegion": "mailroom",
+    "toRegion": "office-2-1",
+    "moves": 44,
+    "workweek": "202523",
+    "timestamp": "2025-06-03T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202523-7",
+    "fromRegion": "E-2",
+    "toRegion": "F-2",
+    "moves": 27,
+    "workweek": "202523",
+    "timestamp": "2025-06-03T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202523-8",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 20,
+    "workweek": "202523",
+    "timestamp": "2025-06-03T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202523-9",
+    "fromRegion": "mailroom",
+    "toRegion": "office-2-1",
+    "moves": 31,
+    "workweek": "202523",
+    "timestamp": "2025-06-03T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202524-0",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-2",
+    "moves": 21,
+    "workweek": "202524",
+    "timestamp": "2025-06-10T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202524-1",
+    "fromRegion": "G-1",
+    "toRegion": "F-2",
+    "moves": 36,
+    "workweek": "202524",
+    "timestamp": "2025-06-10T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202524-2",
+    "fromRegion": "E-2",
+    "toRegion": "E-1",
+    "moves": 49,
+    "workweek": "202524",
+    "timestamp": "2025-06-10T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202524-3",
+    "fromRegion": "G-1",
+    "toRegion": "office-2-1",
+    "moves": 49,
+    "workweek": "202524",
+    "timestamp": "2025-06-10T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202524-4",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-3",
+    "moves": 48,
+    "workweek": "202524",
+    "timestamp": "2025-06-10T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202524-5",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 37,
+    "workweek": "202524",
+    "timestamp": "2025-06-10T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202524-6",
+    "fromRegion": "E-3",
+    "toRegion": "E-2",
+    "moves": 5,
+    "workweek": "202524",
+    "timestamp": "2025-06-10T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202524-7",
+    "fromRegion": "G-1",
+    "toRegion": "E-2",
+    "moves": 22,
+    "workweek": "202524",
+    "timestamp": "2025-06-10T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202524-8",
+    "fromRegion": "mailroom",
+    "toRegion": "E-1",
+    "moves": 37,
+    "workweek": "202524",
+    "timestamp": "2025-06-10T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202524-9",
+    "fromRegion": "E-3",
+    "toRegion": "E-1",
+    "moves": 25,
+    "workweek": "202524",
+    "timestamp": "2025-06-10T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202525-0",
+    "fromRegion": "F-2",
+    "toRegion": "office-2-1",
+    "moves": 9,
+    "workweek": "202525",
+    "timestamp": "2025-06-17T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202525-1",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-3",
+    "moves": 32,
+    "workweek": "202525",
+    "timestamp": "2025-06-17T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202525-2",
+    "fromRegion": "F-2",
+    "toRegion": "mailroom",
+    "moves": 34,
+    "workweek": "202525",
+    "timestamp": "2025-06-17T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202525-3",
+    "fromRegion": "E-3",
+    "toRegion": "E-1",
+    "moves": 22,
+    "workweek": "202525",
+    "timestamp": "2025-06-17T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202525-4",
+    "fromRegion": "E-3",
+    "toRegion": "F-2",
+    "moves": 50,
+    "workweek": "202525",
+    "timestamp": "2025-06-17T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202525-5",
+    "fromRegion": "E-3",
+    "toRegion": "F-2",
+    "moves": 27,
+    "workweek": "202525",
+    "timestamp": "2025-06-17T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202525-6",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 35,
+    "workweek": "202525",
+    "timestamp": "2025-06-17T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202525-7",
+    "fromRegion": "mailroom",
+    "toRegion": "F-2",
+    "moves": 32,
+    "workweek": "202525",
+    "timestamp": "2025-06-17T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202525-8",
+    "fromRegion": "E-1",
+    "toRegion": "E-1",
+    "moves": 31,
+    "workweek": "202525",
+    "timestamp": "2025-06-17T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202525-9",
+    "fromRegion": "mailroom",
+    "toRegion": "G-1",
+    "moves": 47,
+    "workweek": "202525",
+    "timestamp": "2025-06-17T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202526-0",
+    "fromRegion": "E-1",
+    "toRegion": "mailroom",
+    "moves": 34,
+    "workweek": "202526",
+    "timestamp": "2025-06-24T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202526-1",
+    "fromRegion": "G-1",
+    "toRegion": "office-2-1",
+    "moves": 5,
+    "workweek": "202526",
+    "timestamp": "2025-06-24T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202526-2",
+    "fromRegion": "G-1",
+    "toRegion": "mailroom",
+    "moves": 18,
+    "workweek": "202526",
+    "timestamp": "2025-06-24T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202526-3",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 24,
+    "workweek": "202526",
+    "timestamp": "2025-06-24T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202526-4",
+    "fromRegion": "E-2",
+    "toRegion": "office-2-1",
+    "moves": 15,
+    "workweek": "202526",
+    "timestamp": "2025-06-24T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202526-5",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 14,
+    "workweek": "202526",
+    "timestamp": "2025-06-24T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202526-6",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 22,
+    "workweek": "202526",
+    "timestamp": "2025-06-24T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202526-7",
+    "fromRegion": "mailroom",
+    "toRegion": "G-1",
+    "moves": 44,
+    "workweek": "202526",
+    "timestamp": "2025-06-24T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202526-8",
+    "fromRegion": "F-2",
+    "toRegion": "office-2-1",
+    "moves": 32,
+    "workweek": "202526",
+    "timestamp": "2025-06-24T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202526-9",
+    "fromRegion": "G-1",
+    "toRegion": "E-2",
+    "moves": 47,
+    "workweek": "202526",
+    "timestamp": "2025-06-24T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202527-0",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 21,
+    "workweek": "202527",
+    "timestamp": "2025-07-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202527-1",
+    "fromRegion": "E-3",
+    "toRegion": "mailroom",
+    "moves": 20,
+    "workweek": "202527",
+    "timestamp": "2025-07-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202527-2",
+    "fromRegion": "E-2",
+    "toRegion": "mailroom",
+    "moves": 23,
+    "workweek": "202527",
+    "timestamp": "2025-07-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202527-3",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 21,
+    "workweek": "202527",
+    "timestamp": "2025-07-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202527-4",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 21,
+    "workweek": "202527",
+    "timestamp": "2025-07-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202527-5",
+    "fromRegion": "mailroom",
+    "toRegion": "E-1",
+    "moves": 49,
+    "workweek": "202527",
+    "timestamp": "2025-07-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202527-6",
+    "fromRegion": "F-2",
+    "toRegion": "E-1",
+    "moves": 8,
+    "workweek": "202527",
+    "timestamp": "2025-07-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 2,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202527-7",
+    "fromRegion": "F-2",
+    "toRegion": "mailroom",
+    "moves": 7,
+    "workweek": "202527",
+    "timestamp": "2025-07-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202527-8",
+    "fromRegion": "E-3",
+    "toRegion": "G-1",
+    "moves": 45,
+    "workweek": "202527",
+    "timestamp": "2025-07-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202527-9",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-3",
+    "moves": 28,
+    "workweek": "202527",
+    "timestamp": "2025-07-01T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202528-0",
+    "fromRegion": "mailroom",
+    "toRegion": "E-1",
+    "moves": 38,
+    "workweek": "202528",
+    "timestamp": "2025-07-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202528-1",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 37,
+    "workweek": "202528",
+    "timestamp": "2025-07-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202528-2",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-1",
+    "moves": 32,
+    "workweek": "202528",
+    "timestamp": "2025-07-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202528-3",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 28,
+    "workweek": "202528",
+    "timestamp": "2025-07-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202528-4",
+    "fromRegion": "E-2",
+    "toRegion": "E-3",
+    "moves": 16,
+    "workweek": "202528",
+    "timestamp": "2025-07-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202528-5",
+    "fromRegion": "mailroom",
+    "toRegion": "E-3",
+    "moves": 49,
+    "workweek": "202528",
+    "timestamp": "2025-07-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202528-6",
+    "fromRegion": "E-3",
+    "toRegion": "mailroom",
+    "moves": 46,
+    "workweek": "202528",
+    "timestamp": "2025-07-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202528-7",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 50,
+    "workweek": "202528",
+    "timestamp": "2025-07-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202528-8",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 41,
+    "workweek": "202528",
+    "timestamp": "2025-07-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202528-9",
+    "fromRegion": "E-1",
+    "toRegion": "E-3",
+    "moves": 27,
+    "workweek": "202528",
+    "timestamp": "2025-07-08T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 4,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202529-0",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 32,
+    "workweek": "202529",
+    "timestamp": "2025-07-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202529-1",
+    "fromRegion": "F-2",
+    "toRegion": "E-1",
+    "moves": 18,
+    "workweek": "202529",
+    "timestamp": "2025-07-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 3,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202529-2",
+    "fromRegion": "mailroom",
+    "toRegion": "office-2-1",
+    "moves": 10,
+    "workweek": "202529",
+    "timestamp": "2025-07-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202529-3",
+    "fromRegion": "E-2",
+    "toRegion": "G-1",
+    "moves": 29,
+    "workweek": "202529",
+    "timestamp": "2025-07-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 3,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202529-4",
+    "fromRegion": "E-2",
+    "toRegion": "E-1",
+    "moves": 17,
+    "workweek": "202529",
+    "timestamp": "2025-07-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 13,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202529-5",
+    "fromRegion": "F-2",
+    "toRegion": "mailroom",
+    "moves": 10,
+    "workweek": "202529",
+    "timestamp": "2025-07-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202529-6",
+    "fromRegion": "F-2",
+    "toRegion": "E-3",
+    "moves": 14,
+    "workweek": "202529",
+    "timestamp": "2025-07-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 5,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202529-7",
+    "fromRegion": "E-3",
+    "toRegion": "F-2",
+    "moves": 11,
+    "workweek": "202529",
+    "timestamp": "2025-07-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 1,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202529-8",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 5,
+    "workweek": "202529",
+    "timestamp": "2025-07-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202529-9",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 20,
+    "workweek": "202529",
+    "timestamp": "2025-07-15T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 3,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202530-0",
+    "fromRegion": "E-3",
+    "toRegion": "G-1",
+    "moves": 43,
+    "workweek": "202530",
+    "timestamp": "2025-07-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202530-1",
+    "fromRegion": "F-2",
+    "toRegion": "E-1",
+    "moves": 30,
+    "workweek": "202530",
+    "timestamp": "2025-07-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202530-2",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 24,
+    "workweek": "202530",
+    "timestamp": "2025-07-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202530-3",
+    "fromRegion": "G-1",
+    "toRegion": "E-3",
+    "moves": 16,
+    "workweek": "202530",
+    "timestamp": "2025-07-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 12,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202530-4",
+    "fromRegion": "G-1",
+    "toRegion": "E-1",
+    "moves": 20,
+    "workweek": "202530",
+    "timestamp": "2025-07-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 11,
+      "dayOfWeek": 4,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202530-5",
+    "fromRegion": "office-2-1",
+    "toRegion": "F-2",
+    "moves": 49,
+    "workweek": "202530",
+    "timestamp": "2025-07-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202530-6",
+    "fromRegion": "G-1",
+    "toRegion": "office-2-1",
+    "moves": 14,
+    "workweek": "202530",
+    "timestamp": "2025-07-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202530-7",
+    "fromRegion": "F-2",
+    "toRegion": "G-1",
+    "moves": 45,
+    "workweek": "202530",
+    "timestamp": "2025-07-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 5,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202530-8",
+    "fromRegion": "E-1",
+    "toRegion": "E-2",
+    "moves": 19,
+    "workweek": "202530",
+    "timestamp": "2025-07-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202530-9",
+    "fromRegion": "office-2-1",
+    "toRegion": "E-2",
+    "moves": 13,
+    "workweek": "202530",
+    "timestamp": "2025-07-22T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202531-0",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 13,
+    "workweek": "202531",
+    "timestamp": "2025-07-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202531-1",
+    "fromRegion": "mailroom",
+    "toRegion": "G-1",
+    "moves": 21,
+    "workweek": "202531",
+    "timestamp": "2025-07-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202531-2",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 6,
+    "workweek": "202531",
+    "timestamp": "2025-07-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 1,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202531-3",
+    "fromRegion": "mailroom",
+    "toRegion": "office-2-1",
+    "moves": 42,
+    "workweek": "202531",
+    "timestamp": "2025-07-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202531-4",
+    "fromRegion": "G-1",
+    "toRegion": "F-2",
+    "moves": 49,
+    "workweek": "202531",
+    "timestamp": "2025-07-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202531-5",
+    "fromRegion": "E-3",
+    "toRegion": "F-2",
+    "moves": 39,
+    "workweek": "202531",
+    "timestamp": "2025-07-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 3,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202531-6",
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "moves": 30,
+    "workweek": "202531",
+    "timestamp": "2025-07-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 16,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202531-7",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 22,
+    "workweek": "202531",
+    "timestamp": "2025-07-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 2,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202531-8",
+    "fromRegion": "mailroom",
+    "toRegion": "G-1",
+    "moves": 19,
+    "workweek": "202531",
+    "timestamp": "2025-07-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 2,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202531-9",
+    "fromRegion": "E-1",
+    "toRegion": "office-2-1",
+    "moves": 32,
+    "workweek": "202531",
+    "timestamp": "2025-07-29T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202532-0",
+    "fromRegion": "G-1",
+    "toRegion": "G-1",
+    "moves": 18,
+    "workweek": "202532",
+    "timestamp": "2025-08-05T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 17,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202532-1",
+    "fromRegion": "F-2",
+    "toRegion": "G-1",
+    "moves": 8,
+    "workweek": "202532",
+    "timestamp": "2025-08-05T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 2,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202532-2",
+    "fromRegion": "office-2-1",
+    "toRegion": "G-1",
+    "moves": 27,
+    "workweek": "202532",
+    "timestamp": "2025-08-05T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 10,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202532-3",
+    "fromRegion": "F-2",
+    "toRegion": "office-2-1",
+    "moves": 9,
+    "workweek": "202532",
+    "timestamp": "2025-08-05T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 14,
+      "dayOfWeek": 5,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202532-4",
+    "fromRegion": "E-3",
+    "toRegion": "mailroom",
+    "moves": 33,
+    "workweek": "202532",
+    "timestamp": "2025-08-05T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 4,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202532-5",
+    "fromRegion": "E-1",
+    "toRegion": "G-1",
+    "moves": 33,
+    "workweek": "202532",
+    "timestamp": "2025-08-05T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 9,
+      "dayOfWeek": 1,
+      "category": "dismissal"
+    }
+  },
+  {
+    "id": "mov-202532-6",
+    "fromRegion": "mailroom",
+    "toRegion": "E-1",
+    "moves": 30,
+    "workweek": "202532",
+    "timestamp": "2025-08-05T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 15,
+      "dayOfWeek": 4,
+      "category": "class-change"
+    }
+  },
+  {
+    "id": "mov-202532-7",
+    "fromRegion": "E-2",
+    "toRegion": "office-2-1",
+    "moves": 40,
+    "workweek": "202532",
+    "timestamp": "2025-08-05T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 1,
+      "category": "arrival"
+    }
+  },
+  {
+    "id": "mov-202532-8",
+    "fromRegion": "E-2",
+    "toRegion": "E-1",
+    "moves": 36,
+    "workweek": "202532",
+    "timestamp": "2025-08-05T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 8,
+      "dayOfWeek": 5,
+      "category": "lunch-break"
+    }
+  },
+  {
+    "id": "mov-202532-9",
+    "fromRegion": "E-3",
+    "toRegion": "E-2",
+    "moves": 33,
+    "workweek": "202532",
+    "timestamp": "2025-08-05T16:00:00.000Z",
+    "metadata": {
+      "peakHour": 7,
+      "dayOfWeek": 1,
+      "category": "dismissal"
     }
   }
 ]
