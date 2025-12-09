@@ -18,9 +18,10 @@ import { MovementData } from '../../models/movement-data.interface';
   styleUrls: ['./building-layout.component.scss']
 })
 export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDestroy {
-  // T032: Component inputs
+  // T032 & T037: Component inputs
   @Input() config: LayoutConfiguration = { regions: [] };
   @Input() movements: MovementData[] = [];
+  @Input() selectedWeeks: string[] = []; // T037: Selected weeks for opacity filtering
   @Input() width: number = 800;
   @Input() height: number = 600;
   @Input() showControls: boolean = true;
@@ -77,7 +78,7 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
 
     this.renderer.render(this.config, this.viewport, this.selectedFloor);
     this.renderer.setViewMode(this.viewMode);  // T075: Apply initial view mode
-    this.renderer.renderMovements(this.movements);
+    this.renderer.renderMovements(this.movements, this.selectedWeeks); // T037: Pass selectedWeeks
     this.renderComplete.emit();
   }
 
@@ -93,7 +94,7 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
 
       if (!changes['config'].firstChange) {
         this.renderer.render(this.config, this.viewport, this.selectedFloor);
-        this.renderer.renderMovements(this.movements);
+        this.renderer.renderMovements(this.movements, this.selectedWeeks); // T037
       }
     }
 
@@ -103,16 +104,20 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
       this.renderer.setViewMode(this.viewMode);
       // Re-render when view mode changes to apply floor filtering correctly
       this.renderer.render(this.config, this.viewport, this.selectedFloor);
-      this.renderer.renderMovements(this.movements);
+      this.renderer.renderMovements(this.movements, this.selectedWeeks); // T037
     }
 
     // Handle selected floor changes
     if (changes['selectedFloor'] && !changes['selectedFloor'].firstChange) {
       this.renderer.render(this.config, this.viewport, this.selectedFloor);
-      this.renderer.renderMovements(this.movements);
+      this.renderer.renderMovements(this.movements, this.selectedWeeks); // T037
     }
-     if (changes['movements'] && !changes['movements'].firstChange) {
-      this.renderer.renderMovements(this.movements);
+
+    // Handle movements or selectedWeeks changes
+    if (changes['movements'] || changes['selectedWeeks']) {
+      if (!changes['movements']?.firstChange || !changes['selectedWeeks']?.firstChange) {
+        this.renderer.renderMovements(this.movements, this.selectedWeeks); // T037
+      }
     }
   }
 

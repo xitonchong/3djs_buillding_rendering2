@@ -1,19 +1,22 @@
 // T055-T056: App Component - Updated to load from JSON file
 // T175-T176: Added movement tracking integration
+// T017-T023: Added workweek filtering and state management
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BuildingLayoutComponent } from './components/building-layout/building-layout.component';
+import { WorkweekSelectorComponent } from './components/workweek-selector/workweek-selector.component';
 import { LayoutConfiguration } from './models/layout-config.interface';
 import { ViewMode } from './models/viewport.interface';
 import { Region } from './models/region.interface';
 import { LayoutLoaderService } from './services/layout-loader.service';
 import { MovementGeneratorService } from './services/movement-generator.service';
+import { WorkweekFilterService } from './services/workweek-filter.service';
 import { MovementData, MovementGeneratorConfig } from './models/movement-data.interface';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, BuildingLayoutComponent],
+  imports: [CommonModule, BuildingLayoutComponent, WorkweekSelectorComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -34,9 +37,14 @@ export class AppComponent implements OnInit {
   // T175: Movement tracking data
   movements: MovementData[] = [];
 
+  // T017-T018: Workweek filtering state
+  selectedWeeks: string[] = [];
+  availableWeeks: string[] = [];
+
   constructor(
     private layoutLoader: LayoutLoaderService,
-    private movementGen: MovementGeneratorService
+    private movementGen: MovementGeneratorService,
+    private workweekFilter: WorkweekFilterService
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +66,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  // T175-T176: Generate movement data for demo
+  // T175-T176 & T020-T022: Generate movement data and extract available weeks
   private generateMovementData(config: LayoutConfiguration): void {
     const movementConfig: MovementGeneratorConfig = {
       regions: config.regions,
@@ -71,8 +79,35 @@ export class AppComponent implements OnInit {
     };
 
     this.movements = this.movementGen.generateMovements(movementConfig, this.currentFloor, this.currentViewMode === 'isometric');
+
+    // T020: Extract available weeks from generated movements
+    this.availableWeeks = this.workweekFilter.extractAvailableWeeks(this.movements);
+
+    // T022: Initialize selectedWeeks with most recent week
+    if (this.availableWeeks.length > 0) {
+      const mostRecentWeek = this.workweekFilter.getMostRecentWeek(this.availableWeeks);
+      if (mostRecentWeek) {
+        this.selectedWeeks = [mostRecentWeek];
+      }
+    }
+
     console.log(`✅ Generated ${this.movements.length} movement records`);
-    console.log('📊 Sample movements:', this.movements);
+    console.log(`📅 Available weeks: ${this.availableWeeks.join(', ')}`);
+    console.log(`✅ Selected week: ${this.selectedWeeks.join(', ')}`);
+  }
+
+  // T021: Get filtered movements based on selected weeks
+  getFilteredMovements(): MovementData[] {
+    if (this.selectedWeeks.length === 0) {
+      return [];
+    }
+    return this.workweekFilter.filterMovementsByWeeks(this.movements, this.selectedWeeks);
+  }
+
+  // T019: Handle workweek selection change from selector component
+  onWeekSelectionChange(newSelection: string[]): void {
+    this.selectedWeeks = newSelection;
+    console.log(`📅 Week selection changed: ${newSelection.join(', ')}`);
   }
 
   onRegionHover(region: Region | null): void {

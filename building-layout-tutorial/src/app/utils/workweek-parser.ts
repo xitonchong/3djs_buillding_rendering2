@@ -120,3 +120,48 @@ export function getWeekRange(startWeek: string, endWeek: string): string[] {
 
   return weeks;
 }
+
+/**
+ * Extract unique available weeks from an array of workweek strings and sort them.
+ *
+ * @param workweeks - Array of workweek strings (may contain duplicates)
+ * @returns Sorted array of unique workweek strings (chronological order)
+ *
+ * @example
+ * ```typescript
+ * const weeks = getAvailableWeeks(['202525', '202524', '202525', '202501']);
+ * // Returns: ['202501', '202524', '202525']
+ * ```
+ */
+export function getAvailableWeeks(workweeks: string[]): string[] {
+  if (!workweeks || workweeks.length === 0) {
+    return [];
+  }
+
+  // Use Set to get unique values
+  const uniqueWeeks = new Set<string>();
+
+  workweeks.forEach(week => {
+    if (week && validateWorkweek(week)) {
+      uniqueWeeks.add(week);
+    }
+  });
+
+  // Sort chronologically (YYYYWW format sorts lexicographically)
+  return Array.from(uniqueWeeks).sort();
+}
+
+/**
+ * Get current workweek string for today's date.
+ *
+ * @returns Current workweek in YYYYWW format
+ *
+ * @example
+ * ```typescript
+ * const currentWeek = getCurrentWeek();
+ * // Returns: "202550" (if today is in week 50 of 2025)
+ * ```
+ */
+export function getCurrentWeek(): string {
+  return formatWorkweek(new Date());
+}

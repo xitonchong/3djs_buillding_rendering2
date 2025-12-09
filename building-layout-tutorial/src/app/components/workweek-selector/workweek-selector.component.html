@@ -1,0 +1,30 @@
+<!-- Workweek Selector Component Template -->
+<div class="workweek-selector-container" *ngIf="availableWeeks.length > 0">
+  <div class="selector-header">
+    <h3 class="selector-title">Select Workweeks</h3>
+    <span class="selection-count">{{ selectedWeeks.length }} of {{ availableWeeks.length }} selected</span>
+  </div>
+
+  <div class="checkbox-list" role="group" aria-labelledby="workweek-selector-title">
+    <label
+      *ngFor="let week of availableWeeks"
+      class="checkbox-item"
+      [class.checked]="isWeekSelected(week)"
+      [class.disabled]="disabled">
+      <input
+        type="checkbox"
+        [checked]="isWeekSelected(week)"
+        [disabled]="disabled"
+        (change)="onCheckboxChange(week, $event)"
+        [attr.aria-label]="getWeekLabel(week)"
+        class="checkbox-input">
+      <span class="checkbox-label">{{ getWeekLabel(week) }}</span>
+    </label>
+  </div>
+</div>
+
+<!-- Empty state message -->
+<div class="empty-state" *ngIf="availableWeeks.length === 0">
+  <p class="empty-message">No movement data available</p>
+  <p class="empty-hint">Generate movement data to see workweek options</p>
+</div>

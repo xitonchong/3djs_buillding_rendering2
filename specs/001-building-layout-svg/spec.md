@@ -55,6 +55,26 @@ A user wants to interact with the visualized building layout by hovering over or
 
 ---
 
+### User Story 4 - Filter Movement Data by Workweek (Priority: P1)
+
+A user wants to filter student movement visualizations by selecting one or more specific workweeks to view movement patterns for those time periods only, supporting multi-select of non-consecutive weeks.
+
+**Why this priority**: Temporal filtering is essential for analyzing movement patterns over time and comparing different weeks. Multi-select enables comparative analysis across non-consecutive time periods.
+
+**Independent Test**: Can be fully tested by generating movement data for multiple weeks, selecting multiple non-consecutive weeks using the slider interface, and verifying only movements for selected weeks are displayed.
+
+**Acceptance Scenarios**:
+
+1. **Given** movement data exists for multiple weeks, **When** user checks a single workweek checkbox, **Then** system displays only movements for that week
+2. **Given** movement data exists for multiple weeks, **When** user checks multiple non-consecutive week checkboxes (e.g., week 1, week 3, week 5), **Then** system displays combined movements for all selected weeks
+3. **Given** multiple week checkboxes are checked, **When** user unchecks a week checkbox, **Then** system updates visualization to remove movements from that week while keeping other selected weeks visible
+4. **Given** user is in 2D mode viewing a specific floor, **When** user changes checkbox selections, **Then** system filters movements to show only selected weeks for that floor
+5. **Given** user is in isometric mode, **When** user changes checkbox selections, **Then** system filters movements across all floors to show only selected weeks
+6. **Given** checkbox list is displayed, **When** user views the interface, **Then** each checkbox is labeled with human-readable week information (e.g., "Week 25, 2025")
+7. **Given** multiple weeks are selected (e.g., week 1, week 3, week 5), **When** movements are visualized, **Then** movements from older weeks appear more transparent while movements from more recent weeks appear more opaque, creating visual temporal hierarchy
+
+---
+
 ### Edge Cases
 
 - What happens when coordinates define regions outside the visible canvas area?
@@ -77,6 +97,14 @@ A user wants to interact with the visualized building layout by hovering over or
 - **FR-008**: System MUST support viewport controls (zoom, pan, reset view)
 - **FR-009**: System MUST handle empty configurations gracefully by displaying appropriate feedback
 - **FR-010**: System MUST maintain aspect ratio of regions when scaling the overall layout
+- **FR-011**: System MUST provide workweek checkbox selector for filtering movement data by time period
+- **FR-012**: System MUST support multi-select of non-consecutive weeks via checkboxes
+- **FR-013**: System MUST filter movement visualizations to show only data for selected workweeks
+- **FR-014**: System MUST update movement visualization in real-time when workweek selection changes
+- **FR-015**: System MUST persist workweek filtering across view mode changes (2D to isometric and vice versa)
+- **FR-016**: System MUST default to selecting the most recent week when workweek selector first loads
+- **FR-017**: System MUST display human-readable labels for each week (format: "Week NN, YYYY")
+- **FR-018**: System MUST apply opacity/intensity variation to visually distinguish movements from different selected weeks, with older weeks rendered more transparent and recent weeks more opaque
 
 ### Key Entities
 
@@ -125,6 +153,18 @@ A user wants to interact with the visualized building layout by hovering over or
 - Floor selection in 2D mode with automatic filtering
 - CSS 3D transforms for isometric rendering
 
+## Clarifications
+
+### Session 2025-12-09
+
+- Q: When a user interacts with the workweek slider, what selection behavior should it support? → A: Multi-select - can select multiple non-consecutive weeks to view simultaneously
+- Q: Since the slider needs to support multi-select of non-consecutive weeks, how should the selection interface be presented? → A: Checkbox list with week labels - vertical or horizontal list of checkboxes for each available week
+- Q: When the workweek selector first loads with available movement data, what should be the default selection state? → A: Most recent week selected - show only the latest week, user can add more weeks to compare
+- Q: When multiple weeks are selected simultaneously, how should movements from different weeks be visually distinguished in the visualization? → A: Opacity/intensity variation - older weeks more transparent, recent weeks more opaque
+- Q: Should the workweek checkbox selector include bulk selection controls for user convenience? → A: No bulk controls - users must individually check/uncheck each week
+
+---
+
 ## Out of Scope
 
 - Interactive drawing or editing of regions directly on the visualization
@@ -132,3 +172,4 @@ A user wants to interact with the visualized building layout by hovering over or
 - Real-time collaboration or multi-user editing
 - Export to other formats (PDF, PNG, etc.)
 - Integration with building management systems or IoT devices
+- Bulk selection controls for workweek selector (Select All, Clear All, or preset filters)

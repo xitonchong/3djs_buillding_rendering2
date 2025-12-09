@@ -12,9 +12,17 @@
     <p class="subtitle-note">Configuration loaded from: assets/sample-data/building-layout.json</p>
     <p class="instructions" *ngIf="layoutConfig && !isLoading && !errorMessage">
       <strong>Instructions:</strong> Hover over regions to see details | Click regions for more info |
-      Use zoom controls or scroll to zoom | Drag to pan | Toggle 3D view
+      Use zoom controls or scroll to zoom | Drag to pan | Toggle 3D view | Select workweeks to filter movements
     </p>
   </header>
+
+  <!-- T025-T030: Workweek Selector -->
+  <app-workweek-selector
+    *ngIf="layoutConfig && !isLoading && !errorMessage && availableWeeks.length > 0"
+    [availableWeeks]="availableWeeks"
+    [selectedWeeks]="selectedWeeks"
+    (selectionChange)="onWeekSelectionChange($event)"
+  ></app-workweek-selector>
 
   <main>
     <!-- Loading State -->
@@ -35,7 +43,8 @@
     <app-building-layout
       *ngIf="layoutConfig && !isLoading && !errorMessage"
       [config]="layoutConfig"
-      [movements]="movements"
+      [movements]="getFilteredMovements()"
+      [selectedWeeks]="selectedWeeks"
       [width]="1024"
       [height]="768"
       [showControls]="true"

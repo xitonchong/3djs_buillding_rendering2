@@ -1,4 +1,5 @@
 // T027-T030: SvgRendererService with D3.js rendering
+// T032-T036: Added opacity-based temporal visualization
 import { Injectable, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
 import { MovementData } from '../models/movement-data.interface';
@@ -8,6 +9,7 @@ import { Region } from '../models/region.interface';
 import { ScaleCalculator } from '../utils/scale-calculator';
 import { IsometricProjection } from '../utils/isometric-projection'; // Using the new projection utility
 import { FloorUtils } from '../utils/floor-utils';
+import { WorkweekFilterService } from './workweek-filter.service';
 
 const FLOOR_HEIGHT = 300; // Vertical distance between floors
 
@@ -26,7 +28,10 @@ export class SvgRendererService {
   private yScale: d3.ScaleLinear<number, number> | null = null;
 
 
-  constructor(private isometricProj: IsometricProjection) {}
+  constructor(
+    private isometricProj: IsometricProjection,
+    private workweekFilter: WorkweekFilterService
+  ) {}
 
   initialize(container: ElementRef, width: number, height: number): void {
     this.svg = d3.select(container.nativeElement)
@@ -366,7 +371,8 @@ export class SvgRendererService {
     return this.currentViewMode;
   }
   // Renders movement flows (arrows) on the SVG canvas
-  renderMovements(movements: MovementData[]): void {
+  // T034: Updated to accept selectedWeeks for opacity calculation
+  renderMovements(movements: MovementData[], selectedWeeks?: string[]): void {
     if (!this.svg || !this.contentGroup || !this.currentConfig) return;
 
     // Clear previous movement flows
@@ -374,7 +380,7 @@ export class SvgRendererService {
     this.svg.select('defs').remove(); // Remove old markers
 
     if (!movements || movements.length === 0) return;
-    
+
     // Define arrowhead marker
     const defs = this.svg.append('defs');
     defs.append('marker')
@@ -388,9 +394,15 @@ export class SvgRendererService {
       .append('path')
       .attr('d', 'M0,-5L10,0L0,5')
       .attr('fill', '#000');
-      
+
     const regionsMap = new Map(this.currentConfig.regions.map(r => [r.id, r]));
     const maxMoves = Math.max(...movements.map(m => m.moves), 0);
+
+    // T033: Calculate opacity configurations for selected weeks
+    const opacityConfigs = selectedWeeks
+      ? this.workweekFilter.calculateOpacityConfigs(selectedWeeks)
+      : [];
+    const opacityMap = new Map(opacityConfigs.map(c => [c.workweek, c.opacity]));
 
     const linksGroup = this.contentGroup.append('g').attr('class', 'flow-links');
 
@@ -436,13 +448,82 @@ export class SvgRendererService {
 
       const thickness = maxMoves > 0 ? Math.max(1, (movement.moves / maxMoves) * 10) : 1;
 
+      // T035: Apply opacity based on week age
+      const weekOpacity = opacityMap.get(movement.workweek) ?? 1.0;
+      const strokeOpacity = 0.5 * weekOpacity; // Base opacity 0.5, scaled by week age
+
       linksGroup.append('path')
         .attr('class', 'flow-link')
         .attr('d', d)
-        .attr('stroke', 'rgba(0, 0, 0, 0.5)')
+        .attr('stroke', `rgba(0, 0, 0, ${strokeOpacity})`)
         .attr('stroke-width', thickness)
         .attr('marker-end', 'url(#arrowhead)')
-        .attr('fill', 'none');
+        .attr('fill', 'none')
+        .style('transition', 'opacity 0.3s ease'); // T036: Add smooth opacity transitions
+
+      // Add text label along the arrow
+      const label = `${movement.fromRegion}-${movement.toRegion}_ww:${movement.workweek}_moves:${movement.moves}`;
+
+      // Calculate midpoint for label placement
+      let labelX: number, labelY: number;
+
+      if (this.currentViewMode === 'isometric') {
+        const startZ = (fromRegion.floor ?? 0) * FLOOR_HEIGHT;
+        const endZ = (toRegion.floor ?? 0) * FLOOR_HEIGHT;
+
+        if (startZ === endZ) {
+          // Same floor: midpoint of straight line
+          const arrowZ = startZ + 1;
+          const start = this.isometricProj.project(startX, startY, arrowZ);
+          const end = this.isometricProj.project(endX, endY, arrowZ);
+          labelX = (start[0] + end[0]) / 2;
+          labelY = (start[1] + end[1]) / 2;
+        } else {
+          // Different floors: midpoint at peak of arc
+          const midZ = (startZ + endZ) / 2 + FLOOR_HEIGHT * 1.5;
+          const midX = (startX + endX) / 2;
+          const midY = (startY + endY) / 2;
+          const mid = this.isometricProj.project(midX, midY, midZ);
+          labelX = mid[0];
+          labelY = mid[1];
+        }
+      } else {
+        // 2D mode: simple midpoint
+        if (!this.xScale || !this.yScale) continue;
+        labelX = this.xScale((startX + endX) / 2);
+        labelY = this.yScale((startY + endY) / 2);
+      }
+
+      // Add background rectangle first
+      const textBg = linksGroup.append('rect')
+        .attr('class', 'flow-label-bg')
+        .attr('fill', 'rgba(255, 255, 255, 0.85)')
+        .attr('rx', 2);
+
+      // Add text label
+      const textElement = linksGroup.append('text')
+        .attr('class', 'flow-label')
+        .attr('x', labelX)
+        .attr('y', labelY)
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'middle')
+        .attr('font-size', '10px')
+        .attr('font-family', 'monospace')
+        .attr('fill', `rgba(0, 0, 0, ${weekOpacity})`)
+        .attr('pointer-events', 'none')
+        .style('user-select', 'none')
+        .text(label);
+
+      // Position background based on text dimensions
+      const textNode = textElement.node();
+      if (textNode) {
+        const bbox = textNode.getBBox();
+        textBg
+          .attr('x', bbox.x - 2)
+          .attr('y', bbox.y - 1)
+          .attr('width', bbox.width + 4)
+          .attr('height', bbox.height + 2);
+      }
     }
   }
 }
