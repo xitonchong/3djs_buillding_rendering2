@@ -16,15 +16,40 @@
     </p>
   </header>
 
-  <!-- T025-T030: Workweek Selector -->
-  <app-workweek-selector
-    *ngIf="layoutConfig && !isLoading && !errorMessage && availableWeeks.length > 0"
-    [availableWeeks]="availableWeeks"
-    [selectedWeeks]="selectedWeeks"
-    (selectionChange)="onWeekSelectionChange($event)"
-  ></app-workweek-selector>
-
   <main>
+    <!-- T025-T030 & TXXX: Content Wrapper for Sidebar and Main Content -->
+    <div class="content-wrapper" *ngIf="layoutConfig && !isLoading && !errorMessage">
+      <!-- Sidebar for Workweek Selector -->
+      <div class="sidebar">
+        <app-workweek-selector
+          *ngIf="availableWeeks.length > 0"
+          [availableWeeks]="availableWeeks"
+          [selectedWeeks]="selectedWeeks"
+          (selectionChange)="onWeekSelectionChange($event)"
+        ></app-workweek-selector>
+      </div>
+
+      <!-- Main Content for Visualization -->
+      <div class="main-content">
+        <app-building-layout
+          [config]="layoutConfig"
+          [movements]="getFilteredMovements()"
+          [selectedWeeks]="selectedWeeks"
+          [width]="1024"
+          [height]="768"
+          [showControls]="true"
+          [enableInteraction]="true"
+          [viewMode]="currentViewMode"
+          [selectedFloor]="currentFloor"
+          (regionHover)="onRegionHover($event)"
+          (regionClick)="onRegionClick($event)"
+          (renderComplete)="onRenderComplete()"
+          (viewModeChange)="onViewModeChange($event)"
+          (floorChange)="onFloorChange($event)"
+        ></app-building-layout>
+      </div>
+    </div>
+
     <!-- Loading State -->
     <div class="loading-container" *ngIf="isLoading">
       <div class="spinner"></div>
@@ -38,25 +63,6 @@
       <p class="error-message">{{ errorMessage }}</p>
       <button class="retry-button" (click)="ngOnInit()">Retry</button>
     </div>
-
-    <!-- Visualization -->
-    <app-building-layout
-      *ngIf="layoutConfig && !isLoading && !errorMessage"
-      [config]="layoutConfig"
-      [movements]="getFilteredMovements()"
-      [selectedWeeks]="selectedWeeks"
-      [width]="1024"
-      [height]="768"
-      [showControls]="true"
-      [enableInteraction]="true"
-      [viewMode]="currentViewMode"
-      [selectedFloor]="currentFloor"
-      (regionHover)="onRegionHover($event)"
-      (regionClick)="onRegionClick($event)"
-      (renderComplete)="onRenderComplete()"
-      (viewModeChange)="onViewModeChange($event)"
-      (floorChange)="onFloorChange($event)"
-    ></app-building-layout>
   </main>
 
   <footer *ngIf="layoutConfig && !isLoading && !errorMessage">
