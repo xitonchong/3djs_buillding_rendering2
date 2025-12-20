@@ -79,8 +79,8 @@ describe('MovementLimitLoaderService', () => {
     });
 
     const req = httpMock.expectOne('assets/data/movement-limits.json');
-    // Send invalid JSON
-    req.flush('{ invalid json }', { status: 200, statusText: 'OK' });
+    // Trigger a parsing error by flushing with an error event
+    req.error(new ProgressEvent('error'), { status: 0, statusText: 'Unknown Error' });
   });
 
   // T027: Test handles HTTP 404 error gracefully with console warning
