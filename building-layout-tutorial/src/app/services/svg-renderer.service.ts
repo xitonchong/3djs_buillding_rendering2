@@ -1,8 +1,10 @@
 // T027-T030: SvgRendererService with D3.js rendering
 // T032-T036: Added opacity-based temporal visualization
+// T018-T019: Added movement limit violation coloring
 import { Injectable, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
 import { MovementData } from '../models/movement-data.interface';
+import { MovementLimit } from '../models/movement-limit.interface';
 import { LayoutConfiguration } from '../models/layout-config.interface';
 import { Viewport, ViewMode } from '../models/viewport.interface';
 import { Region } from '../models/region.interface';
@@ -10,6 +12,7 @@ import { ScaleCalculator } from '../utils/scale-calculator';
 import { IsometricProjection } from '../utils/isometric-projection'; // Using the new projection utility
 import { FloorUtils } from '../utils/floor-utils';
 import { WorkweekFilterService } from './workweek-filter.service';
+import { MovementValidatorService } from './movement-validator.service';
 
 const FLOOR_HEIGHT = 300; // Vertical distance between floors
 
@@ -30,7 +33,8 @@ export class SvgRendererService {
 
   constructor(
     private isometricProj: IsometricProjection,
-    private workweekFilter: WorkweekFilterService
+    private workweekFilter: WorkweekFilterService,
+    private validator: MovementValidatorService
   ) {}
 
   initialize(container: ElementRef, width: number, height: number): void {
@@ -372,7 +376,8 @@ export class SvgRendererService {
   }
   // Renders movement flows (arrows) on the SVG canvas
   // T034: Updated to accept selectedWeeks for opacity calculation
-  renderMovements(movements: MovementData[], selectedWeeks?: string[]): void {
+  // T018: Updated to accept limits for violation coloring
+  renderMovements(movements: MovementData[], selectedWeeks?: string[], limits: MovementLimit[] = []): void {
     if (!this.svg || !this.contentGroup || !this.currentConfig) return;
 
     // Clear previous movement flows
@@ -381,8 +386,10 @@ export class SvgRendererService {
 
     if (!movements || movements.length === 0) return;
 
-    // Define arrowhead marker
+    // T019: Define arrowhead markers (default and red for violations)
     const defs = this.svg.append('defs');
+
+    // Default black arrowhead
     defs.append('marker')
       .attr('id', 'arrowhead')
       .attr('viewBox', '-0 -5 10 10')
@@ -394,6 +401,19 @@ export class SvgRendererService {
       .append('path')
       .attr('d', 'M0,-5L10,0L0,5')
       .attr('fill', '#000');
+
+    // Red arrowhead for limit violations
+    defs.append('marker')
+      .attr('id', 'arrowhead-red')
+      .attr('viewBox', '-0 -5 10 10')
+      .attr('refX', 5)
+      .attr('refY', 0)
+      .attr('orient', 'auto')
+      .attr('markerWidth', 6)
+      .attr('markerHeight', 6)
+      .append('path')
+      .attr('d', 'M0,-5L10,0L0,5')
+      .attr('fill', 'red');
 
     const regionsMap = new Map(this.currentConfig.regions.map(r => [r.id, r]));
     const maxMoves = Math.max(...movements.map(m => m.moves), 0);
@@ -448,16 +468,23 @@ export class SvgRendererService {
 
       const thickness = maxMoves > 0 ? Math.max(1, (movement.moves / maxMoves) * 10) : 1;
 
+      // T018: Check if movement exceeds limit
+      const isViolation = this.validator.isLimitExceeded(movement, limits);
+
       // T035: Apply opacity based on week age
       const weekOpacity = opacityMap.get(movement.workweek) ?? 1.0;
       const strokeOpacity = 0.5 * weekOpacity; // Base opacity 0.5, scaled by week age
 
+      // T018: Conditional stroke color - red if violation, default otherwise
+      const strokeColor = isViolation ? 'red' : `rgba(0, 0, 0, ${strokeOpacity})`;
+      const markerEnd = isViolation ? 'url(#arrowhead-red)' : 'url(#arrowhead)';
+
       linksGroup.append('path')
         .attr('class', 'flow-link')
         .attr('d', d)
-        .attr('stroke', `rgba(0, 0, 0, ${strokeOpacity})`)
+        .attr('stroke', strokeColor)
         .attr('stroke-width', thickness)
-        .attr('marker-end', 'url(#arrowhead)')
+        .attr('marker-end', markerEnd)
         .attr('fill', 'none')
         .style('transition', 'opacity 0.3s ease'); // T036: Add smooth opacity transitions
 

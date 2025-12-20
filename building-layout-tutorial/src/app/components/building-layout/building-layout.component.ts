@@ -1,4 +1,5 @@
 // T031-T034 & T127-T130: BuildingLayoutComponent with multi-floor support
+// T017: Added movement limits support
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutConfiguration } from '../../models/layout-config.interface';
@@ -9,6 +10,7 @@ import { SvgRendererService } from '../../services/svg-renderer.service';
 import { FloorUtils } from '../../utils/floor-utils';  // T130: Floor utilities
 import { FloorSelectorComponent } from './floor-selector/floor-selector.component';  // T128: Floor selector
 import { MovementData } from '../../models/movement-data.interface';
+import { MovementLimit } from '../../models/movement-limit.interface';
 
 @Component({
   selector: 'app-building-layout',
@@ -22,6 +24,7 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
   @Input() config: LayoutConfiguration = { regions: [] };
   @Input() movements: MovementData[] = [];
   @Input() selectedWeeks: string[] = []; // T037: Selected weeks for opacity filtering
+  @Input() limits: MovementLimit[] = []; // T017: Movement limits for violation alerts
   @Input() width: number = 800;
   @Input() height: number = 600;
   @Input() showControls: boolean = true;
@@ -78,7 +81,7 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
 
     this.renderer.render(this.config, this.viewport, this.selectedFloor);
     this.renderer.setViewMode(this.viewMode);  // T075: Apply initial view mode
-    this.renderer.renderMovements(this.movements, this.selectedWeeks); // T037: Pass selectedWeeks
+    this.renderer.renderMovements(this.movements, this.selectedWeeks, this.limits); // T017: Pass limits
     this.renderComplete.emit();
   }
 
@@ -94,7 +97,7 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
 
       if (!changes['config'].firstChange) {
         this.renderer.render(this.config, this.viewport, this.selectedFloor);
-        this.renderer.renderMovements(this.movements, this.selectedWeeks); // T037
+        this.renderer.renderMovements(this.movements, this.selectedWeeks, this.limits); // T017
       }
     }
 
@@ -104,19 +107,19 @@ export class BuildingLayoutComponent implements AfterViewInit, OnChanges, OnDest
       this.renderer.setViewMode(this.viewMode);
       // Re-render when view mode changes to apply floor filtering correctly
       this.renderer.render(this.config, this.viewport, this.selectedFloor);
-      this.renderer.renderMovements(this.movements, this.selectedWeeks); // T037
+      this.renderer.renderMovements(this.movements, this.selectedWeeks, this.limits); // T017
     }
 
     // Handle selected floor changes
     if (changes['selectedFloor'] && !changes['selectedFloor'].firstChange) {
       this.renderer.render(this.config, this.viewport, this.selectedFloor);
-      this.renderer.renderMovements(this.movements, this.selectedWeeks); // T037
+      this.renderer.renderMovements(this.movements, this.selectedWeeks, this.limits); // T017
     }
 
-    // Handle movements or selectedWeeks changes
-    if (changes['movements'] || changes['selectedWeeks']) {
-      if (!changes['movements']?.firstChange || !changes['selectedWeeks']?.firstChange) {
-        this.renderer.renderMovements(this.movements, this.selectedWeeks); // T037
+    // Handle movements, selectedWeeks, or limits changes
+    if (changes['movements'] || changes['selectedWeeks'] || changes['limits']) {
+      if (!changes['movements']?.firstChange || !changes['selectedWeeks']?.firstChange || !changes['limits']?.firstChange) {
+        this.renderer.renderMovements(this.movements, this.selectedWeeks, this.limits); // T017
       }
     }
   }

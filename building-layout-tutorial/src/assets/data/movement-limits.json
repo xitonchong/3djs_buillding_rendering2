@@ -1,0 +1,17 @@
+[
+  {
+    "fromRegion": "E-1",
+    "toRegion": "F-2",
+    "limit": 30
+  },
+  {
+    "fromRegion": "E-2",
+    "toRegion": "mailroom",
+    "limit": 1
+  },
+  {
+    "fromRegion": "office-2-1",
+    "toRegion": "mailroom",
+    "limit": 40
+  }
+]

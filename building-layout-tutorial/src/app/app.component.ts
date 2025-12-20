@@ -1,6 +1,7 @@
 // T055-T056: App Component - Updated to load from JSON file
 // T175-T176: Added movement tracking integration
 // T017-T023: Added workweek filtering and state management
+// T016: Added movement limit configuration loading
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BuildingLayoutComponent } from './components/building-layout/building-layout.component';
@@ -11,7 +12,10 @@ import { Region } from './models/region.interface';
 import { LayoutLoaderService } from './services/layout-loader.service';
 import { MovementGeneratorService } from './services/movement-generator.service';
 import { WorkweekFilterService } from './services/workweek-filter.service';
+import { MovementLimitLoaderService } from './services/movement-limit-loader.service';
+import { MovementValidatorService } from './services/movement-validator.service';
 import { MovementData, MovementGeneratorConfig } from './models/movement-data.interface';
+import { MovementLimit } from './models/movement-limit.interface';
 
 @Component({
   selector: 'app-root',
@@ -37,6 +41,9 @@ export class AppComponent implements OnInit {
   // T175: Movement tracking data
   movements: MovementData[] = [];
 
+  // T016: Movement limit configuration
+  limits: MovementLimit[] = [];
+
   // T017-T018: Workweek filtering state
   selectedWeeks: string[] = [];
   availableWeeks: string[] = [];
@@ -44,10 +51,24 @@ export class AppComponent implements OnInit {
   constructor(
     private layoutLoader: LayoutLoaderService,
     private movementGen: MovementGeneratorService,
-    private workweekFilter: WorkweekFilterService
+    private workweekFilter: WorkweekFilterService,
+    private limitLoader: MovementLimitLoaderService,
+    private validator: MovementValidatorService
   ) {}
 
   ngOnInit(): void {
+    // T016: Load movement limit configurations
+    this.limitLoader.loadLimits().subscribe({
+      next: (limits) => {
+        this.limits = this.validator.validateLimits(limits);
+        console.log(`✅ Loaded ${this.limits.length} movement limits`);
+      },
+      error: (error) => {
+        console.error('Error loading movement limits:', error);
+        this.limits = []; // Continue with no limits on error
+      }
+    });
+
     // Load configuration from JSON file on component initialization
     this.layoutLoader.loadFromFile().subscribe({
       next: (config) => {
@@ -129,9 +150,9 @@ export class AppComponent implements OnInit {
   onViewModeChange(newMode: ViewMode): void {
     this.currentViewMode = newMode;
     console.log('View mode changed to:', newMode);
-    if (this.layoutConfig) {
-      this.generateMovementData(this.layoutConfig);
-    }
+    // if (this.layoutConfig) {
+    //   this.generateMovementData(this.layoutConfig);
+    // }
   }
 
   // T131: Handle floor selection changes
@@ -140,8 +161,8 @@ export class AppComponent implements OnInit {
     console.log('Floor changed to:', floor);
 
     // T177: Regenerate movement data when floor changes
-    if (this.layoutConfig) {
-      this.generateMovementData(this.layoutConfig);
-    }
+    // if (this.layoutConfig) {
+    //   this.generateMovementData(this.layoutConfig);
+    // }
   }
 }
